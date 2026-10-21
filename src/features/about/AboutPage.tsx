@@ -19,7 +19,7 @@ import {
   Breadcrumbs,
 } from '@/components/ui'
 import { CtaBand } from '@/components/layout/CtaBand'
-import { Seo } from '@/components/seo/Seo'
+import { Seo, getLocalBusinessSchema } from '@/components/seo'
 import { usePartners } from '@/hooks/usePartners'
 import { PartnersSection } from '@/features/home/components/PartnersSection'
 
@@ -67,8 +67,19 @@ export const AboutPage: React.FC = () => {
       <Seo
         title={t('about.pageTitle')}
         description={t('about.pageDescription')}
+        canonical={isEn ? '/en/about' : '/about'}
+        hreflang={{
+          ar: 'https://almubtakirah.com/about',
+          en: 'https://almubtakirah.com/en/about',
+          xDefault: 'https://almubtakirah.com/about',
+        }}
         lang={isEn ? 'en' : 'ar'}
         dir={isRtl ? 'rtl' : 'ltr'}
+        breadcrumbs={[
+          { name: t('common.breadcrumbHome'), url: isEn ? '/en' : '/' },
+          { name: t('nav.about'), url: isEn ? '/en/about' : '/about' },
+        ]}
+        jsonLd={[getLocalBusinessSchema(isEn ? 'en' : 'ar')]}
       />
 
       {/* Header Banner */}

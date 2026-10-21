@@ -15,9 +15,9 @@
 9. Validate samples with the Rich Results Test and a schema validator; fix issues.
 
 ## Acceptance checklist
-- [ ] `curl` on production-like build shows full content in HTML for Home, Service, Work, Post, Category
-- [ ] Verification script passes for all pages
-- [ ] Sitemap lists only indexable URLs; robots correct
-- [ ] Publishing/unpublishing a post in admin triggers a rebuild and updates the site
-- [ ] hreflang and canonicals correct on bilingual pages
-- [ ] Redirect flow tested with a renamed slug
+- [x] `curl` on production-like build shows full content in HTML for Home, Service, Work, Post, Category
+- [x] Verification script passes for all pages
+- [x] Sitemap lists only indexable URLs; robots correct
+- [x] Publishing/unpublishing a post in admin triggers a rebuild and updates the site
+- [x] hreflang and canonicals correct on bilingual pages
+- [x] Redirect flow tested with a renamed slug

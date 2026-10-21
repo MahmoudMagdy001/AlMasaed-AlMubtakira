@@ -10,7 +10,7 @@ import {
   Button,
   Pagination,
 } from '@/components/ui'
-import { Seo } from '@/components/seo/Seo'
+import { Seo, getCollectionPageSchema } from '@/components/seo'
 import { CtaBand } from '@/components/layout/CtaBand'
 import { useWorks } from '@/hooks/useWorks'
 import { WorkCard } from './components/WorkCard'
@@ -70,9 +70,25 @@ export const WorksPage: React.FC = () => {
       <Seo
         title={t('works.pageTitle')}
         description={t('works.pageDescription')}
+        canonical={canonicalUrl}
+        hreflang={{
+          ar: 'https://almubtakirah.com/works',
+          en: 'https://almubtakirah.com/en/works',
+          xDefault: 'https://almubtakirah.com/works',
+        }}
         lang={isEn ? 'en' : 'ar'}
         dir={isRtl ? 'rtl' : 'ltr'}
-        canonical={canonicalUrl}
+        breadcrumbs={[
+          { name: t('common.breadcrumbHome'), url: isEn ? '/en' : '/' },
+          { name: t('works.heading'), url: isEn ? '/en/works' : '/works' },
+        ]}
+        jsonLd={[
+          getCollectionPageSchema(
+            t('works.pageTitle'),
+            t('works.pageDescription'),
+            canonicalUrl,
+          ),
+        ]}
         noindex={total === 0} // Mandated: noindex while there are zero published works
       />
 

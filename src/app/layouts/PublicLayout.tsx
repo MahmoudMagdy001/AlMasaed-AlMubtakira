@@ -15,18 +15,18 @@ const PublicLayoutContent: React.FC = () => {
   const { i18n } = useTranslation()
   const location = useLocation()
   const isEn = location.pathname.startsWith('/en')
+  const currentLang = isEn ? 'en' : 'ar'
+
+  // Synchronously switch language so all child components render with correct translations during SSR
+  if (i18n.language !== currentLang) {
+    i18n.changeLanguage(currentLang)
+  }
 
   useEffect(() => {
-    const lang = isEn ? 'en' : 'ar'
     const dir = isEn ? 'ltr' : 'rtl'
-
-    if (i18n.language !== lang) {
-      i18n.changeLanguage(lang)
-    }
-
-    document.documentElement.lang = lang
+    document.documentElement.lang = currentLang
     document.documentElement.dir = dir
-  }, [isEn, i18n])
+  }, [isEn, currentLang])
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-content-body font-sans antialiased selection:bg-brand-400 selection:text-brand-900">

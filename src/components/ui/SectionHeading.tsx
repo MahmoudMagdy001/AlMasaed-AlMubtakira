@@ -6,6 +6,7 @@ export interface SectionHeadingProps {
   intro?: string
   align?: 'start' | 'center'
   theme?: 'light' | 'dark'
+  level?: 'h1' | 'h2'
   className?: string
 }
 
@@ -15,10 +16,12 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   intro,
   align = 'start',
   theme = 'light',
+  level = 'h2',
   className = '',
 }) => {
   const isCenter = align === 'center'
   const isDark = theme === 'dark'
+  const HeadingTag = level === 'h1' ? 'h1' : 'h2'
 
   return (
     <div
@@ -35,13 +38,13 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
           {kicker}
         </span>
       )}
-      <h2
+      <HeadingTag
         className={`text-2xl md:text-4xl font-bold tracking-tight mb-4 ${
           isDark ? 'text-white' : 'text-content-heading'
         }`}
       >
         {title}
-      </h2>
+      </HeadingTag>
       {intro && (
         <p
           className={`text-base md:text-lg leading-relaxed ${

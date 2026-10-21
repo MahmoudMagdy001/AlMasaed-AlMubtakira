@@ -27,7 +27,12 @@ import {
   Badge,
 } from '@/components/ui'
 import { CtaBand } from '@/components/layout/CtaBand'
-import { Seo } from '@/components/seo/Seo'
+import {
+  Seo,
+  getOrganizationSchema,
+  getWebSiteSchema,
+  getLocalBusinessSchema,
+} from '@/components/seo'
 import { useSiteSettings } from '@/hooks/useSiteSettings'
 import { useWorks } from '@/hooks/useWorks'
 import { usePartners } from '@/hooks/usePartners'
@@ -114,10 +119,29 @@ export const HomePage: React.FC = () => {
   return (
     <>
       <Seo
-        title={t('home.heroTitle')}
-        description={t('footer.aboutText')}
+        title={
+          isEn
+            ? 'Innovative Elevators Co. | Elevator Installation & Maintenance in Jeddah'
+            : 'شركة المصاعد المبتكرة | تركيب وصيانة المصاعد في جدة'
+        }
+        description={
+          isEn
+            ? 'Saudi elevator company in Jeddah specialized in installation, maintenance, modernization and escalators. Civil Defense approved with reliable contracts.'
+            : 'شركة سعودية متخصصة في توريد وتركيب وصيانة وتحديث المصاعد والسلالم الكهربائية في جدة. معتمدون من الدفاع المدني ونوفر عقود صيانة دورية موثوقة.'
+        }
+        canonical={isEn ? '/en' : '/'}
+        hreflang={{
+          ar: 'https://almubtakirah.com',
+          en: 'https://almubtakirah.com/en',
+          xDefault: 'https://almubtakirah.com',
+        }}
         lang={isEn ? 'en' : 'ar'}
         dir={isRtl ? 'rtl' : 'ltr'}
+        jsonLd={[
+          getOrganizationSchema(),
+          getWebSiteSchema(isEn ? 'en' : 'ar'),
+          getLocalBusinessSchema(isEn ? 'en' : 'ar'),
+        ]}
       />
 
       {/* 1. Hero Section */}

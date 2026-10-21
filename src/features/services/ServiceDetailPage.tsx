@@ -18,7 +18,7 @@ import {
   Button,
 } from '@/components/ui'
 import { CtaBand } from '@/components/layout/CtaBand'
-import { Seo } from '@/components/seo/Seo'
+import { Seo, getServiceSchema, getFaqSchema } from '@/components/seo'
 import { useSiteSettings } from '@/hooks/useSiteSettings'
 import { useWorks } from '@/hooks/useWorks'
 import { WorkCard } from '@/features/works/components/WorkCard'
@@ -76,25 +76,29 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
     }) as Array<{ q: string; a: string }>) || [],
   }
 
+  const serviceSlugMap: Record<ServiceKey, string> = {
+    maintenance: 'elevator-maintenance',
+    modernization: 'elevator-modernization',
+    installation: 'elevator-installation',
+    spareParts: 'elevator-spare-parts',
+    escalators: 'escalators-moving-walkways',
+  }
+
+  const serviceSlug = serviceSlugMap[serviceKey]
+  const canonicalUrl = `https://almubtakirah.com${prefix}/services/${serviceSlug}`
+
   const breadcrumbsItems = [
     { label: t('common.breadcrumbHome'), to: prefix || '/' },
     { label: t('common.breadcrumbServices'), to: `${prefix}/services` },
     { label: serviceData.title },
   ]
 
-  // Construct JSON-LD FAQ Schema
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: serviceData.faqs.map((faq) => ({
-      '@type': 'Question',
-      name: faq.q,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.a,
-      },
-    })),
-  }
+  const serviceSchema = getServiceSchema(
+    serviceData.title,
+    serviceData.intro,
+    canonicalUrl,
+  )
+  const faqSchema = getFaqSchema(serviceData.faqs)
 
   const accordionItems = serviceData.faqs.map((faq, idx) => ({
     id: `faq-${idx}`,
@@ -111,13 +115,21 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
       <Seo
         title={`${serviceData.title} | ${t('brand.name')}`}
         description={serviceData.intro.slice(0, 160)}
+        canonical={canonicalUrl}
+        hreflang={{
+          ar: `https://almubtakirah.com/services/${serviceSlug}`,
+          en: `https://almubtakirah.com/en/services/${serviceSlug}`,
+          xDefault: `https://almubtakirah.com/services/${serviceSlug}`,
+        }}
         lang={isEn ? 'en' : 'ar'}
         dir={isRtl ? 'rtl' : 'ltr'}
-      >
-        <script type="application/ld+json">
-          {JSON.stringify(faqSchema)}
-        </script>
-      </Seo>
+        breadcrumbs={[
+          { name: t('common.breadcrumbHome'), url: isEn ? '/en' : '/' },
+          { name: t('common.breadcrumbServices'), url: isEn ? '/en/services' : '/services' },
+          { name: serviceData.title, url: canonicalUrl },
+        ]}
+        jsonLd={[serviceSchema, faqSchema].filter(Boolean) as Array<Record<string, unknown>>}
+      />
 
       {/* Header Banner */}
       <section className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden">

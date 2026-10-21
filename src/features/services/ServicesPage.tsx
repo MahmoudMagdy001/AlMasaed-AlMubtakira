@@ -19,7 +19,7 @@ import {
 } from '@/components/ui'
 
 import { CtaBand } from '@/components/layout/CtaBand'
-import { Seo } from '@/components/seo/Seo'
+import { Seo, getCollectionPageSchema } from '@/components/seo'
 
 export const ServicesPage: React.FC = () => {
   const { t } = useTranslation()
@@ -92,8 +92,25 @@ export const ServicesPage: React.FC = () => {
       <Seo
         title={t('services.pageTitle')}
         description={t('services.pageDescription')}
+        canonical={isEn ? '/en/services' : '/services'}
+        hreflang={{
+          ar: 'https://almubtakirah.com/services',
+          en: 'https://almubtakirah.com/en/services',
+          xDefault: 'https://almubtakirah.com/services',
+        }}
         lang={isEn ? 'en' : 'ar'}
         dir={isRtl ? 'rtl' : 'ltr'}
+        breadcrumbs={[
+          { name: t('common.breadcrumbHome'), url: isEn ? '/en' : '/' },
+          { name: t('nav.services'), url: isEn ? '/en/services' : '/services' },
+        ]}
+        jsonLd={[
+          getCollectionPageSchema(
+            t('services.pageTitle'),
+            t('services.pageDescription'),
+            isEn ? 'https://almubtakirah.com/en/services' : 'https://almubtakirah.com/services',
+          ),
+        ]}
       />
 
       {/* Header Banner */}

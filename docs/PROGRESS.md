@@ -15,7 +15,7 @@ The agent ticks items here at the end of each phase and lists open issues.
 | 08 | Admin: Works, Partners, Messages, Settings | [x] | Implemented full admin management for Works (drag/arrow reorder, publish toggle, cover/gallery MediaPicker, slug auto-generation & uniqueness check, Zod validation), Partners (reorder, toggle, logo MediaPicker, URL validation), Messages (table, status select, notes modal, tel/WhatsApp quick buttons, UTF-8 BOM CSV export, unread badge in sidebar), Settings (company info, E.164 phone normalization, socials, SEO, OG image MediaPicker, analytics placeholder), and Users (profile list, role promotion/demotion, invitation guide). Edge Function trigger-rebuild stub and requestRebuild() helper ready with user notification. Clean lint, typecheck, and SSG build. |
 | 09 | Blog admin & TipTap editor | [x] | Full-featured blog administration, Categories & Tags CRUD with post-count protection, rich TipTap editor with elevator custom blocks (Callouts, FAQ, CTA, per-block Direction, YouTube, Code block lowlight, Tables with merge/split), 30s autosave draft & local recovery, bilingual translation twin pairing via shared translation_key, post duplication, allow-list HTML sanitization, derived FAQ for rich schema, and code-split vendor-tiptap bundle. Passed 32/32 tests. |
 | 10 | SEO fields & SEO Analyzer | [x] | Pure TS Arabic-aware SEO analyzer engine (22 checks, 100 pts), live debounced panel with score gauge, fix tips & metrics, SERP & social previews, duplicate title/slug detection, confirmation on publish if score < 50, posts list badge, dashboard widget, and Vitest test suite. |
-| 11 | Technical SEO: prerender, sitemap, schema, rebuild hook | [ ] | |
+| 11 | Technical SEO: prerender, sitemap, schema, rebuild hook | [x] | Full static prerendering (34 HTML pages) via vite-react-ssg, complete SEO metadata & OpenGraph, typed Schema.org JSON-LD (Organization, WebSite, LocalBusiness HomeAndConstructionBusiness, Service, FAQPage, BlogPosting, CreativeWork, BreadcrumbList), automated sitemap.xml & robots.txt generation with hreflang alternates, slug-change 301 redirects migration & vercel.json merge, trigger-rebuild Edge Function with 60s debounce, 678 automated SEO assertions passed with zero errors. |
 | 12 | Performance, accessibility, QA | [ ] | |
 | 13 | Deployment, domain, analytics hooks, final audit | [ ] | |
 
@@ -81,6 +81,14 @@ The agent ticks items here at the end of each phase and lists open issues.
 - Added duplicate title detection query against Supabase (`isPostTitleUnique`) to alert content creators about potential keyword cannibalization without blocking authoring.
 - Implemented non-blocking publishing confirmation modal (`ConfirmDialog`) when post `seo_score < 50`, prompting the author to review suggestions while allowing immediate publication if desired.
 - Added color-coded SEO score pill in the admin posts list (`PostsListPage.tsx`) and wired the low SEO score posts widget on the admin dashboard (`DashboardPage.tsx`).
+- Prerendered public routes with `vite-react-ssg` dynamically discovering database entries (published works, posts, categories, pagination) via `scripts/get-dynamic-routes.mjs`.
+- Cleaned JSON-LD properties recursively with `cleanJsonLd.ts` to ensure zero empty, undefined, or null fields reach rendered schemas.
+- Implemented typed Schema.org builders in `src/components/seo/schema.ts` matching exact Google Rich Results guidelines (`HomeAndConstructionBusiness` for elevator contractor).
+- Injected Schema.org script tags as direct text children of `<script type="application/ld+json">` within `react-helmet-async` / `vite-react-ssg` `<Head>` to ensure proper SSR serialization.
+- Synchronized SSR language state in `PublicLayout.tsx` by synchronously calling `i18n.changeLanguage(currentLang)` during initial layout render so English mirrors prerender translated HTML and metadata.
+- Implemented automatic 301 redirect logging upon slug modifications in `blogAdminService` and `worksAdminService` via `009_redirects.sql` migration, seamlessly merging redirect entries into `dist/vercel.json` during build.
+- Added 60-second debounce protection to `supabase/functions/trigger-rebuild/index.ts` using `site_settings.last_rebuild_at` to prevent webhook storming during bulk publishing.
+- Created standalone verification script `scripts/verify-seo.mjs` asserting single H1, title/description character ranges, canonical correctness, hreflang alternates, and valid JSON-LD schemas across all 34 public pages (678 assertions passed).
 
 ## Flagged copy for human/owner review
 

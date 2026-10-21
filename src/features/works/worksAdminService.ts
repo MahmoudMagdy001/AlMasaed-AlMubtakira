@@ -336,6 +336,29 @@ export async function updateWork(id: string, payload: Partial<WorkFormData>): Pr
     throw new Error(`فشل تحديث المشروع: ${error.message}`)
   }
 
+  // If slug of an already published work changed, record 301 redirect for Arabic and English
+  if (current.is_published && parsed.slug !== current.slug) {
+    try {
+      await supabase.from('redirects').upsert(
+        [
+          {
+            source_path: `/works/${current.slug}`,
+            target_path: `/works/${parsed.slug}`,
+            status_code: 301,
+          },
+          {
+            source_path: `/en/works/${current.slug}`,
+            target_path: `/en/works/${parsed.slug}`,
+            status_code: 301,
+          },
+        ],
+        { onConflict: 'source_path' },
+      )
+    } catch (redirectErr) {
+      console.warn('Failed to record work slug redirect:', redirectErr)
+    }
+  }
+
   // Trigger rebuild if published now or previously published
   if (current.is_published || parsed.is_published) {
     await requestRebuild('update-work')

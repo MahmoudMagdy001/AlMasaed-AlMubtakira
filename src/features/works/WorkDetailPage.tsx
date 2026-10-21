@@ -12,7 +12,7 @@ import {
   Badge,
   getStoragePublicUrl,
 } from '@/components/ui'
-import { Seo } from '@/components/seo/Seo'
+import { Seo, getWorkSchema } from '@/components/seo'
 import { CtaBand } from '@/components/layout/CtaBand'
 import { NotFoundPage } from '@/features/home/NotFoundPage'
 import { useWorkDetail, useRelatedWorks } from '@/hooks/useWorks'
@@ -99,15 +99,36 @@ export const WorkDetailPage: React.FC = () => {
   }
 
   const canonicalUrl = `https://almubtakirah.com${isEn ? `/en/works/${work.slug}` : `/works/${work.slug}`}`
+  const coverUrl = work.cover_media ? getStoragePublicUrl(work.cover_media.storage_path) : undefined
 
   return (
     <>
       <Seo
         title={`${title} | ${t('brand.name')}`}
         description={work.seo_description || description || t('works.pageDescription')}
+        canonical={canonicalUrl}
+        ogImage={coverUrl}
+        ogType="article"
+        hreflang={{
+          ar: `https://almubtakirah.com/works/${work.slug}`,
+          en: `https://almubtakirah.com/en/works/${work.slug}`,
+          xDefault: `https://almubtakirah.com/works/${work.slug}`,
+        }}
         lang={isEn ? 'en' : 'ar'}
         dir={isRtl ? 'rtl' : 'ltr'}
-        canonical={canonicalUrl}
+        breadcrumbs={[
+          { name: t('common.breadcrumbHome'), url: isEn ? '/en' : '/' },
+          { name: t('works.heading'), url: isEn ? '/en/works' : '/works' },
+          { name: title, url: canonicalUrl },
+        ]}
+        jsonLd={[
+          getWorkSchema(
+            title,
+            work.seo_description || description || '',
+            canonicalUrl,
+            coverUrl,
+          ),
+        ]}
       />
 
       {/* Header Banner */}

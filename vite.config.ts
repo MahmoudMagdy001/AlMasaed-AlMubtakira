@@ -3,6 +3,8 @@ import { defineConfig } from 'vite'
 import type { ViteReactSSGOptions } from 'vite-react-ssg'
 import react from '@vitejs/plugin-react'
 
+import { getDynamicRoutes } from './scripts/get-dynamic-routes.mjs'
+
 declare module 'vite' {
   interface UserConfig {
     ssgOptions?: ViteReactSSGOptions
@@ -40,12 +42,25 @@ export default defineConfig({
   ssgOptions: {
     entry: 'src/main.tsx',
     formatting: 'none',
-    includedRoutes(paths: string[]) {
-      return paths.filter((p: string) => {
+    async includedRoutes(paths: string[]) {
+      const staticRoutes = paths.filter((p: string) => {
         const clean = p.startsWith('/') ? p : `/${p}`
-        return !clean.startsWith('/admin') && !p.startsWith('/admin')
+        return (
+          !clean.startsWith('/admin') &&
+          !p.startsWith('/admin') &&
+          !clean.includes(':')
+        )
       })
+      const dynamicRoutes = await getDynamicRoutes()
+      return Array.from(new Set([...staticRoutes, ...dynamicRoutes]))
     },
-
+    async onFinished() {
+      const { execSync } = await import('node:child_process')
+      try {
+        execSync('node scripts/generate-sitemap.mjs', { stdio: 'inherit' })
+      } catch (err) {
+        console.warn('Post-build sitemap generation error:', err)
+      }
+    },
   },
 })

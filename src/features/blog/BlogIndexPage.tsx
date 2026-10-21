@@ -3,7 +3,7 @@ import { useParams, useLocation, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { BookOpen } from 'lucide-react'
 import { Container, Section, SectionHeading, Breadcrumbs, Button } from '@/components/ui'
-import { Seo } from '@/components/seo/Seo'
+import { Seo, getCollectionPageSchema } from '@/components/seo'
 import { useBlogPosts, useBlogCategories } from '@/hooks/useBlog'
 import { PostCard } from './components/PostCard'
 import { BlogPagination } from './components/BlogPagination'
@@ -43,16 +43,36 @@ export const BlogIndexPage: React.FC = () => {
       ? `${t('blog.pageTitle')} - ${t('common.page')} ${currentPage}`
       : t('blog.pageTitle')
 
+  const canonicalPath =
+    currentPage > 1
+      ? `${prefix}/blog/page/${currentPage}`
+      : `${prefix}/blog`
+  const canonicalUrl = `https://almubtakirah.com${canonicalPath}`
+
   return (
     <>
       <Seo
         title={pageTitle}
         description={t('blog.pageDescription')}
-        canonical={
-          currentPage > 1
-            ? `${prefix}/blog/page/${currentPage}`
-            : `${prefix}/blog`
-        }
+        canonical={canonicalUrl}
+        hreflang={{
+          ar: currentPage > 1 ? `https://almubtakirah.com/blog/page/${currentPage}` : 'https://almubtakirah.com/blog',
+          en: currentPage > 1 ? `https://almubtakirah.com/en/blog/page/${currentPage}` : 'https://almubtakirah.com/en/blog',
+          xDefault: currentPage > 1 ? `https://almubtakirah.com/blog/page/${currentPage}` : 'https://almubtakirah.com/blog',
+        }}
+        lang={isEn ? 'en' : 'ar'}
+        dir={isEn ? 'ltr' : 'rtl'}
+        breadcrumbs={[
+          { name: t('nav.home'), url: isEn ? '/en' : '/' },
+          { name: t('nav.blog'), url: canonicalUrl },
+        ]}
+        jsonLd={[
+          getCollectionPageSchema(
+            pageTitle,
+            t('blog.pageDescription'),
+            canonicalUrl,
+          ),
+        ]}
       />
 
 
@@ -62,6 +82,7 @@ export const BlogIndexPage: React.FC = () => {
 
           <div className="max-w-3xl mb-10">
             <SectionHeading
+              level="h1"
               kicker={t('blog.eyebrow')}
               title={t('blog.heading')}
               intro={t('blog.intro')}

@@ -20,9 +20,10 @@ import {
   ResponsiveImage,
   Accordion,
   Button,
+  getStoragePublicUrl,
 } from '@/components/ui'
 import { CtaBand } from '@/components/layout/CtaBand'
-import { Seo } from '@/components/seo/Seo'
+import { Seo, getBlogPostingSchema, getFaqSchema } from '@/components/seo'
 import { processArticleHtml } from '@/lib/blogContent'
 import {
   useBlogPost,
@@ -163,13 +164,64 @@ export const BlogPostPage: React.FC = () => {
         }))
       : []
 
+  const postCanonical = `https://almubtakirah.com${prefix}/blog/${post.slug}`
+  const coverImageUrl = post.featured_image?.storage_path
+    ? getStoragePublicUrl(post.featured_image.storage_path)
+    : undefined
+
+  const hreflang = {
+    ar: isEn
+      ? (translationTwin ? `https://almubtakirah.com/blog/${translationTwin.slug}` : undefined)
+      : postCanonical,
+    en: isEn
+      ? postCanonical
+      : (translationTwin ? `https://almubtakirah.com/en/blog/${translationTwin.slug}` : undefined),
+    xDefault: isEn
+      ? (translationTwin ? `https://almubtakirah.com/blog/${translationTwin.slug}` : postCanonical)
+      : postCanonical,
+  }
+
+  const tagNames = (post.tags || []).map((tg) => (isEn && tg.name_en ? tg.name_en : tg.name_ar))
+
+  const blogPostingSchema = getBlogPostingSchema({
+    schemaType: post.schema_type,
+    title: post.seo_title || post.title,
+    description: post.seo_description || post.excerpt,
+    url: postCanonical,
+    imageUrl: coverImageUrl,
+    datePublished: post.published_at,
+    dateModified: post.updated_at || post.published_at,
+    authorName: post.author?.full_name || 'شركة المصاعد المبتكرة',
+    lang: currentLang,
+  })
+
+  const faqSchema = getFaqSchema(post.faq || [])
+
   return (
     <>
       <Seo
         title={post.seo_title || `${post.title} | ${t('brand.name')}`}
         description={post.seo_description || post.excerpt || undefined}
-        canonical={`${prefix}/blog/${post.slug}`}
+        canonical={postCanonical}
+        ogImage={coverImageUrl}
         ogType="article"
+        hreflang={hreflang}
+        lang={currentLang}
+        dir={isRtl ? 'rtl' : 'ltr'}
+        article={{
+          publishedTime: post.published_at,
+          modifiedTime: post.updated_at || post.published_at,
+          section: categoryName || undefined,
+          tags: tagNames,
+          author: post.author?.full_name || 'شركة المصاعد المبتكرة',
+        }}
+        breadcrumbs={[
+          { name: t('nav.home'), url: isEn ? '/en' : '/' },
+          { name: t('nav.blog'), url: `${prefix}/blog` },
+          ...(categoryName && categoryUrl ? [{ name: categoryName, url: categoryUrl }] : []),
+          { name: post.title, url: postCanonical },
+        ]}
+        jsonLd={[blogPostingSchema, faqSchema].filter(Boolean) as Array<Record<string, unknown>>}
       />
 
 

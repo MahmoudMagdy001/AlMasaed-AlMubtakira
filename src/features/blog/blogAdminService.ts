@@ -530,6 +530,28 @@ export async function updatePost(
     }
   }
 
+  // If slug of an already published post changed, record 301 redirect
+  if (
+    current.status === 'published' &&
+    payload.slug &&
+    payload.slug !== current.slug
+  ) {
+    const oldPath = current.lang === 'en' ? `/en/blog/${current.slug}` : `/blog/${current.slug}`
+    const newPath = (payload.lang || current.lang) === 'en' ? `/en/blog/${payload.slug}` : `/blog/${payload.slug}`
+    try {
+      await supabase.from('redirects').upsert(
+        {
+          source_path: oldPath,
+          target_path: newPath,
+          status_code: 301,
+        },
+        { onConflict: 'source_path' },
+      )
+    } catch (redirectErr) {
+      console.warn('Failed to record post slug redirect:', redirectErr)
+    }
+  }
+
   if (current.status === 'published' || newStatus === 'published') {
     await requestRebuild('update-post')
   }

@@ -3,7 +3,7 @@ import { useParams, useLocation, Link, Navigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { BookOpen } from 'lucide-react'
 import { Container, Section, SectionHeading, Breadcrumbs, Button } from '@/components/ui'
-import { Seo } from '@/components/seo/Seo'
+import { Seo, getCollectionPageSchema } from '@/components/seo'
 import { useBlogPosts, useBlogCategories, useBlogCategory } from '@/hooks/useBlog'
 import { PostCard } from './components/PostCard'
 import { BlogPagination } from './components/BlogPagination'
@@ -53,17 +53,23 @@ export const BlogCategoryPage: React.FC = () => {
       : category.description_ar
     : undefined
 
-  const seoTitle = category?.seo_title
-    ? category.seo_title
-    : `${categoryName} | ${t('blog.eyebrow')}`
+  const defaultTitle = isEn
+    ? `${categoryName} | Innovative Elevators Co. Blog`
+    : `${categoryName} | مدونة المصاعد المبتكرة`
+
+  const seoTitle = category?.seo_title ? category.seo_title : defaultTitle
 
   const pageTitle =
     currentPage > 1
       ? `${seoTitle} - ${t('common.page')} ${currentPage}`
       : seoTitle
 
+  const fallbackDesc = isEn
+    ? `Browse articles, case studies, and engineering guides about ${categoryName} from Innovative Elevators Co. in Jeddah.`
+    : `استكشف المقالات والدراسات الهندسية المتخصصة في ${categoryName} من شركة المصاعد المبتكرة في جدة.`
+
   const seoDescription =
-    category?.seo_description || categoryDescription || t('blog.pageDescription')
+    category?.seo_description || categoryDescription || fallbackDesc
 
   const breadcrumbs = [
     { label: t('nav.home'), href: isEn ? '/en' : '/' },
@@ -73,14 +79,35 @@ export const BlogCategoryPage: React.FC = () => {
 
   const basePath = `${prefix}/blog/category/${slug}`
 
+  const canonicalPath =
+    currentPage > 1 ? `${basePath}/page/${currentPage}` : basePath
+  const canonicalUrl = `https://almubtakirah.com${canonicalPath}`
+
   return (
     <>
       <Seo
         title={pageTitle}
         description={seoDescription}
-        canonical={
-          currentPage > 1 ? `${basePath}/page/${currentPage}` : basePath
-        }
+        canonical={canonicalUrl}
+        hreflang={{
+          ar: currentPage > 1 ? `https://almubtakirah.com/blog/category/${slug}/page/${currentPage}` : `https://almubtakirah.com/blog/category/${slug}`,
+          en: currentPage > 1 ? `https://almubtakirah.com/en/blog/category/${slug}/page/${currentPage}` : `https://almubtakirah.com/en/blog/category/${slug}`,
+          xDefault: currentPage > 1 ? `https://almubtakirah.com/blog/category/${slug}/page/${currentPage}` : `https://almubtakirah.com/blog/category/${slug}`,
+        }}
+        lang={isEn ? 'en' : 'ar'}
+        dir={isEn ? 'ltr' : 'rtl'}
+        breadcrumbs={[
+          { name: t('nav.home'), url: isEn ? '/en' : '/' },
+          { name: t('nav.blog'), url: `${prefix}/blog` },
+          { name: categoryName, url: canonicalUrl },
+        ]}
+        jsonLd={[
+          getCollectionPageSchema(
+            pageTitle,
+            seoDescription,
+            canonicalUrl,
+          ),
+        ]}
       />
 
       <Section variant="white" className="pt-6 pb-16">
@@ -89,6 +116,7 @@ export const BlogCategoryPage: React.FC = () => {
 
           <div className="max-w-3xl mb-10">
             <SectionHeading
+              level="h1"
               kicker={t('blog.eyebrow')}
               title={categoryName}
               intro={categoryDescription || undefined}

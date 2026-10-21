@@ -25,7 +25,7 @@ import {
   FormField,
   Button,
 } from '@/components/ui'
-import { Seo } from '@/components/seo/Seo'
+import { Seo, getLocalBusinessSchema } from '@/components/seo'
 import { useSiteSettings } from '@/hooks/useSiteSettings'
 import { supabase } from '@/lib/supabase'
 
@@ -166,8 +166,19 @@ export const ContactPage: React.FC = () => {
       <Seo
         title={t('contact.pageTitle')}
         description={t('contact.pageDescription')}
+        canonical={isEn ? '/en/contact' : '/contact'}
+        hreflang={{
+          ar: 'https://almubtakirah.com/contact',
+          en: 'https://almubtakirah.com/en/contact',
+          xDefault: 'https://almubtakirah.com/contact',
+        }}
         lang={isEn ? 'en' : 'ar'}
         dir={isRtl ? 'rtl' : 'ltr'}
+        breadcrumbs={[
+          { name: t('common.breadcrumbHome'), url: isEn ? '/en' : '/' },
+          { name: t('nav.contact'), url: isEn ? '/en/contact' : '/contact' },
+        ]}
+        jsonLd={[getLocalBusinessSchema()]}
       />
 
       {/* Header Banner */}

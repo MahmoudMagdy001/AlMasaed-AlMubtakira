@@ -8,7 +8,7 @@ import {
   BrandPattern,
   Breadcrumbs,
 } from '@/components/ui'
-import { Seo } from '@/components/seo/Seo'
+import { Seo } from '@/components/seo'
 import { useSiteSettings } from '@/hooks/useSiteSettings'
 
 export const PrivacyPage: React.FC = () => {
@@ -33,8 +33,18 @@ export const PrivacyPage: React.FC = () => {
       <Seo
         title={t('privacy.pageTitle')}
         description={t('privacy.pageDescription')}
+        canonical={isEn ? '/en/privacy' : '/privacy'}
+        hreflang={{
+          ar: 'https://almubtakirah.com/privacy',
+          en: 'https://almubtakirah.com/en/privacy',
+          xDefault: 'https://almubtakirah.com/privacy',
+        }}
         lang={isEn ? 'en' : 'ar'}
         dir={isRtl ? 'rtl' : 'ltr'}
+        breadcrumbs={[
+          { name: t('common.breadcrumbHome'), url: isEn ? '/en' : '/' },
+          { name: t('privacy.heading'), url: isEn ? '/en/privacy' : '/privacy' },
+        ]}
       />
 
       {/* Header Banner */}

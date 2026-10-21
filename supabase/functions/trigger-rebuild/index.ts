@@ -67,9 +67,38 @@ serve(async (req: Request) => {
       body = {}
     }
 
+    // 60-second debounce check via site_settings
+    const { data: debounceSetting } = await supabase
+      .from('site_settings')
+      .select('value')
+      .eq('key', 'last_rebuild_at')
+      .maybeSingle()
+
+    const now = Date.now()
+    const lastRebuildTime = debounceSetting?.value ? Number(debounceSetting.value) : 0
+    if (now - lastRebuildTime < 60000) {
+      return new Response(
+        JSON.stringify({
+          success: true,
+          triggered: false,
+          debounced: true,
+          message: 'Rebuild requested within 60s debounce window. Skipped duplicate trigger.',
+          reason: body.reason || 'content-update',
+        }),
+        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+      )
+    }
+
     const vercelHookUrl = Deno.env.get('VERCEL_DEPLOY_HOOK_URL')
 
     if (!vercelHookUrl) {
+      // Record timestamp to honor debounce even in local/preview environments
+      await supabase.from('site_settings').upsert({
+        key: 'last_rebuild_at',
+        value: now,
+        updated_at: new Date().toISOString(),
+      })
+
       // Safe no-op until deploy hook is provisioned in Phase 11
       return new Response(
         JSON.stringify({
@@ -103,6 +132,13 @@ serve(async (req: Request) => {
         { status: 502, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
       )
     }
+
+    // Record last rebuild timestamp on successful dispatch
+    await supabase.from('site_settings').upsert({
+      key: 'last_rebuild_at',
+      value: now,
+      updated_at: new Date().toISOString(),
+    })
 
     return new Response(
       JSON.stringify({

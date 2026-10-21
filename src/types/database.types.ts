@@ -503,6 +503,30 @@ export type Database = {
         }
         Relationships: []
       }
+      redirects: {
+        Row: {
+          id: string
+          source_path: string
+          target_path: string
+          status_code: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          source_path: string
+          target_path: string
+          status_code?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          source_path?: string
+          target_path?: string
+          status_code?: number
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
