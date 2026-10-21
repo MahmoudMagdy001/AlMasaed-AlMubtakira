@@ -15,8 +15,8 @@
 9. **Vitest tests** for the analyzer with Arabic fixtures: tashkeel, alef variants, `ة/ه`, prefixed keywords (و/ب/ل/ال), multi-word keywords, density edge cases, HTML with images/links/headings.
 
 ## Acceptance checklist
-- [ ] Analyzer test suite passes with Arabic fixtures
-- [ ] A well-optimized sample article reaches ≥ 80; a thin article scores < 50 (document both samples in tests)
-- [ ] Live updates feel instant on a 2,000-word article (no UI lag)
-- [ ] Previews and counters match the rules in `07`
-- [ ] Scores saved and visible in list/dashboard
+- [x] Analyzer test suite passes with Arabic fixtures
+- [x] A well-optimized sample article reaches ≥ 80; a thin article scores < 50 (document both samples in tests)
+- [x] Live updates feel instant on a 2,000-word article (no UI lag)
+- [x] Previews and counters match the rules in `07`
+- [x] Scores saved and visible in list/dashboard

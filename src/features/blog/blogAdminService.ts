@@ -59,6 +59,7 @@ export const postFormSchema = z.object({
   og_description: z.string().optional().nullable(),
   og_image_id: z.string().uuid().optional().nullable(),
   schema_type: z.enum(['BlogPosting', 'Article', 'NewsArticle']).default('BlogPosting'),
+  seo_score: z.number().int().min(0).max(100).optional().nullable(),
   faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
 })
 
@@ -148,6 +149,29 @@ export async function isPostSlugUnique(
     .from('posts')
     .select('id')
     .eq('slug', slug)
+    .eq('lang', lang)
+
+  if (excludeId) {
+    query = query.neq('id', excludeId)
+  }
+
+  const { data } = await query.maybeSingle()
+  return !data
+}
+
+/**
+ * Checks if a post title already exists for a given language (warning signal).
+ */
+export async function isPostTitleUnique(
+  title: string,
+  lang: PostLang,
+  excludeId?: string,
+): Promise<boolean> {
+  if (!title.trim()) return true
+  let query = supabase
+    .from('posts')
+    .select('id')
+    .ilike('title', title.trim())
     .eq('lang', lang)
 
   if (excludeId) {
@@ -367,6 +391,7 @@ export async function createPost(
       status: parsed.status,
       published_at: publishedAt,
       reading_time_min: readingTime,
+      seo_score: parsed.seo_score ?? null,
       seo_title: parsed.seo_title || null,
       seo_description: parsed.seo_description || null,
       focus_keyword: parsed.focus_keyword || null,
@@ -452,6 +477,7 @@ export async function updatePost(
       status: newStatus,
       published_at: publishedAt,
       reading_time_min: readingTime,
+      seo_score: payload.seo_score !== undefined ? payload.seo_score : current.seo_score,
       seo_title: payload.seo_title !== undefined ? payload.seo_title : current.seo_title,
       seo_description:
         payload.seo_description !== undefined

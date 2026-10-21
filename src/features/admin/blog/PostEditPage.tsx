@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import {
   Save,
@@ -15,7 +15,7 @@ import {
   FileText,
   RotateCcw,
 } from 'lucide-react'
-import { PageHeader, FormField, MediaPicker } from '@/components/admin'
+import { PageHeader, FormField, MediaPicker, ConfirmDialog } from '@/components/admin'
 import { Button, useToast } from '@/components/ui'
 import { useUnsavedChangesWarning } from '@/hooks/useUnsavedChangesWarning'
 import {
@@ -33,6 +33,7 @@ import {
   postFormSchema,
   generateSlug,
   isPostSlugUnique,
+  isPostTitleUnique,
   deriveFaqFromContent,
   calculateReadingTime,
   type PostFormData,
@@ -40,6 +41,7 @@ import {
   type PostLang,
   type SchemaType,
 } from '@/features/blog/blogAdminService'
+import { useSeoAnalyzer, SeoAnalyzerPanel } from '@/features/blog/seo'
 import { TipTapEditor } from '@/features/blog/editor/TipTapEditor'
 import type { MediaRow } from '@/features/media/types'
 import { getStoragePublicUrl } from '@/lib/media'
@@ -101,6 +103,8 @@ export const PostEditPage: React.FC = () => {
   const [lastSavedAt, setLastSavedAt] = useState<string | null>(null)
   const [hasLocalBackup, setHasLocalBackup] = useState(false)
   const [serpDevice, setSerpDevice] = useState<'mobile' | 'desktop'>('desktop')
+  const [isTitleDuplicate, setIsTitleDuplicate] = useState(false)
+  const [isLowSeoConfirmOpen, setIsLowSeoConfirmOpen] = useState(false)
 
   // Modals state
   const [isFeaturedPickerOpen, setIsFeaturedPickerOpen] = useState(false)
@@ -233,6 +237,65 @@ export const PostEditPage: React.FC = () => {
   // Derived FAQs from TipTap inline blocks
   const derivedFaqs = deriveFaqFromContent(contentHtml)
 
+  // SEO Analyzer live calculations
+  const seoInput = useMemo(
+    () => ({
+      title,
+      slug,
+      seoTitle,
+      seoDescription,
+      focusKeyword,
+      secondaryKeywords,
+      excerpt,
+      featuredImageId,
+      featuredImageAlt,
+      contentHtml,
+      canonicalUrl,
+      robotsNoindex,
+      robotsNofollow,
+      ogImageId,
+      faq: derivedFaqs,
+      siteDomain: 'almubtakirah.com',
+    }),
+    [
+      title,
+      slug,
+      seoTitle,
+      seoDescription,
+      focusKeyword,
+      secondaryKeywords,
+      excerpt,
+      featuredImageId,
+      featuredImageAlt,
+      contentHtml,
+      canonicalUrl,
+      robotsNoindex,
+      robotsNofollow,
+      ogImageId,
+      derivedFaqs,
+    ],
+  )
+  const { result: seoResult, isAnalyzing: isSeoAnalyzing } = useSeoAnalyzer(seoInput)
+
+  // Title duplicate checking against database (debounced)
+  useEffect(() => {
+    if (!title.trim() || title.trim().length < 5) {
+      setIsTitleDuplicate(false)
+      return
+    }
+
+    const timer = setTimeout(async () => {
+      try {
+        const isUnique = await isPostTitleUnique(title, lang, isNew ? undefined : id)
+        setIsTitleDuplicate(!isUnique)
+      } catch {
+        // Ignore network failures
+      }
+    }, 450)
+
+    return () => clearTimeout(timer)
+  }, [title, lang, isNew, id])
+
   // Secondary keywords handling
   const handleAddSecondaryKeyword = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ',') {
@@ -312,7 +375,7 @@ export const PostEditPage: React.FC = () => {
   ])
 
   // Save / Publish handler
-  const handleSave = async (targetStatus?: PostStatus) => {
+  const handleSave = async (targetStatus?: PostStatus, skipLowSeoConfirm = false) => {
     setErrors({})
     const postStatus = targetStatus || status
 
@@ -329,6 +392,12 @@ export const PostEditPage: React.FC = () => {
       if (Object.keys(publishErrors).length > 0) {
         setErrors(publishErrors)
         toastError('بيانات غير مكتملة', 'يرجى استكمال الحقول الإلزامية قبل النشر')
+        return
+      }
+
+      // Prompt confirmation if publishing with low SEO score (< 50), never blocking
+      if (seoResult.score < 50 && !skipLowSeoConfirm) {
+        setIsLowSeoConfirmOpen(true)
         return
       }
     }
@@ -350,6 +419,7 @@ export const PostEditPage: React.FC = () => {
         postStatus === 'published'
           ? publishedAt || new Date().toISOString()
           : publishedAt || null,
+      seo_score: seoResult.score,
       seo_title: seoTitle.trim() || null,
       seo_description: seoDescription.trim() || null,
       focus_keyword: focusKeyword.trim() || null,
@@ -560,6 +630,14 @@ export const PostEditPage: React.FC = () => {
                 placeholder="اكتب عنواناً جذاباً ومحدداً للمقال..."
                 className="w-full px-4 py-3 text-lg font-bold rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
+              {isTitleDuplicate && (
+                <div className="flex items-center gap-1.5 text-xs text-amber-600 dark:text-amber-400 mt-1.5 bg-amber-50 dark:bg-amber-950/30 p-2 rounded border border-amber-200 dark:border-amber-800">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  <span>
+                    تنبيه: يوجد مقال آخر بنفس العنوان في قاعدة البيانات ({lang === 'ar' ? 'العربية' : 'الإنجليزية'}). يوصى باختيار عنوان فريد لتجنب التنافس في نتائج البحث.
+                  </span>
+                </div>
+              )}
             </FormField>
 
             {/* Slug Field */}
@@ -1125,6 +1203,24 @@ export const PostEditPage: React.FC = () => {
               </div>
             </FormField>
 
+            {/* Canonical URL */}
+            <FormField label="الرابط القانوني المخصص (Canonical URL - اختياري)">
+              <input
+                type="url"
+                value={canonicalUrl}
+                onChange={(e) => {
+                  setCanonicalUrl(e.target.value)
+                  setIsDirty(true)
+                }}
+                placeholder="https://almubtakirah.com/ar/blog/..."
+                className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-start"
+                dir="ltr"
+              />
+              <p className="text-[11px] text-slate-400 mt-1">
+                اتركه فارغاً ليتم استخدام رابط المقال الافتراضي كـ Canonical تلقائياً.
+              </p>
+            </FormField>
+
             {/* Robots & Schema */}
             <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-3">
               <FormField label="نوع البيانات المنظمة (Schema)">
@@ -1310,6 +1406,13 @@ export const PostEditPage: React.FC = () => {
               </div>
             </div>
           </div>
+
+          {/* Panel 6: Live SEO Analyzer */}
+          <SeoAnalyzerPanel
+            seoData={seoResult}
+            isAnalyzing={isSeoAnalyzing}
+            focusKeyword={focusKeyword}
+          />
         </div>
       </div>
 
@@ -1331,6 +1434,21 @@ export const PostEditPage: React.FC = () => {
         mode="single"
         accept="image"
         title="اختيار صورة بطاقة المشاركة الاجتماعية"
+      />
+
+      {/* Low SEO Score Confirmation Dialog */}
+      <ConfirmDialog
+        isOpen={isLowSeoConfirmOpen}
+        onClose={() => setIsLowSeoConfirmOpen(false)}
+        onConfirm={() => {
+          setIsLowSeoConfirmOpen(false)
+          handleSave('published', true)
+        }}
+        title="تنبيه: نتيجة السيو منخفضة"
+        description={`نتيجة تحسين محركات البحث الحالية للمقال هي ${seoResult.score}/100 (أقل من 50). يُفضل مراجعة توصيات السيو وتطبيقها لتحسين ترتيب المقال في نتائج بحث جوجل. هل ترغب في الاستمرار ونشر المقال الآن على أي حال؟`}
+        confirmText="متابعة النشر على أي حال"
+        cancelText="العودة وإصلاح الملاحظات"
+        isDestructive={false}
       />
     </div>
   )

@@ -313,6 +313,7 @@ export const PostsListPage: React.FC = () => {
                   <th className="py-3 px-4 text-start">التصنيف</th>
                   <th className="py-3 px-4 text-center">اللغة</th>
                   <th className="py-3 px-4 text-center">الحالة</th>
+                  <th className="py-3 px-4 text-center">السيو</th>
                   <th className="py-3 px-4 text-center">وقت القراءة</th>
                   <th className="py-3 px-4 text-start">التاريخ</th>
                   <th className="py-3 px-4 text-end">الإجراءات</th>
@@ -399,6 +400,26 @@ export const PostsListPage: React.FC = () => {
                       {/* Status */}
                       <td className="py-3 px-4 text-center">
                         <StatusBadge status={post.status} />
+                      </td>
+
+                      {/* SEO Score Badge */}
+                      <td className="py-3 px-4 text-center">
+                        {typeof post.seo_score === 'number' ? (
+                          <span
+                            className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-bold border ${
+                              post.seo_score >= 80
+                                ? 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800'
+                                : post.seo_score >= 50
+                                  ? 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800'
+                                  : 'bg-red-50 text-red-700 border-red-200 dark:bg-red-950/60 dark:text-red-300 dark:border-red-800'
+                            }`}
+                            title={`نتيجة السيو: ${post.seo_score}/100`}
+                          >
+                            {post.seo_score}
+                          </span>
+                        ) : (
+                          <span className="text-xs text-slate-400 font-mono">—</span>
+                        )}
                       </td>
 
                       {/* Reading Time */}
