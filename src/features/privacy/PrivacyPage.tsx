@@ -9,10 +9,11 @@ import {
   Breadcrumbs,
 } from '@/components/ui'
 import { Seo } from '@/components/seo/Seo'
-import { siteConfig } from '@/lib/siteConfig'
+import { useSiteSettings } from '@/hooks/useSiteSettings'
 
 export const PrivacyPage: React.FC = () => {
   const { t } = useTranslation()
+  const settings = useSiteSettings()
   const location = useLocation()
   const isEn = location.pathname.startsWith('/en')
   const isRtl = !isEn
@@ -85,10 +86,10 @@ export const PrivacyPage: React.FC = () => {
                 <span>
                   {isEn ? 'Official privacy inquiries:' : 'للاستفسارات والطلبات المتعلقة بالخصوصية:'}{' '}
                   <a
-                    href={`mailto:${siteConfig.contact.email}`}
+                    href={`mailto:${settings.contact.email}`}
                     className="font-bold text-brand-600 hover:underline"
                   >
-                    {siteConfig.contact.email}
+                    {settings.contact.email}
                   </a>
                 </span>
               </div>

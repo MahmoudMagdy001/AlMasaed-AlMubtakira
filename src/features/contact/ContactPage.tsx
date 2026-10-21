@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
@@ -26,18 +26,20 @@ import {
   Button,
 } from '@/components/ui'
 import { Seo } from '@/components/seo/Seo'
-import { siteConfig } from '@/lib/siteConfig'
+import { useSiteSettings } from '@/hooks/useSiteSettings'
+import { supabase } from '@/lib/supabase'
 
 const contactSchema = z.object({
-  name: z.string().min(2, { message: 'nameTooShort' }),
-  phone: z.string().min(7, { message: 'phoneInvalid' }),
+  name: z.string().min(2, { message: 'nameTooShort' }).max(100),
+  phone: z.string().min(7, { message: 'phoneInvalid' }).max(20),
   email: z
     .string()
     .email({ message: 'emailInvalid' })
+    .max(255)
     .optional()
     .or(z.literal('')),
   service_interest: z.string().optional(),
-  message: z.string().min(5, { message: 'messageTooShort' }),
+  message: z.string().min(5, { message: 'messageTooShort' }).max(2000),
   website: z.string().max(0).optional(), // Honeypot field for bot detection
 })
 
@@ -46,8 +48,12 @@ type ContactFormData = z.infer<typeof contactSchema>
 export const ContactPage: React.FC = () => {
   const { t } = useTranslation()
   const location = useLocation()
+  const settings = useSiteSettings()
   const isEn = location.pathname.startsWith('/en')
   const isRtl = !isEn
+
+  // Time tracker for minimum fill time detection (anti-bot)
+  const formMountTime = useRef(Date.now())
 
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
@@ -87,22 +93,62 @@ export const ContactPage: React.FC = () => {
     },
   })
 
-
   const onSubmit = async (data: ContactFormData) => {
-    // If honeypot is filled, silently discard spam
+    // 1. Honeypot check: If filled, silently treat as success without calling DB
     if (data.website) {
+      setIsSubmitted(true)
+      return
+    }
+
+    // 2. Minimum fill time check: If submitted under 2.5 seconds, silently discard bot
+    const elapsedMs = Date.now() - formMountTime.current
+    if (elapsedMs < 2500) {
       setIsSubmitted(true)
       return
     }
 
     try {
       setSubmitError(null)
-      // Form submission will be wired to Supabase in Phase 04.
-      // In Phase 03, validation and client-side lifecycle are verified.
+
+      // 3. Insert into Supabase contact_submissions table (anon key)
+      const { error } = await supabase.from('contact_submissions').insert({
+        name: data.name.trim(),
+        phone: data.phone.trim(),
+        email: data.email ? data.email.trim() : null,
+        service_interest: data.service_interest || null,
+        message: data.message.trim(),
+        source_page: location.pathname,
+        status: 'new',
+      })
+
+      if (error) {
+        setSubmitError(
+          isEn
+            ? 'Failed to send your message. Please try again or call us directly.'
+            : 'تعذر إرسال رسالتك حالياً. يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة عبر الهاتف.',
+        )
+        return
+      }
+
+      // 4. Push event to GTM dataLayer if available
+      if (
+        typeof window !== 'undefined' &&
+        (window as unknown as { dataLayer?: unknown[] }).dataLayer
+      ) {
+        ;(window as unknown as { dataLayer: unknown[] }).dataLayer.push({
+          event: 'contact_form_submit',
+          service_interest: data.service_interest || 'general',
+        })
+      }
+
       setIsSubmitted(true)
       reset()
     } catch {
-      setSubmitError(t('common.error'))
+      setSubmitError(
+        isEn
+          ? 'An unexpected error occurred. Please call us directly.'
+          : 'حدث خطأ غير متوقع. يرجى الاتصال بنا مباشرة.',
+      )
     }
   }
 
@@ -170,7 +216,10 @@ export const ContactPage: React.FC = () => {
                   </p>
                   <Button
                     variant="secondary"
-                    onClick={() => setIsSubmitted(false)}
+                    onClick={() => {
+                      setIsSubmitted(false)
+                      formMountTime.current = Date.now()
+                    }}
                     className="border-feedback-success text-feedback-success hover:bg-feedback-success/10 font-medium"
                   >
                     {t('contact.sendAnother')}
@@ -312,81 +361,87 @@ export const ContactPage: React.FC = () => {
                         {t('contact.unifiedNumberTitle')}
                       </span>
                       <a
-                        href={`tel:${siteConfig.contact.unifiedNumber}`}
+                        href={`tel:${settings.contact.unifiedNumber}`}
                         dir="ltr"
                         className="text-base font-bold text-content-heading hover:text-brand-600 transition-colors inline-block"
                       >
-                        {siteConfig.contact.unifiedDisplay}
+                        {settings.contact.unifiedDisplay}
                       </a>
                     </div>
                   </div>
 
                   {/* Mobile & WhatsApp */}
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-control bg-feedback-success-light border border-feedback-success/30 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <MessageSquare className="w-5 h-5 text-feedback-success" aria-hidden="true" />
+                  {settings.contact.phones[1] && (
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-control bg-feedback-success-light border border-feedback-success/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <MessageSquare className="w-5 h-5 text-feedback-success" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <span className="text-xs text-content-muted font-medium block mb-1">
+                          {t('contact.mobileWhatsAppTitle')}
+                        </span>
+                        <div className="flex flex-col gap-1">
+                          <a
+                            href={`tel:${settings.contact.phones[1]}`}
+                            dir="ltr"
+                            className="text-sm font-bold text-content-heading hover:text-brand-600 transition-colors inline-block"
+                          >
+                            {settings.contact.phoneDisplay[1] || settings.contact.phones[1]}
+                          </a>
+                          <a
+                            href={`https://wa.me/${settings.contact.whatsapp}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs font-semibold text-feedback-success hover:underline inline-flex items-center gap-1"
+                          >
+                            <span>WhatsApp</span>
+                          </a>
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <span className="text-xs text-content-muted font-medium block mb-1">
-                        {t('contact.mobileWhatsAppTitle')}
-                      </span>
-                      <div className="flex flex-col gap-1">
+                  )}
+
+                  {/* Direct Phone */}
+                  {settings.contact.phones[0] && (
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-control bg-brand-50 border border-brand-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Phone className="w-5 h-5 text-brand-600" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <span className="text-xs text-content-muted font-medium block mb-1">
+                          {t('contact.phoneTitle')}
+                        </span>
                         <a
-                          href={`tel:${siteConfig.contact.phones[1]}`}
+                          href={`tel:${settings.contact.phones[0]}`}
                           dir="ltr"
                           className="text-sm font-bold text-content-heading hover:text-brand-600 transition-colors inline-block"
                         >
-                          {siteConfig.contact.phones[1]}
-                        </a>
-                        <a
-                          href={`https://wa.me/${siteConfig.contact.whatsapp}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs font-semibold text-feedback-success hover:underline inline-flex items-center gap-1"
-                        >
-                          <span>WhatsApp</span>
+                          {settings.contact.phoneDisplay[0] || settings.contact.phones[0]}
                         </a>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Direct Phone */}
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-control bg-brand-50 border border-brand-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Phone className="w-5 h-5 text-brand-600" aria-hidden="true" />
-                    </div>
-                    <div>
-                      <span className="text-xs text-content-muted font-medium block mb-1">
-                        {t('contact.phoneTitle')}
-                      </span>
-                      <a
-                        href={`tel:${siteConfig.contact.phones[0]}`}
-                        dir="ltr"
-                        className="text-sm font-bold text-content-heading hover:text-brand-600 transition-colors inline-block"
-                      >
-                        {siteConfig.contact.phones[0]}
-                      </a>
-                    </div>
-                  </div>
+                  )}
 
                   {/* Email */}
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-control bg-brand-50 border border-brand-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Mail className="w-5 h-5 text-brand-600" aria-hidden="true" />
+                  {settings.contact.email && (
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-control bg-brand-50 border border-brand-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Mail className="w-5 h-5 text-brand-600" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <span className="text-xs text-content-muted font-medium block mb-1">
+                          {t('contact.emailTitle')}
+                        </span>
+                        <a
+                          href={`mailto:${settings.contact.email}`}
+                          dir="ltr"
+                          className="text-sm font-bold text-content-heading hover:text-brand-600 transition-colors inline-block"
+                        >
+                          {settings.contact.email}
+                        </a>
+                      </div>
                     </div>
-                    <div>
-                      <span className="text-xs text-content-muted font-medium block mb-1">
-                        {t('contact.emailTitle')}
-                      </span>
-                      <a
-                        href={`mailto:${siteConfig.contact.email}`}
-                        dir="ltr"
-                        className="text-sm font-bold text-content-heading hover:text-brand-600 transition-colors inline-block"
-                      >
-                        {siteConfig.contact.email}
-                      </a>
-                    </div>
-                  </div>
+                  )}
 
                   {/* Location & Coverage */}
                   <div className="flex items-start gap-4">
@@ -398,8 +453,18 @@ export const ContactPage: React.FC = () => {
                         {t('contact.locationTitle')}
                       </span>
                       <span className="text-sm font-bold text-content-heading block">
-                        {t('contact.locationValue')}
+                        {isEn ? settings.contact.cityEn : settings.contact.cityAr}
                       </span>
+                      {settings.contact.mapUrl && (
+                        <a
+                          href={settings.contact.mapUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-brand-600 hover:underline mt-1 inline-block"
+                        >
+                          {isEn ? 'View on Google Maps' : 'عرض على خرائط Google'}
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -408,13 +473,13 @@ export const ContactPage: React.FC = () => {
                   <div className="flex items-center gap-2">
                     <Building2 className="w-4 h-4 text-brand-600 flex-shrink-0" />
                     <span className="font-semibold text-content-body">
-                      {t('brand.cr')}
+                      {isEn ? `CR: ${settings.company.crNumber}` : `السجل التجاري رقم ${settings.company.crNumber}`}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <ShieldCheck className="w-4 h-4 text-feedback-success flex-shrink-0" />
                     <span className="font-semibold text-content-body">
-                      {t('brand.accreditation')}
+                      {isEn ? settings.company.accreditationEn : settings.company.accreditationAr}
                     </span>
                   </div>
                 </div>

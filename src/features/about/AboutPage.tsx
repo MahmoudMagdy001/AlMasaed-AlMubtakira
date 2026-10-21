@@ -20,10 +20,13 @@ import {
 } from '@/components/ui'
 import { CtaBand } from '@/components/layout/CtaBand'
 import { Seo } from '@/components/seo/Seo'
+import { usePartners } from '@/hooks/usePartners'
+import { PartnersSection } from '@/features/home/components/PartnersSection'
 
 export const AboutPage: React.FC = () => {
   const { t } = useTranslation()
   const location = useLocation()
+  const { data: partnersData } = usePartners()
   const isEn = location.pathname.startsWith('/en')
   const isRtl = !isEn
 
@@ -206,6 +209,9 @@ export const AboutPage: React.FC = () => {
           </div>
         </Container>
       </Section>
+
+      {/* Partners Section (hidden when empty) */}
+      <PartnersSection partners={partnersData} variant="white" />
 
       {/* CTA Band */}
       <CtaBand />

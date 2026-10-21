@@ -28,7 +28,9 @@ import {
 } from '@/components/ui'
 import { CtaBand } from '@/components/layout/CtaBand'
 import { Seo } from '@/components/seo/Seo'
-import { siteConfig } from '@/lib/siteConfig'
+import { useSiteSettings } from '@/hooks/useSiteSettings'
+import { useWorks } from '@/hooks/useWorks'
+import { usePartners } from '@/hooks/usePartners'
 import { WorksSection } from './components/WorksSection'
 import { PartnersSection } from './components/PartnersSection'
 import { LatestPostsSection } from './components/LatestPostsSection'
@@ -38,6 +40,10 @@ export const HomePage: React.FC = () => {
   const location = useLocation()
   const isEn = location.pathname.startsWith('/en')
   const isRtl = !isEn
+
+  const settings = useSiteSettings()
+  const { data: worksData } = useWorks({ limit: 6 })
+  const { data: partnersData } = usePartners()
 
   const prefix = isEn ? '/en' : ''
 
@@ -154,7 +160,7 @@ export const HomePage: React.FC = () => {
               <Button
                 variant="inverse"
                 size="lg"
-                href={`tel:${siteConfig.contact.unifiedNumber}`}
+                href={`tel:${settings.contact.unifiedNumber}`}
                 leftIcon={<Phone className="w-5 h-5 text-brand-400" />}
                 className="font-semibold"
               >
@@ -403,10 +409,10 @@ export const HomePage: React.FC = () => {
       </Section>
 
       {/* 6. Works Section (hidden when empty) */}
-      <WorksSection works={null} />
+      <WorksSection works={worksData?.works} />
 
       {/* 7. Partners Section (hidden when empty) */}
-      <PartnersSection partners={null} />
+      <PartnersSection partners={partnersData} />
 
       {/* 8. Latest Posts Section (hidden when empty) */}
       <LatestPostsSection posts={null} />

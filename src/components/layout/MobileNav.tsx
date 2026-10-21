@@ -1,10 +1,10 @@
 import React from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Phone, MessageSquare, Globe } from 'lucide-react'
+import { Phone, Globe } from 'lucide-react'
 import { Drawer } from '../ui/Drawer'
 import { Logo } from '../ui/Logo'
-import { siteConfig } from '@/lib/siteConfig'
+import { useSiteSettings } from '@/hooks/useSiteSettings'
 
 export interface MobileNavProps {
   isOpen: boolean
@@ -18,6 +18,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
   isEn = false,
 }) => {
   const { t } = useTranslation()
+  const settings = useSiteSettings()
   const prefix = isEn ? '/en' : ''
 
   const navItems = [
@@ -64,21 +65,20 @@ export const MobileNav: React.FC<MobileNavProps> = ({
 
         <div className="pt-6 border-t border-surface-border flex flex-col gap-3">
           <a
-            href={`tel:${siteConfig.contact.unifiedNumber}`}
+            href={`tel:${settings.contact.unifiedNumber}`}
             className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-control bg-brand-900 text-white font-semibold text-sm hover:bg-brand-800 transition-colors"
           >
             <Phone className="w-4 h-4 text-brand-400" aria-hidden="true" />
-            <span>{siteConfig.contact.unifiedDisplay}</span>
+            <span>{settings.contact.unifiedDisplay}</span>
           </a>
 
           <a
-            href={`https://wa.me/${siteConfig.contact.whatsapp}`}
+            href={`https://wa.me/${settings.contact.whatsapp}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-control bg-whatsapp text-white font-semibold text-sm hover:bg-whatsapp-hover transition-colors"
           >
-            <MessageSquare className="w-4 h-4" aria-hidden="true" />
-            <span>واتساب</span>
+            <span>WhatsApp</span>
           </a>
 
           <Link

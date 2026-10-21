@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 import { Phone, MessageSquare, ArrowLeft, ArrowRight } from 'lucide-react'
 import { Button, Container, BrandPattern } from '@/components/ui'
-import { siteConfig } from '@/lib/siteConfig'
+import { useSiteSettings } from '@/hooks/useSiteSettings'
 
 interface CtaBandProps {
   title?: string
@@ -17,6 +17,7 @@ export const CtaBand: React.FC<CtaBandProps> = ({
   className = '',
 }) => {
   const { t } = useTranslation()
+  const settings = useSiteSettings()
   const location = useLocation()
   const isEn = location.pathname.startsWith('/en')
   const isRtl = !isEn
@@ -60,7 +61,7 @@ export const CtaBand: React.FC<CtaBandProps> = ({
             <Button
               variant="inverse"
               size="lg"
-              href={`tel:${siteConfig.contact.unifiedNumber}`}
+              href={`tel:${settings.contact.unifiedNumber}`}
               leftIcon={<Phone className="w-5 h-5 text-brand-400" />}
               className="font-semibold"
             >
@@ -70,10 +71,10 @@ export const CtaBand: React.FC<CtaBandProps> = ({
             <Button
               variant="inverse"
               size="lg"
-              href={`https://wa.me/${siteConfig.contact.whatsapp}?text=${encodeURIComponent(
+              href={`https://wa.me/${settings.contact.whatsapp}?text=${encodeURIComponent(
                 isEn
                   ? 'Hello, I would like to inquire about elevator services in Jeddah.'
-                  : 'السلام عليكم، أود الاستفسار عن خدمات المصاعد في جدة.'
+                  : 'السلام عليكم، أود الاستفسار عن خدمات المصاعد في جدة.',
               )}`}
               target="_blank"
               rel="noopener noreferrer"

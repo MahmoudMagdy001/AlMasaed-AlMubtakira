@@ -4,6 +4,8 @@ import { HomePage } from './features/home/HomePage'
 import { AboutPage } from './features/about/AboutPage'
 import { ServicesPage } from './features/services/ServicesPage'
 import { ServiceDetailPage } from './features/services/ServiceDetailPage'
+import { WorksPage } from './features/works/WorksPage'
+import { WorkDetailPage } from './features/works/WorkDetailPage'
 import { ContactPage } from './features/contact/ContactPage'
 import { PrivacyPage } from './features/privacy/PrivacyPage'
 import { NotFoundPage } from './features/home/NotFoundPage'
@@ -38,6 +40,8 @@ export const routes: RouteObject[] = [
         path: 'services/escalators-moving-walkways',
         element: <ServiceDetailPage serviceKey="escalators" />,
       },
+      { path: 'works', element: <WorksPage /> },
+      { path: 'works/:slug', element: <WorkDetailPage /> },
       { path: 'contact', element: <ContactPage /> },
       { path: 'privacy', element: <PrivacyPage /> },
 
@@ -65,6 +69,8 @@ export const routes: RouteObject[] = [
         path: 'en/services/escalators-moving-walkways',
         element: <ServiceDetailPage serviceKey="escalators" />,
       },
+      { path: 'en/works', element: <WorksPage /> },
+      { path: 'en/works/:slug', element: <WorkDetailPage /> },
       { path: 'en/contact', element: <ContactPage /> },
       { path: 'en/privacy', element: <PrivacyPage /> },
 

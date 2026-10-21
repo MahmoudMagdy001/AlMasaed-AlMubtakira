@@ -5,10 +5,11 @@ import { Phone, Mail, MapPin, MessageSquare } from 'lucide-react'
 import { Logo } from '../ui/Logo'
 import { Container } from '../ui/Container'
 import { BrandPattern } from '../ui/BrandPattern'
-import { siteConfig } from '@/lib/siteConfig'
+import { useSiteSettings } from '@/hooks/useSiteSettings'
 
 export const Footer: React.FC = () => {
   const { t } = useTranslation()
+  const settings = useSiteSettings()
   const location = useLocation()
   const isEn = location.pathname.startsWith('/en')
   const prefix = isEn ? '/en' : ''
@@ -66,7 +67,7 @@ export const Footer: React.FC = () => {
               </p>
               <div className="flex flex-wrap gap-2 text-xs text-brand-300">
                 <span className="bg-white/5 px-3 py-1.5 rounded-control border border-white/10">
-                  {siteConfig.company.accreditationAr}
+                  {isEn ? settings.company.accreditationEn : settings.company.accreditationAr}
                 </span>
                 <span className="bg-white/5 px-3 py-1.5 rounded-control border border-white/10">
                   {t('brand.city')}
@@ -120,19 +121,19 @@ export const Footer: React.FC = () => {
               <ul className="space-y-3.5 text-sm text-brand-100">
                 <li>
                   <a
-                    href={`tel:${siteConfig.contact.unifiedNumber}`}
+                    href={`tel:${settings.contact.unifiedNumber}`}
                     className="flex items-center gap-2.5 hover:text-brand-400 transition-colors focus-visible:outline-none focus-visible:underline"
                   >
                     <Phone
                       className="w-4 h-4 text-brand-400 shrink-0"
                       aria-hidden="true"
                     />
-                    <span dir="ltr">{siteConfig.contact.unifiedDisplay}</span>
+                    <span dir="ltr">{settings.contact.unifiedDisplay}</span>
                   </a>
                 </li>
                 <li>
                   <a
-                    href={`https://wa.me/${siteConfig.contact.whatsapp}`}
+                    href={`https://wa.me/${settings.contact.whatsapp}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2.5 hover:text-whatsapp transition-colors focus-visible:outline-none focus-visible:underline"
@@ -141,19 +142,19 @@ export const Footer: React.FC = () => {
                       className="w-4 h-4 text-whatsapp shrink-0"
                       aria-hidden="true"
                     />
-                    <span dir="ltr">{siteConfig.contact.whatsappDisplay}</span>
+                    <span dir="ltr">{settings.contact.whatsappDisplay}</span>
                   </a>
                 </li>
                 <li>
                   <a
-                    href={`mailto:${siteConfig.contact.email}`}
+                    href={`mailto:${settings.contact.email}`}
                     className="flex items-center gap-2.5 hover:text-brand-400 transition-colors focus-visible:outline-none focus-visible:underline"
                   >
                     <Mail
                       className="w-4 h-4 text-brand-400 shrink-0"
                       aria-hidden="true"
                     />
-                    <span>{siteConfig.contact.email}</span>
+                    <span>{settings.contact.email}</span>
                   </a>
                 </li>
                 <li className="flex items-center gap-2.5 text-brand-200">
@@ -163,8 +164,8 @@ export const Footer: React.FC = () => {
                   />
                   <span>
                     {isEn
-                      ? siteConfig.contact.cityEn
-                      : siteConfig.contact.cityAr}
+                      ? settings.contact.cityEn
+                      : settings.contact.cityAr}
                     ، المملكة العربية السعودية
                   </span>
                 </li>
@@ -176,12 +177,12 @@ export const Footer: React.FC = () => {
           <div className="mt-14 pt-8 border-t border-brand-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-brand-200">
             <div className="flex flex-wrap items-center gap-3 text-center sm:text-start">
               <span>
-                {siteConfig.company.crNumber
-                  ? `السجل التجاري رقم ${siteConfig.company.crNumber}`
+                {settings.company.crNumber
+                  ? `السجل التجاري رقم ${settings.company.crNumber}`
                   : ''}
               </span>
               <span>•</span>
-              <span>{siteConfig.company.accreditationAr}</span>
+              <span>{isEn ? settings.company.accreditationEn : settings.company.accreditationAr}</span>
               <span>•</span>
               <Link
                 to={`${prefix}/privacy`}
@@ -192,7 +193,7 @@ export const Footer: React.FC = () => {
             </div>
             <div className="text-center sm:text-end">
               <p>
-                © {currentYear} {siteConfig.company.nameAr}.{' '}
+                © {currentYear} {isEn ? settings.company.nameEn : settings.company.nameAr}.{' '}
                 {t('footer.rights')}.
               </p>
             </div>

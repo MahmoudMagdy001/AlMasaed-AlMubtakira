@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Phone, MessageSquare } from 'lucide-react'
-import { siteConfig } from '@/lib/siteConfig'
+import { useSiteSettings } from '@/hooks/useSiteSettings'
 
 export const FloatingContact: React.FC = () => {
+  const settings = useSiteSettings()
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export const FloatingContact: React.FC = () => {
     >
       {/* WhatsApp Floating Button */}
       <a
-        href={`https://wa.me/${siteConfig.contact.whatsapp}`}
+        href={`https://wa.me/${settings.contact.whatsapp}`}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="تواصل معنا عبر واتساب"
@@ -42,7 +43,7 @@ export const FloatingContact: React.FC = () => {
 
       {/* Phone Call Floating Button */}
       <a
-        href={`tel:${siteConfig.contact.unifiedNumber}`}
+        href={`tel:${settings.contact.unifiedNumber}`}
         aria-label="اتصل بنا الآن"
         className="flex items-center justify-center w-12 h-12 rounded-full bg-brand-900 text-white border border-brand-400/50 shadow-elevated hover:bg-brand-800 hover:scale-105 active:scale-95 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2"
       >

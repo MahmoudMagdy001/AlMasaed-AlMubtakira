@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 import {
   CheckCircle2,
   Layers,
@@ -19,7 +19,9 @@ import {
 } from '@/components/ui'
 import { CtaBand } from '@/components/layout/CtaBand'
 import { Seo } from '@/components/seo/Seo'
-import { siteConfig } from '@/lib/siteConfig'
+import { useSiteSettings } from '@/hooks/useSiteSettings'
+import { useWorks } from '@/hooks/useWorks'
+import { WorkCard } from '@/features/works/components/WorkCard'
 
 export type ServiceKey =
   | 'maintenance'
@@ -37,8 +39,22 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
 }) => {
   const { t } = useTranslation()
   const location = useLocation()
+  const settings = useSiteSettings()
   const isEn = location.pathname.startsWith('/en')
   const isRtl = !isEn
+
+  const dbServiceTypeMap: Record<ServiceKey, string> = {
+    maintenance: 'maintenance',
+    modernization: 'modernization',
+    installation: 'installation',
+    spareParts: 'spare-parts',
+    escalators: 'escalators',
+  }
+
+  const { data: relatedWorksData } = useWorks({
+    serviceType: dbServiceTypeMap[serviceKey],
+    limit: 3,
+  })
 
   const prefix = isEn ? '/en' : ''
 
@@ -138,7 +154,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               <Button
                 variant="inverse"
                 size="lg"
-                href={`tel:${siteConfig.contact.unifiedNumber}`}
+                href={`tel:${settings.contact.unifiedNumber}`}
                 leftIcon={<Phone className="w-5 h-5 text-brand-400" />}
                 className="font-semibold"
               >
@@ -231,6 +247,42 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
           </div>
         </Container>
       </Section>
+
+      {/* Related Works (DB-driven, hides gracefully when empty) */}
+      {relatedWorksData?.works && relatedWorksData.works.length > 0 && (
+        <Section variant="white" className="border-b border-surface-border">
+          <Container>
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
+              <SectionHeading
+                kicker={isEn ? 'Our Portfolio' : 'سابقة أعمالنا'}
+                title={isEn ? 'Selected Projects' : 'مشاريع منفذة في هذه الخدمة'}
+                intro={
+                  isEn
+                    ? 'Explore completed projects and engineering implementations in Jeddah.'
+                    : 'نماذج من أعمالنا ومشاريعنا المنجزة في جدة وفق أعلى معايير السلامة.'
+                }
+              />
+              <Link
+                to={
+                  isEn
+                    ? `/en/works?service=${dbServiceTypeMap[serviceKey]}`
+                    : `/works?service=${dbServiceTypeMap[serviceKey]}`
+                }
+                className="inline-flex items-center gap-1.5 text-brand-600 hover:text-brand-500 font-semibold text-sm mt-4 md:mt-0 transition-colors"
+              >
+                <span>{t('actions.viewWorks')}</span>
+                {isRtl ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {relatedWorksData.works.map((w) => (
+                <WorkCard key={w.id} work={w} />
+              ))}
+            </div>
+          </Container>
+        </Section>
+      )}
 
       {/* FAQ Accordion */}
       {accordionItems.length > 0 && (

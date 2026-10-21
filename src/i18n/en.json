@@ -457,5 +457,34 @@
     "disclosureComponents": "Accordions & Tabs",
     "layoutComponents": "Layouts & Containers",
     "brandAssets": "Brand Assets & Logo"
+  },
+  "works": {
+    "pageTitle": "Our Works & Projects | Al-Masaed Al-Mubtakirah in Jeddah",
+    "pageDescription": "Browse our portfolio of elevator installation, modernization, and maintenance projects executed across Jeddah.",
+    "eyebrow": "Our Portfolio",
+    "heading": "Completed Works & Projects",
+    "intro": "Selected projects executed in Jeddah, spanning installations, modernizations, and preventive maintenance contracts for residential and commercial properties.",
+    "filters": {
+      "all": "All Projects",
+      "maintenance": "Elevator Maintenance",
+      "modernization": "Modernization",
+      "installation": "Supply & Installation",
+      "spareParts": "Spare Parts",
+      "escalators": "Escalators & Walkways"
+    },
+    "filterLabel": "Filter projects by service",
+    "cardViewDetails": "View Project Details",
+    "emptyHeading": "Projects Being Documented",
+    "emptyMessage": "Our digital project portfolio is currently being curated and updated with completed works in Jeddah. Please contact us directly for references and case studies.",
+    "emptyCta": "Contact Us for Inquiries",
+    "details": {
+      "serviceType": "Service Type",
+      "completedYear": "Year Completed",
+      "location": "Location",
+      "galleryHeading": "Project Photo Gallery",
+      "descriptionHeading": "Project Overview & Engineering Solution",
+      "relatedHeading": "Related Projects",
+      "backToWorks": "Back to All Projects"
+    }
   }
 }

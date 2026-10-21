@@ -5,10 +5,11 @@ import { Menu, Phone, Globe } from 'lucide-react'
 import { Logo } from '../ui/Logo'
 import { Container } from '../ui/Container'
 import { MobileNav } from './MobileNav'
-import { siteConfig } from '@/lib/siteConfig'
+import { useSiteSettings } from '@/hooks/useSiteSettings'
 
 export const Header: React.FC = () => {
   const { t } = useTranslation()
+  const settings = useSiteSettings()
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
   const location = useLocation()
 
@@ -84,11 +85,11 @@ export const Header: React.FC = () => {
 
               {/* Call CTA Button */}
               <a
-                href={`tel:${siteConfig.contact.unifiedNumber}`}
+                href={`tel:${settings.contact.unifiedNumber}`}
                 className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-control text-sm font-semibold bg-brand-600 hover:bg-brand-500 text-white transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
               >
                 <Phone className="w-4 h-4 text-brand-300" aria-hidden="true" />
-                <span>{siteConfig.contact.unifiedDisplay}</span>
+                <span>{settings.contact.unifiedDisplay}</span>
               </a>
 
               {/* Mobile Drawer Trigger */}
