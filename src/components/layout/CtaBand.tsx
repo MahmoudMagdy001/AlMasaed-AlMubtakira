@@ -26,7 +26,7 @@ export const CtaBand: React.FC<CtaBandProps> = ({
 
   return (
     <section
-      className={`relative overflow-hidden bg-brand-900 text-white py-16 md:py-20 ${className}`}
+      className={`relative overflow-hidden bg-brand-900 text-white py-16 md:py-20 mb-12 sm:mb-16 md:mb-20 border-b border-brand-800 shadow-sm ${className}`}
       aria-label={title || t('home.ctaBandHeading')}
     >
       <BrandPattern opacity={0.07} />

@@ -2,7 +2,7 @@ import React from 'react'
 import { useParams, useLocation, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { BookOpen } from 'lucide-react'
-import { Container, Section, SectionHeading, Breadcrumbs, Button } from '@/components/ui'
+import { Container, Section, Breadcrumbs, Button, BrandPattern } from '@/components/ui'
 import { Seo, getCollectionPageSchema } from '@/components/seo'
 import { useBlogPosts, useBlogCategories } from '@/hooks/useBlog'
 import { PostCard } from './components/PostCard'
@@ -76,18 +76,27 @@ export const BlogIndexPage: React.FC = () => {
       />
 
 
-      <Section variant="white" className="pt-6 pb-16">
-        <Container>
-          <Breadcrumbs items={breadcrumbs} className="mb-8" />
-
-          <div className="max-w-3xl mb-10">
-            <SectionHeading
-              level="h1"
-              kicker={t('blog.eyebrow')}
-              title={t('blog.heading')}
-              intro={t('blog.intro')}
-            />
+      {/* Header Banner */}
+      <section className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden">
+        <BrandPattern opacity={0.07} />
+        <Container className="relative z-10">
+          <Breadcrumbs items={breadcrumbs} className="mb-6 text-white/80" />
+          <div className="max-w-3xl">
+            <span className="text-xs font-semibold text-brand-300 uppercase tracking-wider block mb-2">
+              {t('blog.eyebrow')}
+            </span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-4">
+              {t('blog.heading')}
+            </h1>
+            <p className="text-base sm:text-lg text-brand-100 leading-relaxed font-normal max-w-2xl">
+              {t('blog.intro')}
+            </p>
           </div>
+        </Container>
+      </section>
+
+      <Section variant="white" className="pt-8 pb-16">
+        <Container>
 
           {/* Category Filter Chips */}
           {categories && categories.length > 0 && (

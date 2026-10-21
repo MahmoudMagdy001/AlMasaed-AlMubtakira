@@ -65,14 +65,7 @@ export const Footer: React.FC = () => {
               <p className="text-sm md:text-base text-brand-100 leading-relaxed max-w-sm">
                 {t('footer.aboutText')}
               </p>
-              <div className="flex flex-wrap gap-2 text-xs text-brand-300">
-                <span className="bg-white/5 px-3 py-1.5 rounded-control border border-white/10">
-                  {isEn ? settings.company.accreditationEn : settings.company.accreditationAr}
-                </span>
-                <span className="bg-white/5 px-3 py-1.5 rounded-control border border-white/10">
-                  {t('brand.city')}
-                </span>
-              </div>
+
             </div>
 
             {/* Column 2: Quick Links (2 cols) */}

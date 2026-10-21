@@ -24,7 +24,6 @@ import {
   Section,
   SectionHeading,
   BrandPattern,
-  Badge,
 } from '@/components/ui'
 import { CtaBand } from '@/components/layout/CtaBand'
 import {
@@ -149,28 +148,16 @@ export const HomePage: React.FC = () => {
         <BrandPattern opacity={0.08} />
 
         <Container className="relative z-10">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 mb-6">
-              <Badge
-                variant="brand"
-                icon={<ShieldCheck className="w-3.5 h-3.5 text-brand-400" />}
-              >
-                {t('brand.accreditation')}
-              </Badge>
-              <span className="text-brand-300 text-xs hidden sm:inline">
-                {t('brand.tagline')}
-              </span>
-            </div>
-
+          <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white tracking-tight">
               {t('home.heroTitle')}
             </h1>
 
-            <p className="text-lg sm:text-xl text-brand-100 font-normal leading-relaxed mb-8 max-w-2xl">
+            <p className="text-lg sm:text-xl text-brand-100 font-normal leading-relaxed mb-8 max-w-2xl mx-auto">
               {t('home.heroSubtitle')}
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 mb-10">
+            <div className="flex flex-wrap items-center justify-center gap-4 mb-10">
               <Button
                 variant="primary"
                 size="lg"
@@ -198,7 +185,7 @@ export const HomePage: React.FC = () => {
               </Button>
             </div>
 
-            <div className="pt-6 border-t border-white/10 flex flex-wrap items-center gap-6 text-xs text-brand-200">
+            <div className="pt-6 border-t border-white/10 flex flex-wrap items-center justify-center gap-6 text-xs text-brand-200">
               <span>{t('home.heroBadges')}</span>
               <span>•</span>
               <span>{t('common.cityJeddah')}</span>
@@ -381,17 +368,19 @@ export const HomePage: React.FC = () => {
       {/* 5. Maintenance & Modernization Details */}
       <Section variant="soft" className="border-b border-surface-border">
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-            <div className="lg:col-span-7">
-              <span className="text-xs md:text-sm font-semibold text-brand-600 tracking-wider uppercase mb-2 block">
-                {t('home.maintenanceEyebrow')}
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-content-heading mb-4">
-                {t('home.maintenanceHeading')}
-              </h2>
-              <p className="text-content-body text-base leading-relaxed mb-8">
-                {t('home.maintenanceSubtitle')}
-              </p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
+            <div className="lg:col-span-7 flex flex-col justify-between">
+              <div>
+                <span className="text-xs md:text-sm font-semibold text-brand-600 tracking-wider uppercase mb-2 block">
+                  {t('home.maintenanceEyebrow')}
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-bold text-content-heading mb-4">
+                  {t('home.maintenanceHeading')}
+                </h2>
+                <p className="text-content-body text-base leading-relaxed mb-8">
+                  {t('home.maintenanceSubtitle')}
+                </p>
+              </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {maintenanceIncluded.map((item, idx) => (
@@ -406,32 +395,36 @@ export const HomePage: React.FC = () => {
               </div>
             </div>
 
-            <div className="lg:col-span-5 bg-brand-900 text-white p-8 rounded-card relative overflow-hidden shadow-card">
+            <div className="lg:col-span-5 bg-brand-900 text-white p-8 rounded-card relative overflow-hidden shadow-card flex flex-col justify-between h-full">
               <BrandPattern opacity={0.08} />
-              <div className="relative z-10">
-                <span className="text-xs font-semibold text-brand-400 uppercase tracking-wider block mb-2">
-                  {t('services.modernization.title')}
-                </span>
-                <h3 className="text-2xl font-bold mb-4 text-white">
-                  {t('home.modernizationBoxTitle')}
-                </h3>
-                <p className="text-sm text-brand-100 leading-relaxed mb-8">
-                  {t('home.modernizationBoxText')}
-                </p>
-                <Button
-                  variant="primary"
-                  to={`${prefix}/services/elevator-modernization`}
-                  className="bg-brand-500 hover:bg-brand-400 text-white font-semibold"
-                  rightIcon={
-                    isRtl ? (
-                      <ArrowLeft className="w-4 h-4" />
-                    ) : (
-                      <ArrowRight className="w-4 h-4" />
-                    )
-                  }
-                >
-                  {t('home.modernizationBoxCta')}
-                </Button>
+              <div className="relative z-10 flex flex-col h-full justify-between">
+                <div>
+                  <span className="text-xs font-semibold text-brand-400 uppercase tracking-wider block mb-2">
+                    {t('services.modernization.title')}
+                  </span>
+                  <h3 className="text-2xl font-bold mb-4 text-white">
+                    {t('home.modernizationBoxTitle')}
+                  </h3>
+                  <p className="text-sm text-brand-100 leading-relaxed mb-8">
+                    {t('home.modernizationBoxText')}
+                  </p>
+                </div>
+                <div>
+                  <Button
+                    variant="primary"
+                    to={`${prefix}/services/elevator-modernization`}
+                    className="bg-brand-500 hover:bg-brand-400 text-white font-semibold inline-flex"
+                    rightIcon={
+                      isRtl ? (
+                        <ArrowLeft className="w-4 h-4" />
+                      ) : (
+                        <ArrowRight className="w-4 h-4" />
+                      )
+                    }
+                  >
+                    {t('home.modernizationBoxCta')}
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

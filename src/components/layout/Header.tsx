@@ -45,9 +45,9 @@ export const Header: React.FC = () => {
               />
             </div>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation (Centered) */}
             <nav
-              className="hidden lg:flex items-center gap-1 xl:gap-2"
+              className="hidden lg:flex flex-1 items-center justify-center gap-1 xl:gap-2 px-4"
               aria-label="القائمة الرئيسية"
             >
               {navItems.map((item) => (

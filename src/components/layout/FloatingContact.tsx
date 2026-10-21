@@ -1,34 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Phone, MessageSquare } from 'lucide-react'
 import { useSiteSettings } from '@/hooks/useSiteSettings'
 
 export const FloatingContact: React.FC = () => {
   const settings = useSiteSettings()
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 250) {
-        setIsVisible(true)
-      } else {
-        setIsVisible(false)
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll()
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
-
-  if (!isVisible) return null
 
   return (
     <aside
       aria-label="قنوات التواصل السريع"
-      className="fixed bottom-6 start-6 z-40 flex flex-col gap-3 print:hidden"
+      className="fixed bottom-6 start-6 z-50 flex flex-col gap-3 print:hidden"
     >
       {/* WhatsApp Floating Button */}
       <a
@@ -36,18 +16,22 @@ export const FloatingContact: React.FC = () => {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="تواصل معنا عبر واتساب"
-        className="flex items-center justify-center w-12 h-12 rounded-full bg-whatsapp text-white shadow-elevated hover:bg-whatsapp-hover hover:scale-105 active:scale-95 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-whatsapp focus-visible:ring-offset-2"
+        className="group relative flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366] hover:bg-[#20BD5A] text-white shadow-xl hover:shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-400/50"
       >
-        <MessageSquare className="w-6 h-6" aria-hidden="true" />
+        <span className="absolute -top-1 -end-1 flex h-3.5 w-3.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75" />
+          <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-400 border-2 border-white" />
+        </span>
+        <MessageSquare className="w-7 h-7 text-white fill-white/10" aria-hidden="true" />
       </a>
 
       {/* Phone Call Floating Button */}
       <a
         href={`tel:${settings.contact.unifiedNumber}`}
         aria-label="اتصل بنا الآن"
-        className="flex items-center justify-center w-12 h-12 rounded-full bg-brand-900 text-white border border-brand-400/50 shadow-elevated hover:bg-brand-800 hover:scale-105 active:scale-95 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2"
+        className="group flex items-center justify-center w-14 h-14 rounded-full bg-brand-900 text-white border-2 border-brand-400/60 shadow-xl hover:shadow-2xl hover:bg-brand-800 hover:scale-110 active:scale-95 transition-all duration-300 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-400/50"
       >
-        <Phone className="w-5 h-5 text-brand-400" aria-hidden="true" />
+        <Phone className="w-6 h-6 text-brand-400 group-hover:rotate-12 transition-transform duration-300" aria-hidden="true" />
       </a>
     </aside>
   )

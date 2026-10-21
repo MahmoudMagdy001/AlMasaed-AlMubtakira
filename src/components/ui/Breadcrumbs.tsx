@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight, Home } from 'lucide-react'
 export interface BreadcrumbItem {
   label: string
   href?: string
+  to?: string
 }
 
 export interface BreadcrumbsProps {
@@ -19,14 +20,23 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
   className = '',
 }) => {
   const Separator = isRtl ? ChevronLeft : ChevronRight
+  const isDarkBanner = className.includes('text-white')
 
   return (
     <nav aria-label="مسار التنقل" className={`text-sm ${className}`}>
-      <ol className="flex flex-wrap items-center gap-1.5 text-content-muted">
+      <ol
+        className={`flex flex-wrap items-center gap-1.5 ${
+          isDarkBanner ? 'text-white/80' : 'text-content-muted'
+        }`}
+      >
         <li>
           <Link
             to={isRtl ? '/' : '/en'}
-            className="flex items-center hover:text-brand-900 transition-colors focus-visible:outline-none"
+            className={`flex items-center transition-colors focus-visible:outline-none ${
+              isDarkBanner
+                ? 'text-white/80 hover:text-white'
+                : 'text-content-muted hover:text-brand-900'
+            }`}
             aria-label="الرئيسية"
           >
             <Home className="w-4 h-4" aria-hidden="true" />
@@ -34,26 +44,36 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
         </li>
         {items.map((item, index) => {
           const isLast = index === items.length - 1
+          const targetUrl = item.to || item.href
+
           return (
             <React.Fragment key={index}>
               <li
                 aria-hidden="true"
-                className="select-none text-surface-border"
+                className={`select-none ${
+                  isDarkBanner ? 'text-white/40' : 'text-surface-border'
+                }`}
               >
                 <Separator className="w-3.5 h-3.5" />
               </li>
               <li>
-                {isLast || !item.href ? (
+                {isLast || !targetUrl ? (
                   <span
-                    className="font-medium text-content-heading"
+                    className={`font-semibold ${
+                      isDarkBanner ? 'text-brand-300' : 'text-content-heading'
+                    }`}
                     aria-current={isLast ? 'page' : undefined}
                   >
                     {item.label}
                   </span>
                 ) : (
                   <Link
-                    to={item.href}
-                    className="hover:text-brand-900 transition-colors focus-visible:outline-none"
+                    to={targetUrl}
+                    className={`transition-colors focus-visible:outline-none ${
+                      isDarkBanner
+                        ? 'text-white/80 hover:text-white hover:underline'
+                        : 'hover:text-brand-900'
+                    }`}
                   >
                     {item.label}
                   </Link>
