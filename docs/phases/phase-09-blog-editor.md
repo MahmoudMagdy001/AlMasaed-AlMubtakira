@@ -15,9 +15,9 @@
 9. Tests: sanitizer allow-list, FAQ derivation, slug generation (Arabic title → safe slug), save/load round trip of JSON ↔ HTML.
 
 ## Acceptance checklist
-- [ ] Every feature in the `07` list works in Arabic RTL and in an English LTR post
-- [ ] Mixed-direction paragraphs behave correctly
-- [ ] Round trip: save → reload → identical content; public page renders the same HTML
-- [ ] Pasting from Word/Google Docs gives clean output
-- [ ] Autosave never publishes; unsaved-changes warning works
-- [ ] Output HTML passes the sanitizer; no inline scripts/handlers
+- [x] Every feature in the `07` list works in Arabic RTL and in an English LTR post
+- [x] Mixed-direction paragraphs behave correctly
+- [x] Round trip: save → reload → identical content; public page renders the same HTML
+- [x] Pasting from Word/Google Docs gives clean output
+- [x] Autosave never publishes; unsaved-changes warning works
+- [x] Output HTML passes the sanitizer; no inline scripts/handlers

@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
-import type { Database } from '@/types/database.types'
+import type { Database } from '../types/database.types'
 
 const env = typeof import.meta !== 'undefined' ? import.meta.env : undefined
 const nodeEnv =

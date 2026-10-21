@@ -25,6 +25,13 @@ export default defineConfig({
             if (id.includes('@supabase')) return 'vendor-supabase'
             if (id.includes('@tanstack/react-query')) return 'vendor-query'
             if (id.includes('lucide-react')) return 'vendor-icons'
+            if (
+              id.includes('@tiptap') ||
+              id.includes('prosemirror') ||
+              id.includes('lowlight')
+            ) {
+              return 'vendor-tiptap'
+            }
           }
         },
       },

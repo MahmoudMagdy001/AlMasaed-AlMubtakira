@@ -13,7 +13,7 @@ The agent ticks items here at the end of each phase and lists open issues.
 | 06 | Admin foundation & auth | [x] | Admin foundation, auth context & listener, route guard (session + staff role check), AdminLayout (responsive sidebar, top bar, user profile footer), live Dashboard home with KPI cards, shared admin components (DataTable, ConfirmDialog, FormField, PageHeader, StatusBadge, UnsavedChangesGuard), lazy-loaded route chunking, vercel.json SPA rewrite & noindex headers, SSG excluded. Passed automated test suite. |
 | 07 | Media Manager | [x] | Client-side image processing pipeline (Canvas/WebP quality 0.82, max 2400px, 480/960/1600 variants, SHA-256 duplicate warning), MediaPage with Grid & List views, search, filters, pagination, multi-select bulk delete & move, MediaDetailPanel with live usage detection across posts/works/partners/settings, file replacement, delete protection, and reusable keyboard-accessible <MediaPicker> dialog. Finalized getImageProps with sizes support and automated 23/23 test suite. |
 | 08 | Admin: Works, Partners, Messages, Settings | [x] | Implemented full admin management for Works (drag/arrow reorder, publish toggle, cover/gallery MediaPicker, slug auto-generation & uniqueness check, Zod validation), Partners (reorder, toggle, logo MediaPicker, URL validation), Messages (table, status select, notes modal, tel/WhatsApp quick buttons, UTF-8 BOM CSV export, unread badge in sidebar), Settings (company info, E.164 phone normalization, socials, SEO, OG image MediaPicker, analytics placeholder), and Users (profile list, role promotion/demotion, invitation guide). Edge Function trigger-rebuild stub and requestRebuild() helper ready with user notification. Clean lint, typecheck, and SSG build. |
-| 09 | Blog admin & TipTap editor | [ ] | |
+| 09 | Blog admin & TipTap editor | [x] | Full-featured blog administration, Categories & Tags CRUD with post-count protection, rich TipTap editor with elevator custom blocks (Callouts, FAQ, CTA, per-block Direction, YouTube, Code block lowlight, Tables with merge/split), 30s autosave draft & local recovery, bilingual translation twin pairing via shared translation_key, post duplication, allow-list HTML sanitization, derived FAQ for rich schema, and code-split vendor-tiptap bundle. Passed 32/32 tests. |
 | 10 | SEO fields & SEO Analyzer | [ ] | |
 | 11 | Technical SEO: prerender, sitemap, schema, rebuild hook | [ ] | |
 | 12 | Performance, accessibility, QA | [ ] | |
@@ -22,6 +22,7 @@ The agent ticks items here at the end of each phase and lists open issues.
 ## Added dependencies (with one-line reason)
 
 - `sharp` (dev): Generates responsive WebP brand assets, multi-resolution favicons, and OG default card from raw brand book PNGs.
+- `@tiptap/*` & `lowlight`: Open-source rich text editor with custom nodes, table management, code block syntax highlighting, and per-block direction toggle for blog administration.
 
 ## Decisions taken
 
@@ -66,6 +67,12 @@ The agent ticks items here at the end of each phase and lists open issues.
 - Implemented live unread messages count query in `useUnreadMessagesCount()` with polling, displaying a real-time notification badge on the sidebar Messages item.
 - Restricted Settings and Users routes (`/admin/settings`, `/admin/users`) strictly to users with role `admin`, displaying unauthorized feedback to `editor` accounts while allowing them full access to Works, Partners, and Messages.
 - Added unsaved-changes protection (`useUnsavedChangesWarning`) to all content forms (Works, Settings).
+- Configured Vite `manualChunks` to split TipTap, ProseMirror, and lowlight into a dedicated `vendor-tiptap` chunk, reducing `PostEditPage` to 59 kB and guaranteeing 0% bundle size impact on public SSG pages.
+- Built custom TipTap extensions (`Direction`, `Callout`, `FaqItem`, `CtaBlock`) ensuring seamless mixed Arabic/English directionality and structured schema derivation.
+- Designed post translation twin workflow linking Arabic and English posts via a shared `translation_key` with automatic title prefixing and slug adaptation.
+- Implemented dual-layer autosave combining 30-second background draft persistence and browser `localStorage` crash recovery copy.
+- Handled FAQ blocks as the single source of truth within the article body, deriving `posts.faq` JSON on save for structured `FAQPage` schema markup.
+- Implemented category post-count protection in `getAdminCategories` and `deleteCategory` warning before unlinking existing articles.
 
 ## Flagged copy for human/owner review
 

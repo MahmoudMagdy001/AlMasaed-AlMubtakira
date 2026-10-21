@@ -74,9 +74,24 @@ const UsersPage = React.lazy(() =>
     default: m.UsersPage,
   })),
 )
-const AdminPlaceholderPage = React.lazy(() =>
-  import('./features/admin/AdminPlaceholderPage').then((m) => ({
-    default: m.AdminPlaceholderPage,
+const PostsListPage = React.lazy(() =>
+  import('./features/admin/blog/PostsListPage').then((m) => ({
+    default: m.PostsListPage,
+  })),
+)
+const PostEditPage = React.lazy(() =>
+  import('./features/admin/blog/PostEditPage').then((m) => ({
+    default: m.PostEditPage,
+  })),
+)
+const CategoriesPage = React.lazy(() =>
+  import('./features/admin/blog/CategoriesPage').then((m) => ({
+    default: m.CategoriesPage,
+  })),
+)
+const TagsPage = React.lazy(() =>
+  import('./features/admin/blog/TagsPage').then((m) => ({
+    default: m.TagsPage,
   })),
 )
 
@@ -197,30 +212,23 @@ export const routes: RouteObject[] = [
       { index: true, element: <DashboardPage /> },
       {
         path: 'posts',
-        element: (
-          <AdminPlaceholderPage
-            title="المقالات والأخبار"
-            phaseNumber="المرحلة 09"
-          />
-        ),
+        element: <PostsListPage />,
+      },
+      {
+        path: 'posts/new',
+        element: <PostEditPage />,
+      },
+      {
+        path: 'posts/:id',
+        element: <PostEditPage />,
       },
       {
         path: 'categories',
-        element: (
-          <AdminPlaceholderPage
-            title="تصنيفات المدونة"
-            phaseNumber="المرحلة 09"
-          />
-        ),
+        element: <CategoriesPage />,
       },
       {
         path: 'tags',
-        element: (
-          <AdminPlaceholderPage
-            title="الوسوم والكلمات الدلالية"
-            phaseNumber="المرحلة 09"
-          />
-        ),
+        element: <TagsPage />,
       },
       {
         path: 'works',
