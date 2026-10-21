@@ -12,7 +12,7 @@ The agent ticks items here at the end of each phase and lists open issues.
 | 05 | Public Blog | [x] | Typed blogService reading published posts from Supabase (excluding content_html for list queries), BlogIndexPage with category filtering and 9/page pagination, BlogCategoryPage, BlogPostPage with LCP featured image (fetchpriority="high"), TOC anchor navigation, allow-list HTML sanitization (YouTube embed support, table wrapper horizontal scroll), FAQ accordion, share buttons without third-party trackers, bilingual translation twin pairing via translation_key, and prev/next links. All 25 static pages SSG prerendered cleanly. |
 | 06 | Admin foundation & auth | [x] | Admin foundation, auth context & listener, route guard (session + staff role check), AdminLayout (responsive sidebar, top bar, user profile footer), live Dashboard home with KPI cards, shared admin components (DataTable, ConfirmDialog, FormField, PageHeader, StatusBadge, UnsavedChangesGuard), lazy-loaded route chunking, vercel.json SPA rewrite & noindex headers, SSG excluded. Passed automated test suite. |
 | 07 | Media Manager | [x] | Client-side image processing pipeline (Canvas/WebP quality 0.82, max 2400px, 480/960/1600 variants, SHA-256 duplicate warning), MediaPage with Grid & List views, search, filters, pagination, multi-select bulk delete & move, MediaDetailPanel with live usage detection across posts/works/partners/settings, file replacement, delete protection, and reusable keyboard-accessible <MediaPicker> dialog. Finalized getImageProps with sizes support and automated 23/23 test suite. |
-| 08 | Admin: Works, Partners, Messages, Settings | [ ] | |
+| 08 | Admin: Works, Partners, Messages, Settings | [x] | Implemented full admin management for Works (drag/arrow reorder, publish toggle, cover/gallery MediaPicker, slug auto-generation & uniqueness check, Zod validation), Partners (reorder, toggle, logo MediaPicker, URL validation), Messages (table, status select, notes modal, tel/WhatsApp quick buttons, UTF-8 BOM CSV export, unread badge in sidebar), Settings (company info, E.164 phone normalization, socials, SEO, OG image MediaPicker, analytics placeholder), and Users (profile list, role promotion/demotion, invitation guide). Edge Function trigger-rebuild stub and requestRebuild() helper ready with user notification. Clean lint, typecheck, and SSG build. |
 | 09 | Blog admin & TipTap editor | [ ] | |
 | 10 | SEO fields & SEO Analyzer | [ ] | |
 | 11 | Technical SEO: prerender, sitemap, schema, rebuild hook | [ ] | |
@@ -60,6 +60,12 @@ The agent ticks items here at the end of each phase and lists open issues.
 - Implemented live usage detection in `detectMediaUsage` scanning posts (`featured_image_id`, `og_image_id`, `content_html`), works (`cover_media_id`, `gallery_media_ids`), partners (`logo_media_id`), and `site_settings` to prevent accidental deletion of referenced media assets.
 - Built reusable `<MediaPicker>` dialog supporting single and multi-selection, search, folder filtering, direct modal uploads, and full keyboard accessibility (Escape to dismiss, Tab trapping, Enter to pick).
 - Finalized `getImageProps()` supporting responsive `srcset`, custom `sizes`, dimensions preservation, and graceful fallback for string URLs or missing alt text.
+- Implemented `requestRebuild()` client utility and Supabase Edge Function `trigger-rebuild` stub with staff auth validation and graceful degradation when deploy hook is not yet provisioned.
+- Enforced strict Saudi phone number normalization to E.164 format (+966...) in `normalizePhoneToE164` across all settings, WhatsApp direct links, and call handlers.
+- Integrated UTF-8 BOM (`\uFEFF`) in CSV export for customer inquiries (`exportSubmissionsToCsv`) ensuring Arabic characters render correctly in Microsoft Excel.
+- Implemented live unread messages count query in `useUnreadMessagesCount()` with polling, displaying a real-time notification badge on the sidebar Messages item.
+- Restricted Settings and Users routes (`/admin/settings`, `/admin/users`) strictly to users with role `admin`, displaying unauthorized feedback to `editor` accounts while allowing them full access to Works, Partners, and Messages.
+- Added unsaved-changes protection (`useUnsavedChangesWarning`) to all content forms (Works, Settings).
 
 ## Flagged copy for human/owner review
 

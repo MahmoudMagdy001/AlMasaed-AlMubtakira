@@ -13,7 +13,7 @@
 7. Zod schemas shared between forms and any server validation; all mutations invalidate the right queries.
 
 ## Acceptance checklist
-- [ ] Each entity: create, edit, reorder/toggle, delete work end to end and appear on the public site after rebuild/refresh
-- [ ] Settings changes reflect in header/footer/contact after rebuild
-- [ ] Editors (role `editor`) cannot open Settings/Users; admins can
-- [ ] Unsaved-change guard and confirmations present
+- [x] Each entity: create, edit, reorder/toggle, delete work end to end and appear on the public site after rebuild/refresh
+- [x] Settings changes reflect in header/footer/contact after rebuild
+- [x] Editors (role `editor`) cannot open Settings/Users; admins can
+- [x] Unsaved-change guard and confirmations present

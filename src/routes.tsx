@@ -44,6 +44,36 @@ const MediaPage = React.lazy(() =>
     default: m.MediaPage,
   })),
 )
+const WorksListPage = React.lazy(() =>
+  import('./features/admin/works/WorksListPage').then((m) => ({
+    default: m.WorksListPage,
+  })),
+)
+const WorkEditPage = React.lazy(() =>
+  import('./features/admin/works/WorkEditPage').then((m) => ({
+    default: m.WorkEditPage,
+  })),
+)
+const PartnersPage = React.lazy(() =>
+  import('./features/admin/partners/PartnersPage').then((m) => ({
+    default: m.PartnersPage,
+  })),
+)
+const MessagesPage = React.lazy(() =>
+  import('./features/admin/messages/MessagesPage').then((m) => ({
+    default: m.MessagesPage,
+  })),
+)
+const SettingsPage = React.lazy(() =>
+  import('./features/admin/settings/SettingsPage').then((m) => ({
+    default: m.SettingsPage,
+  })),
+)
+const UsersPage = React.lazy(() =>
+  import('./features/admin/users/UsersPage').then((m) => ({
+    default: m.UsersPage,
+  })),
+)
 const AdminPlaceholderPage = React.lazy(() =>
   import('./features/admin/AdminPlaceholderPage').then((m) => ({
     default: m.AdminPlaceholderPage,
@@ -179,7 +209,7 @@ export const routes: RouteObject[] = [
         element: (
           <AdminPlaceholderPage
             title="تصنيفات المدونة"
-            phaseNumber="المرحلة 08"
+            phaseNumber="المرحلة 09"
           />
         ),
       },
@@ -188,27 +218,25 @@ export const routes: RouteObject[] = [
         element: (
           <AdminPlaceholderPage
             title="الوسوم والكلمات الدلالية"
-            phaseNumber="المرحلة 08"
+            phaseNumber="المرحلة 09"
           />
         ),
       },
       {
         path: 'works',
-        element: (
-          <AdminPlaceholderPage
-            title="المشاريع وسابقة الأعمال"
-            phaseNumber="المرحلة 08"
-          />
-        ),
+        element: <WorksListPage />,
+      },
+      {
+        path: 'works/new',
+        element: <WorkEditPage />,
+      },
+      {
+        path: 'works/:id',
+        element: <WorkEditPage />,
       },
       {
         path: 'partners',
-        element: (
-          <AdminPlaceholderPage
-            title="شركاء النجاح"
-            phaseNumber="المرحلة 08"
-          />
-        ),
+        element: <PartnersPage />,
       },
       {
         path: 'media',
@@ -216,30 +244,15 @@ export const routes: RouteObject[] = [
       },
       {
         path: 'messages',
-        element: (
-          <AdminPlaceholderPage
-            title="طلبات الأسعار والرسائل"
-            phaseNumber="المرحلة 08"
-          />
-        ),
+        element: <MessagesPage />,
       },
       {
         path: 'settings',
-        element: (
-          <AdminPlaceholderPage
-            title="إعدادات الموقع"
-            phaseNumber="المرحلة 08"
-          />
-        ),
+        element: <SettingsPage />,
       },
       {
         path: 'users',
-        element: (
-          <AdminPlaceholderPage
-            title="المستخدمين والصلاحيات"
-            phaseNumber="المرحلة 08"
-          />
-        ),
+        element: <UsersPage />,
       },
     ],
   },

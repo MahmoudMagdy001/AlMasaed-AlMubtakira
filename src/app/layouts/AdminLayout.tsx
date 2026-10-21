@@ -25,7 +25,7 @@ import { useAuth, AdminRouteGuard } from '@/features/auth'
 
 
 import { StatusBadge } from '@/components/admin'
-
+import { useUnreadMessagesCount } from '@/features/contact/useAdminMessages'
 
 interface NavItem {
   name: string
@@ -51,13 +51,19 @@ const NAV_ITEMS: NavItem[] = [
 
 const AdminLayoutInner: React.FC = () => {
   const { user, profile, isAdmin, signOut } = useAuth()
+  const { data: unreadMessagesCount = 0 } = useUnreadMessagesCount()
   const location = useLocation()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  // Filter items based on user role
+  // Filter items based on user role and attach dynamic badge counts
   const visibleNavItems = NAV_ITEMS.filter((item) => {
     if (item.adminOnly && !isAdmin) return false
     return true
+  }).map((item) => {
+    if (item.href === '/admin/messages') {
+      return { ...item, badge: unreadMessagesCount }
+    }
+    return item
   })
 
   return (

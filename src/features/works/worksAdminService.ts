@@ -1,0 +1,389 @@
+import { z } from 'zod'
+import { supabase } from '@/lib/supabase'
+import type { Tables } from '@/types/database.types'
+import type { MediaItem } from '@/components/ui'
+import { requestRebuild } from '@/lib/rebuild'
+
+export type WorkServiceType =
+  | 'installation'
+  | 'maintenance'
+  | 'modernization'
+  | 'spare-parts'
+  | 'escalators'
+
+export const SERVICE_TYPE_OPTIONS: { value: WorkServiceType; labelAr: string; labelEn: string }[] = [
+  { value: 'maintenance', labelAr: 'صيانة مصاعد', labelEn: 'Elevator Maintenance' },
+  { value: 'modernization', labelAr: 'تحديث وتطوير', labelEn: 'Modernization' },
+  { value: 'installation', labelAr: 'توريد وتركيب', labelEn: 'Installation' },
+  { value: 'spare-parts', labelAr: 'قطع غيار أصلية', labelEn: 'Spare Parts' },
+  { value: 'escalators', labelAr: 'سلالم ومماشي متحركة', labelEn: 'Escalators & Moving Walkways' },
+]
+
+export const workFormSchema = z.object({
+  title_ar: z.string().min(2, 'عنوان المشروع بالعربية مطلوب (على الأقل حرفين)'),
+  title_en: z.string().optional().nullable(),
+  slug: z
+    .string()
+    .min(2, 'الاسم اللطيف (Slug) مطلوب')
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'الرابط اللطيف يجب أن يتكون من حروف إنجليزية صغيرة وأرقام وشرطات فقط (-)')
+    .max(120, 'الرابط اللطيف طويل جداً'),
+  service_type: z.enum(
+    ['installation', 'maintenance', 'modernization', 'spare-parts', 'escalators'],
+    { required_error: 'نوع الخدمة مطلوب' },
+  ),
+  location_ar: z.string().optional().nullable(),
+  location_en: z.string().optional().nullable(),
+  completed_year: z
+    .number({ invalid_type_error: 'سنة الإنجاز يجب أن تكون رقماً' })
+    .min(1980, 'سنة غير صحيحة')
+    .max(2100, 'سنة غير صحيحة')
+    .optional()
+    .nullable(),
+  description_ar: z.string().optional().nullable(),
+  description_en: z.string().optional().nullable(),
+  cover_media_id: z.string().uuid('معرّف الصورة الرئيسية غير صحيح').optional().nullable(),
+  gallery_media_ids: z.array(z.string().uuid()).default([]),
+  seo_title: z.string().max(80, 'عنوان SEO يجب ألا يتجاوز 80 حرفاً').optional().nullable(),
+  seo_description: z.string().max(200, 'وصف SEO يجب ألا يتجاوز 200 حرفاً').optional().nullable(),
+  is_published: z.boolean().default(false),
+  sort_order: z.number().int().default(0),
+})
+
+export type WorkFormData = z.infer<typeof workFormSchema>
+
+export interface AdminWorkRow extends Tables<'works'> {
+  cover_media?: MediaItem | null
+}
+
+export interface AdminWorkDetail extends AdminWorkRow {
+  gallery_media?: MediaItem[]
+}
+
+/**
+ * Transliterates Arabic or cleans English text to produce a safe URL slug.
+ */
+export function generateSlug(text: string): string {
+  if (!text) return ''
+  const arabicToLatinMap: Record<string, string> = {
+    أ: 'a', إ: 'e', آ: 'aa', ا: 'a', ب: 'b', ت: 't', ث: 'th',
+    ج: 'j', ح: 'h', خ: 'kh', د: 'd', ذ: 'th', ر: 'r', ز: 'z',
+    س: 's', ش: 'sh', ص: 's', ض: 'd', ط: 't', ظ: 'z', ع: 'a',
+    غ: 'gh', ف: 'f', ق: 'q', ك: 'k', ل: 'l', م: 'm', ن: 'n',
+    ه: 'h', و: 'w', ي: 'y', ى: 'a', ة: 'h', ء: '', ئ: 'e', ؤ: 'o',
+  }
+  const transliterated = text
+    .trim()
+    .toLowerCase()
+    .split('')
+    .map((c) => arabicToLatinMap[c] || c)
+    .join('')
+
+  return transliterated
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+}
+
+/**
+ * Check if a slug is unique in the works table.
+ */
+export async function isWorkSlugUnique(slug: string, excludeId?: string): Promise<boolean> {
+  let query = supabase.from('works').select('id').eq('slug', slug)
+  if (excludeId) {
+    query = query.neq('id', excludeId)
+  }
+  const { data } = await query.maybeSingle()
+  return !data
+}
+
+export interface GetAdminWorksParams {
+  search?: string
+  serviceType?: string
+  status?: 'all' | 'published' | 'draft'
+  page?: number
+  limit?: number
+}
+
+export async function getAdminWorks(
+  params: GetAdminWorksParams = {},
+): Promise<{ works: AdminWorkRow[]; total: number }> {
+  const { search, serviceType, status = 'all', page = 1, limit = 20 } = params
+
+  let query = supabase
+    .from('works')
+    .select(
+      `
+      id,
+      slug,
+      title_ar,
+      title_en,
+      description_ar,
+      description_en,
+      service_type,
+      location_ar,
+      location_en,
+      completed_year,
+      cover_media_id,
+      gallery_media_ids,
+      seo_title,
+      seo_description,
+      is_published,
+      sort_order,
+      created_at,
+      updated_at,
+      cover_media:cover_media_id (
+        id,
+        storage_path,
+        width,
+        height,
+        alt_text,
+        variants
+      )
+    `,
+      { count: 'exact' },
+    )
+
+  if (search) {
+    const s = `%${search.trim()}%`
+    query = query.or(`title_ar.ilike.${s},title_en.ilike.${s},slug.ilike.${s},location_ar.ilike.${s}`)
+  }
+
+  if (serviceType && serviceType !== 'all') {
+    query = query.eq('service_type', serviceType as WorkServiceType)
+  }
+
+  if (status === 'published') {
+    query = query.eq('is_published', true)
+  } else if (status === 'draft') {
+    query = query.eq('is_published', false)
+  }
+
+  const offset = (page - 1) * limit
+  query = query
+    .order('sort_order', { ascending: true })
+    .order('created_at', { ascending: false })
+    .range(offset, offset + limit - 1)
+
+  const { data, count, error } = await query
+
+  if (error) {
+    throw new Error(`فشل تحميل قائمة المشاريع: ${error.message}`)
+  }
+
+  return {
+    works: (data || []) as unknown as AdminWorkRow[],
+    total: count ?? 0,
+  }
+}
+
+export async function getAdminWorkById(id: string): Promise<AdminWorkDetail> {
+  const { data, error } = await supabase
+    .from('works')
+    .select(
+      `
+      id,
+      slug,
+      title_ar,
+      title_en,
+      description_ar,
+      description_en,
+      service_type,
+      location_ar,
+      location_en,
+      completed_year,
+      cover_media_id,
+      gallery_media_ids,
+      seo_title,
+      seo_description,
+      is_published,
+      sort_order,
+      created_at,
+      updated_at,
+      cover_media:cover_media_id (
+        id,
+        storage_path,
+        width,
+        height,
+        alt_text,
+        variants
+      )
+    `,
+    )
+    .eq('id', id)
+    .single()
+
+  if (error || !data) {
+    throw new Error(`تعذر العثور على المشروع المطلوب: ${error?.message || 'غير موجود'}`)
+  }
+
+  const work = data as unknown as AdminWorkDetail
+
+  if (work.gallery_media_ids && work.gallery_media_ids.length > 0) {
+    const { data: galleryItems } = await supabase
+      .from('media')
+      .select('id, storage_path, width, height, alt_text, variants')
+      .in('id', work.gallery_media_ids)
+
+    if (galleryItems) {
+      const map = new Map(galleryItems.map((m) => [m.id, m as unknown as MediaItem]))
+      work.gallery_media = work.gallery_media_ids
+        .map((gid) => map.get(gid))
+        .filter((m): m is MediaItem => Boolean(m))
+    }
+  } else {
+    work.gallery_media = []
+  }
+
+  return work
+}
+
+export async function createWork(payload: WorkFormData): Promise<AdminWorkDetail> {
+  const parsed = workFormSchema.parse(payload)
+
+  // Determine sort_order: if 0 or default, place at end
+  let sortOrder = parsed.sort_order
+  if (sortOrder === 0) {
+    const { data: maxRow } = await supabase
+      .from('works')
+      .select('sort_order')
+      .order('sort_order', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+
+    sortOrder = (maxRow?.sort_order ?? 0) + 1
+  }
+
+  const { data, error } = await supabase
+    .from('works')
+    .insert({
+      title_ar: parsed.title_ar,
+      title_en: parsed.title_en || null,
+      slug: parsed.slug,
+      service_type: parsed.service_type,
+      location_ar: parsed.location_ar || null,
+      location_en: parsed.location_en || null,
+      completed_year: parsed.completed_year || null,
+      description_ar: parsed.description_ar || null,
+      description_en: parsed.description_en || null,
+      cover_media_id: parsed.cover_media_id || null,
+      gallery_media_ids: parsed.gallery_media_ids || [],
+      seo_title: parsed.seo_title || null,
+      seo_description: parsed.seo_description || null,
+      is_published: parsed.is_published,
+      sort_order: sortOrder,
+    })
+    .select('id')
+    .single()
+
+  if (error || !data) {
+    throw new Error(`فشل إنشاء المشروع: ${error?.message || 'خطأ غير معروف'}`)
+  }
+
+  if (parsed.is_published) {
+    await requestRebuild('create-work-published')
+  }
+
+  return getAdminWorkById(data.id)
+}
+
+export async function updateWork(id: string, payload: Partial<WorkFormData>): Promise<AdminWorkDetail> {
+  const current = await getAdminWorkById(id)
+
+  const merged = {
+    title_ar: payload.title_ar ?? current.title_ar,
+    title_en: payload.title_en ?? current.title_en,
+    slug: payload.slug ?? current.slug,
+    service_type: payload.service_type ?? current.service_type,
+    location_ar: payload.location_ar ?? current.location_ar,
+    location_en: payload.location_en ?? current.location_en,
+    completed_year: payload.completed_year !== undefined ? payload.completed_year : current.completed_year,
+    description_ar: payload.description_ar ?? current.description_ar,
+    description_en: payload.description_en ?? current.description_en,
+    cover_media_id: payload.cover_media_id !== undefined ? payload.cover_media_id : current.cover_media_id,
+    gallery_media_ids: payload.gallery_media_ids ?? current.gallery_media_ids,
+    seo_title: payload.seo_title !== undefined ? payload.seo_title : current.seo_title,
+    seo_description: payload.seo_description !== undefined ? payload.seo_description : current.seo_description,
+    is_published: payload.is_published !== undefined ? payload.is_published : current.is_published,
+    sort_order: payload.sort_order !== undefined ? payload.sort_order : current.sort_order,
+  }
+
+  const parsed = workFormSchema.parse(merged)
+
+  const { error } = await supabase
+    .from('works')
+    .update({
+      title_ar: parsed.title_ar,
+      title_en: parsed.title_en || null,
+      slug: parsed.slug,
+      service_type: parsed.service_type,
+      location_ar: parsed.location_ar || null,
+      location_en: parsed.location_en || null,
+      completed_year: parsed.completed_year || null,
+      description_ar: parsed.description_ar || null,
+      description_en: parsed.description_en || null,
+      cover_media_id: parsed.cover_media_id || null,
+      gallery_media_ids: parsed.gallery_media_ids,
+      seo_title: parsed.seo_title || null,
+      seo_description: parsed.seo_description || null,
+      is_published: parsed.is_published,
+      sort_order: parsed.sort_order,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', id)
+
+  if (error) {
+    throw new Error(`فشل تحديث المشروع: ${error.message}`)
+  }
+
+  // Trigger rebuild if published now or previously published
+  if (current.is_published || parsed.is_published) {
+    await requestRebuild('update-work')
+  }
+
+  return getAdminWorkById(id)
+}
+
+export async function toggleWorkPublish(id: string, is_published: boolean): Promise<void> {
+  const { error } = await supabase
+    .from('works')
+    .update({ is_published, updated_at: new Date().toISOString() })
+    .eq('id', id)
+
+  if (error) {
+    throw new Error(`فشل تعديل حالة النشر: ${error.message}`)
+  }
+
+  await requestRebuild('toggle-work-publish')
+}
+
+export async function reorderWorks(orderedIds: string[]): Promise<void> {
+  const updates = orderedIds.map((id, index) =>
+    supabase
+      .from('works')
+      .update({ sort_order: index + 1, updated_at: new Date().toISOString() })
+      .eq('id', id),
+  )
+
+  const results = await Promise.all(updates)
+  const failed = results.find((r) => r.error)
+  if (failed?.error) {
+    throw new Error(`فشل تحديث ترتيب المشاريع: ${failed.error.message}`)
+  }
+
+  await requestRebuild('reorder-works')
+}
+
+export async function deleteWork(id: string): Promise<void> {
+  const current = await getAdminWorkById(id)
+
+  const { error } = await supabase.from('works').delete().eq('id', id)
+
+  if (error) {
+    throw new Error(`فشل حذف المشروع: ${error.message}`)
+  }
+
+  if (current.is_published) {
+    await requestRebuild('delete-work')
+  }
+}
