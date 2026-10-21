@@ -35,12 +35,14 @@ export async function getPublishedPartners(): Promise<PartnerWithLogo[]> {
       .order('sort_order', { ascending: true })
       .order('created_at', { ascending: true })
 
-    if (error || !data) {
-      return []
+    if (error || !data || data.length === 0) {
+      const { fallbackPartners } = await import('@/data/seedData')
+      return fallbackPartners
     }
 
     return data as unknown as PartnerWithLogo[]
   } catch {
-    return []
+    const { fallbackPartners } = await import('@/data/seedData')
+    return fallbackPartners
   }
 }

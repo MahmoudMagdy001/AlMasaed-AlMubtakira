@@ -89,9 +89,30 @@ export async function getPublishedWorks({
     }
 
     const works = (data || []) as unknown as WorkWithCover[]
+    if (works.length === 0) {
+      const { fallbackWorks } = await import('@/data/seedData')
+      let filtered = fallbackWorks
+      if (serviceType && serviceType !== 'all') {
+        filtered = filtered.filter((w) => w.service_type === serviceType)
+      }
+      const totalFallback = filtered.length
+      if (typeof limit === 'number') {
+        filtered = filtered.slice(offset, offset + limit)
+      }
+      return { works: filtered, total: totalFallback }
+    }
     return { works, total: count ?? works.length }
   } catch {
-    return { works: [], total: 0 }
+    const { fallbackWorks } = await import('@/data/seedData')
+    let filtered = fallbackWorks
+    if (serviceType && serviceType !== 'all') {
+      filtered = filtered.filter((w) => w.service_type === serviceType)
+    }
+    const totalFallback = filtered.length
+    if (typeof limit === 'number') {
+      filtered = filtered.slice(offset, offset + limit)
+    }
+    return { works: filtered, total: totalFallback }
   }
 }
 
@@ -134,6 +155,14 @@ export async function getWorkBySlug(slug: string): Promise<WorkDetail | null> {
       .maybeSingle()
 
     if (error || !data) {
+      const { fallbackWorks, fallbackMedia } = await import('@/data/seedData')
+      const fallback = fallbackWorks.find((w) => w.slug === slug)
+      if (fallback) {
+        return {
+          ...fallback,
+          gallery_media: [fallbackMedia.gallery1, fallbackMedia.gallery2],
+        }
+      }
       return null
     }
 
@@ -214,12 +243,26 @@ export async function getRelatedWorks({
       .order('created_at', { ascending: false })
       .limit(limit)
 
-    if (error || !data) {
-      return []
+    if (error || !data || data.length === 0) {
+      const { fallbackWorks } = await import('@/data/seedData')
+      return fallbackWorks
+        .filter(
+          (w) =>
+            w.id !== currentWorkId &&
+            (!serviceType || w.service_type === serviceType),
+        )
+        .slice(0, limit)
     }
 
     return data as unknown as WorkWithCover[]
   } catch {
-    return []
+    const { fallbackWorks } = await import('@/data/seedData')
+    return fallbackWorks
+      .filter(
+        (w) =>
+          w.id !== currentWorkId &&
+          (!serviceType || w.service_type === serviceType),
+      )
+      .slice(0, limit)
   }
 }

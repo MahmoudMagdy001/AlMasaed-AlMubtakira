@@ -198,17 +198,45 @@ export async function getPublishedPosts({
     const { data, count, error } = await query
 
     if (error) {
-      console.error('Error fetching published posts:', error)
-      return { posts: [], total: 0 }
+      console.warn('Supabase posts fetch warning:', error.message)
+    }
+
+    const posts = (data as unknown as PostListItem[]) || []
+    if (posts.length === 0) {
+      const { fallbackPosts } = await import('@/data/seedData')
+      let filtered = fallbackPosts.filter((p) => p.lang === lang)
+      if (categorySlug) {
+        filtered = filtered.filter((p) => p.category?.slug === categorySlug)
+      }
+      const totalFallback = filtered.length
+      if (typeof limit === 'number') {
+        filtered = filtered.slice(offset, offset + limit)
+      }
+      return {
+        posts: filtered as unknown as PostListItem[],
+        total: totalFallback,
+      }
     }
 
     return {
-      posts: (data as unknown as PostListItem[]) || [],
+      posts,
       total: count ?? 0,
     }
   } catch (err) {
     console.error('Unexpected error in getPublishedPosts:', err)
-    return { posts: [], total: 0 }
+    const { fallbackPosts } = await import('@/data/seedData')
+    let filtered = fallbackPosts.filter((p) => p.lang === lang)
+    if (categorySlug) {
+      filtered = filtered.filter((p) => p.category?.slug === categorySlug)
+    }
+    const totalFallback = filtered.length
+    if (typeof limit === 'number') {
+      filtered = filtered.slice(offset, offset + limit)
+    }
+    return {
+      posts: filtered as unknown as PostListItem[],
+      total: totalFallback,
+    }
   }
 }
 
@@ -241,12 +269,14 @@ export async function getPostBySlug(
       .lte('published_at', nowIso)
       .maybeSingle()
 
-    if (error) {
-      console.error('Error fetching post by slug:', error)
-      return null
-    }
-
-    if (!data) {
+    if (error || !data) {
+      const { fallbackPosts } = await import('@/data/seedData')
+      const fallback = fallbackPosts.find(
+        (p) => p.lang === lang && p.slug === slug,
+      )
+      if (fallback) {
+        return fallback
+      }
       return null
     }
 
@@ -279,7 +309,11 @@ export async function getPostBySlug(
     }
   } catch (err) {
     console.error('Unexpected error in getPostBySlug:', err)
-    return null
+    const { fallbackPosts } = await import('@/data/seedData')
+    const fallback = fallbackPosts.find(
+      (p) => p.lang === lang && p.slug === slug,
+    )
+    return fallback || null
   }
 }
 
@@ -302,13 +336,23 @@ export async function getPostTranslation(
       .maybeSingle()
 
     if (error || !data) {
-      return null
+      const { fallbackPosts } = await import('@/data/seedData')
+      const twin = fallbackPosts.find(
+        (p) =>
+          p.translation_key === translationKey && p.lang === targetLang,
+      )
+      return twin ? { slug: twin.slug, title: twin.title, lang: twin.lang } : null
     }
 
     return data as PrevNextPost
   } catch (err) {
     console.error('Unexpected error in getPostTranslation:', err)
-    return null
+    const { fallbackPosts } = await import('@/data/seedData')
+    const twin = fallbackPosts.find(
+      (p) =>
+        p.translation_key === translationKey && p.lang === targetLang,
+    )
+    return twin ? { slug: twin.slug, title: twin.title, lang: twin.lang } : null
   }
 }
 
@@ -342,8 +386,16 @@ export async function getRelatedPosts(
 
     const { data, error } = await query
 
-    if (error || !data) {
-      return []
+    if (error || !data || data.length === 0) {
+      const { fallbackPosts } = await import('@/data/seedData')
+      return fallbackPosts
+        .filter(
+          (p) =>
+            p.lang === lang &&
+            p.id !== currentPostId &&
+            (!categoryId || p.category_id === categoryId),
+        )
+        .slice(0, limit) as unknown as PostListItem[]
     }
 
     // If fewer than limit and categoryId was set, attempt to backfill with general posts
@@ -369,7 +421,15 @@ export async function getRelatedPosts(
     return (data as unknown as PostListItem[]) || []
   } catch (err) {
     console.error('Unexpected error in getRelatedPosts:', err)
-    return []
+    const { fallbackPosts } = await import('@/data/seedData')
+    return fallbackPosts
+      .filter(
+        (p) =>
+          p.lang === lang &&
+          p.id !== currentPostId &&
+          (!categoryId || p.category_id === categoryId),
+      )
+      .slice(0, limit) as unknown as PostListItem[]
   }
 }
 
@@ -411,6 +471,20 @@ export async function getPrevNextPosts(
       .limit(1)
       .maybeSingle()
 
+    if (!prevData && !nextData) {
+      const { fallbackPosts } = await import('@/data/seedData')
+      const sameLang = fallbackPosts.filter((p) => p.lang === lang)
+      const currentIndex = sameLang.findIndex((p) => p.published_at === publishedAt)
+      if (currentIndex !== -1) {
+        const prev = currentIndex < sameLang.length - 1 ? sameLang[currentIndex + 1] : null
+        const next = currentIndex > 0 ? sameLang[currentIndex - 1] : null
+        return {
+          prev: prev ? { slug: prev.slug, title: prev.title, lang: prev.lang } : null,
+          next: next ? { slug: next.slug, title: next.title, lang: next.lang } : null,
+        }
+      }
+    }
+
     return {
       prev: (prevData as PrevNextPost) || null,
       next: (nextData as PrevNextPost) || null,
@@ -431,14 +505,16 @@ export async function getBlogCategories(): Promise<PostCategory[]> {
       .select('*')
       .order('sort_order', { ascending: true })
 
-    if (error || !data) {
-      return []
+    if (error || !data || data.length === 0) {
+      const { fallbackCategories } = await import('@/data/seedData')
+      return fallbackCategories as PostCategory[]
     }
 
     return data as PostCategory[]
   } catch (err) {
     console.error('Unexpected error in getBlogCategories:', err)
-    return []
+    const { fallbackCategories } = await import('@/data/seedData')
+    return fallbackCategories as PostCategory[]
   }
 }
 

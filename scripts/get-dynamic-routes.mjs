@@ -94,8 +94,8 @@ export async function getDynamicRoutes() {
     // 3. Published Works
     const { data: works } = await supabase
       .from('works')
-      .select('slug, published')
-      .eq('published', true)
+      .select('slug, is_published')
+      .eq('is_published', true)
 
     if (works && works.length > 0) {
       for (const work of works) {
@@ -104,6 +104,35 @@ export async function getDynamicRoutes() {
           routes.push(`/en/works/${work.slug}`)
         }
       }
+    } else {
+      // Fallback seed works routes
+      const fallbackWorkSlugs = [
+        'andalus-commercial-tower',
+        'rawdah-residential-complex',
+        'tahlia-shopping-center',
+        'saraya-hotel-modernization',
+        'nokhba-medical-center',
+        'united-business-headquarters',
+      ]
+      for (const slug of fallbackWorkSlugs) {
+        routes.push(`/works/${slug}`)
+        routes.push(`/en/works/${slug}`)
+      }
+    }
+
+    // Fallback seed blog routes if remote has 0 posts
+    if (!posts || posts.length === 0) {
+      const fallbackPostRoutes = [
+        '/blog/dalil-seyana-dawriah-masaid-jeddah',
+        '/en/blog/periodic-elevator-maintenance-guide-jeddah',
+        '/blog/alamat-tahdeeth-al-masaid-al-qadeemah',
+        '/en/blog/signs-your-legacy-elevator-needs-modernization',
+        '/blog/eshtiratat-al-difaa-al-madani-lil-masaid',
+        '/en/blog/civil-defense-safety-standards-elevators-saudi-arabia',
+        '/blog/kayfa-takhtar-qetaa-gheyar-al-masaid-al-asliyah',
+        '/en/blog/how-to-choose-genuine-elevator-spare-parts',
+      ]
+      routes.push(...fallbackPostRoutes)
     }
   } catch (err) {
     console.warn('[Prerender] Error fetching dynamic routes from Supabase, using fallback:', err.message)
