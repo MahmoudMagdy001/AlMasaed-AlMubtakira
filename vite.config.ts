@@ -11,9 +11,27 @@ export default defineConfig({
   },
   build: {
     sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('@supabase')) return 'vendor-supabase'
+            if (id.includes('@tanstack/react-query')) return 'vendor-query'
+            if (id.includes('lucide-react')) return 'vendor-icons'
+          }
+        },
+      },
+    },
   },
   ssgOptions: {
     entry: 'src/main.tsx',
     formatting: 'none',
+    includedRoutes(paths) {
+      return paths.filter((p) => {
+        const clean = p.startsWith('/') ? p : `/${p}`
+        return !clean.startsWith('/admin') && !p.startsWith('/admin')
+      })
+    },
+
   },
 })

@@ -10,7 +10,7 @@ The agent ticks items here at the end of each phase and lists open issues.
 | 03 | Static public pages (ar + en) | [x] | All static public pages built in Arabic and English (Home, About, Services Index + 5 Detail pages, Contact, Privacy, 404). Clean SSG prerendering of all 21 pages. |
 | 04 | Public Works & Partners | [x] | Works index & detail pages with accessible lightbox, filter & pagination, noindex on 0 works. Partners logo grid with grayscale hover and nofollow links. Site settings loader with React Query cache & static fallback. Contact form wired to Supabase with honeypot, minimum fill time, dataLayer event, and zero client PII logging. Automated policy suite passed. |
 | 05 | Public Blog | [x] | Typed blogService reading published posts from Supabase (excluding content_html for list queries), BlogIndexPage with category filtering and 9/page pagination, BlogCategoryPage, BlogPostPage with LCP featured image (fetchpriority="high"), TOC anchor navigation, allow-list HTML sanitization (YouTube embed support, table wrapper horizontal scroll), FAQ accordion, share buttons without third-party trackers, bilingual translation twin pairing via translation_key, and prev/next links. All 25 static pages SSG prerendered cleanly. |
-| 06 | Admin foundation & auth | [ ] | |
+| 06 | Admin foundation & auth | [x] | Admin foundation, auth context & listener, route guard (session + staff role check), AdminLayout (responsive sidebar, top bar, user profile footer), live Dashboard home with KPI cards, shared admin components (DataTable, ConfirmDialog, FormField, PageHeader, StatusBadge, UnsavedChangesGuard), lazy-loaded route chunking, vercel.json SPA rewrite & noindex headers, SSG excluded. Passed automated test suite. |
 | 07 | Media Manager | [ ] | |
 | 08 | Admin: Works, Partners, Messages, Settings | [ ] | |
 | 09 | Blog admin & TipTap editor | [ ] | |
@@ -49,6 +49,11 @@ The agent ticks items here at the end of each phase and lists open issues.
 - Implemented bilingual post pairing using `translation_key` to seamlessly link Arabic and English twin posts.
 - Wrapped article `<table>` elements in responsive horizontal scroll wrappers (`table-wrapper`) to guarantee mobile responsiveness.
 - Created privacy-conscious `ShareButtons` component with native clipboard copy link feedback and direct social links without any third-party tracker scripts.
+- Avoided intermediate pathless layout routes under `/admin` in `routes.tsx` to ensure `vite-react-ssg` route crawler does not flatten admin paths to root HTML files, keeping admin routes 100% excluded from SSG.
+- Encapsulated `AdminRouteGuard` directly inside `AdminLayout` and handled `role === 'none'` with a dedicated rejection screen ('غير مصرح بالدخول') with immediate sign-out option.
+- Enforced `X-Robots-Tag: noindex, nofollow` on `/admin/(.*)` and SPA rewrite `/admin/:path*` to `/index.html` in `vercel.json` for deep linking and page refresh.
+- Cleared React Query cache (`queryClient.clear()`) and Auth profile state upon sign-out to prevent stale staff data retention.
+- Split Auth context definitions into `authContextDef.ts`, `useAuth.ts`, and `AuthContext.tsx` to guarantee 100% compliance with React Fast Refresh.
 
 
 ## Flagged copy for human/owner review

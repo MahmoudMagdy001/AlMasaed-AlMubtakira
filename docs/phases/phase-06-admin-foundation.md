@@ -14,8 +14,8 @@
 8. Password reset page and Supabase redirect URLs set.
 
 ## Acceptance checklist
-- [ ] Unauthenticated users cannot see any admin screen or data
-- [ ] A user with role `none` cannot access anything
-- [ ] Deep-link to `/admin/...` works on Vercel (rewrite) and after refresh
-- [ ] Public bundle size unaffected by admin code (report sizes)
-- [ ] Logout clears session and cached queries
+- [x] Unauthenticated users cannot see any admin screen or data
+- [x] A user with role `none` cannot access anything
+- [x] Deep-link to `/admin/...` works on Vercel (rewrite) and after refresh
+- [x] Public bundle size unaffected by admin code (report sizes)
+- [x] Logout clears session and cached queries

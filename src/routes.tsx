@@ -1,3 +1,5 @@
+import React from 'react'
+
 import type { RouteObject } from 'react-router-dom'
 import { PublicLayout } from './app/layouts/PublicLayout'
 import { HomePage } from './features/home/HomePage'
@@ -14,7 +16,40 @@ import { PrivacyPage } from './features/privacy/PrivacyPage'
 import { NotFoundPage } from './features/home/NotFoundPage'
 import { StyleguidePage } from './features/home/StyleguidePage'
 
+// Lazy-loaded Admin components to keep the public bundle lean and free of admin/TipTap code
+const AdminRoot = React.lazy(() =>
+  import('./app/layouts/AdminRoot').then((m) => ({ default: m.AdminRoot })),
+)
+const AdminLayout = React.lazy(() =>
+  import('./app/layouts/AdminLayout').then((m) => ({ default: m.AdminLayout })),
+)
+const AdminLoginPage = React.lazy(() =>
+
+  import('./features/auth/AdminLoginPage').then((m) => ({
+    default: m.AdminLoginPage,
+  })),
+)
+const AdminResetPasswordPage = React.lazy(() =>
+  import('./features/auth/AdminResetPasswordPage').then((m) => ({
+    default: m.AdminResetPasswordPage,
+  })),
+)
+const DashboardPage = React.lazy(() =>
+  import('./features/admin/DashboardPage').then((m) => ({
+    default: m.DashboardPage,
+  })),
+)
+const AdminPlaceholderPage = React.lazy(() =>
+  import('./features/admin/AdminPlaceholderPage').then((m) => ({
+    default: m.AdminPlaceholderPage,
+  })),
+)
+
+import { AdminSuspense } from './components/admin'
+
+
 export const routes: RouteObject[] = [
+  // 1. Public Website Layout (Static SSG Prerendered)
   {
     path: '/',
     element: <PublicLayout />,
@@ -90,6 +125,122 @@ export const routes: RouteObject[] = [
       // Internal / styleguide / catch-all
       { path: '_styleguide', element: <StyleguidePage /> },
       { path: '*', element: <NotFoundPage /> },
+    ],
+  },
+
+  // 2. Admin Dashboard Layout (Client-side Only, Lazy-loaded, Excluded from SSG)
+  {
+    path: 'admin/login',
+    element: (
+      <AdminSuspense>
+        <AdminRoot>
+          <AdminLoginPage />
+        </AdminRoot>
+      </AdminSuspense>
+    ),
+  },
+  {
+    path: 'admin/reset-password',
+    element: (
+      <AdminSuspense>
+        <AdminRoot>
+          <AdminResetPasswordPage />
+        </AdminRoot>
+      </AdminSuspense>
+    ),
+  },
+  {
+    path: 'admin',
+    element: (
+      <AdminSuspense>
+        <AdminRoot>
+          <AdminLayout />
+        </AdminRoot>
+      </AdminSuspense>
+    ),
+    children: [
+      { index: true, element: <DashboardPage /> },
+      {
+        path: 'posts',
+        element: (
+          <AdminPlaceholderPage
+            title="المقالات والأخبار"
+            phaseNumber="المرحلة 09"
+          />
+        ),
+      },
+      {
+        path: 'categories',
+        element: (
+          <AdminPlaceholderPage
+            title="تصنيفات المدونة"
+            phaseNumber="المرحلة 08"
+          />
+        ),
+      },
+      {
+        path: 'tags',
+        element: (
+          <AdminPlaceholderPage
+            title="الوسوم والكلمات الدلالية"
+            phaseNumber="المرحلة 08"
+          />
+        ),
+      },
+      {
+        path: 'works',
+        element: (
+          <AdminPlaceholderPage
+            title="المشاريع وسابقة الأعمال"
+            phaseNumber="المرحلة 08"
+          />
+        ),
+      },
+      {
+        path: 'partners',
+        element: (
+          <AdminPlaceholderPage
+            title="شركاء النجاح"
+            phaseNumber="المرحلة 08"
+          />
+        ),
+      },
+      {
+        path: 'media',
+        element: (
+          <AdminPlaceholderPage
+            title="مكتبة الوسائط"
+            phaseNumber="المرحلة 07"
+          />
+        ),
+      },
+      {
+        path: 'messages',
+        element: (
+          <AdminPlaceholderPage
+            title="طلبات الأسعار والرسائل"
+            phaseNumber="المرحلة 08"
+          />
+        ),
+      },
+      {
+        path: 'settings',
+        element: (
+          <AdminPlaceholderPage
+            title="إعدادات الموقع"
+            phaseNumber="المرحلة 08"
+          />
+        ),
+      },
+      {
+        path: 'users',
+        element: (
+          <AdminPlaceholderPage
+            title="المستخدمين والصلاحيات"
+            phaseNumber="المرحلة 08"
+          />
+        ),
+      },
     ],
   },
 ]

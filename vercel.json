@@ -10,6 +10,15 @@
   ],
   "headers": [
     {
+      "source": "/admin/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
       "source": "/assets/(.*)",
       "headers": [
         {
@@ -18,6 +27,7 @@
         }
       ]
     },
+
     {
       "source": "/(.*).html",
       "headers": [
