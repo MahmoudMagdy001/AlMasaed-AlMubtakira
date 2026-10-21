@@ -1,8 +1,8 @@
 {
   "brand": {
-    "name": "Al-Masaed Al-Mubtakirah Company",
+    "name": "Al-Masaed Al-Mubtakirah Co.",
     "slogan": "Innovation that elevates you",
-    "tagline": "Maintenance – Modernization – Installation – Spare Parts",
+    "tagline": "Maintenance · Modernization · Installation · Spare Parts",
     "cr": "Commercial Registration No. 4030227058",
     "accreditation": "Civil Defense Accredited",
     "city": "Jeddah"
@@ -18,7 +18,7 @@
       "maintenance": "Elevator Maintenance",
       "modernization": "Elevator Modernization",
       "installation": "Elevator Installation",
-      "spareParts": "Elevator Spare Parts",
+      "spareParts": "Spare Parts",
       "escalators": "Escalators & Moving Walkways"
     }
   },
@@ -27,47 +27,435 @@
     "callNow": "Call Now",
     "readMore": "Read More",
     "contactUs": "Contact Us",
-    "viewWorks": "View Projects",
+    "viewWorks": "View Works",
     "sendMessage": "Send Message",
     "close": "Close",
     "openMenu": "Open Menu",
     "switchLanguage": "العربية",
-    "skipToContent": "Skip to main content"
+    "skipToContent": "Skip to main content",
+    "backHome": "Back to Home",
+    "viewAllServices": "View All Services"
   },
   "footer": {
-    "aboutTitle": "About Company",
-    "aboutText": "Saudi company established in Jeddah, working in supplying, installing, maintaining, and modernizing elevators of all sizes and shapes, accredited with Civil Defense.",
+    "aboutTitle": "About the Company",
+    "aboutText": "A Saudi company established in Jeddah, operating in the supply, installation, maintenance, development, and modernization of elevators of all sizes and types, accredited by the Civil Defense.",
     "quickLinks": "Quick Links",
-    "servicesTitle": "Services",
+    "servicesTitle": "Our Services",
     "contactTitle": "Contact Information",
     "rights": "All rights reserved",
     "unifiedPhoneLabel": "Unified Number",
     "mobilePhoneLabel": "Mobile & WhatsApp",
     "emailLabel": "Email",
-    "crLabel": "Commercial Registration"
+    "crLabel": "Commercial Registry"
   },
   "common": {
     "loading": "Loading...",
     "error": "An unexpected error occurred",
     "success": "Operation completed successfully",
-    "emptyState": "No items to display at this moment",
+    "emptyState": "No items to display at this time",
     "previous": "Previous",
     "next": "Next",
     "page": "Page",
     "of": "of",
     "required": "Required",
-    "optional": "Optional"
+    "optional": "Optional",
+    "cityJeddah": "Jeddah, Saudi Arabia",
+    "breadcrumbHome": "Home",
+    "breadcrumbServices": "Services"
+  },
+  "home": {
+    "heroTitle": "Al-Masaed Al-Mubtakirah: Elevator Maintenance, Modernization & Installation in Jeddah",
+    "heroSubtitle": "Innovation that elevates you",
+    "heroBadges": "Maintenance · Modernization · Installation · Spare Parts",
+    "aboutEyebrow": "About Al-Masaed Al-Mubtakirah",
+    "aboutHeading": "Comprehensive engineering solutions for all elevator systems in Jeddah",
+    "aboutText": "A Saudi company established in Jeddah operating in the field of supplying, installing, maintaining, developing, and modernizing elevators of all sizes and shapes, accredited by the Civil Defense to maintain the highest standards of operational safety.",
+    "aboutLink": "Learn more about our journey and vision",
+    "servicesEyebrow": "Specialized Services",
+    "servicesHeading": "Integrated Vertical Transportation Services",
+    "servicesSubtitle": "We pride ourselves on flexibility, designing our maintenance plans to fit your needs, not ours. We provide customizable service plans tailored to the client's requirements.",
+    "whyUsEyebrow": "Quality Standards",
+    "whyUsHeading": "Why choose Al-Masaed Al-Mubtakirah?",
+    "whyUsPoints": [
+      { "title": "High-quality repair services", "description": "Carrying out technical inspections and repairs with precision to ensure continuous operation." },
+      { "title": "Strong safety record and client satisfaction", "description": "Strict compliance with Civil Defense requirements and engineering passenger safety standards." },
+      { "title": "Wide supplier network for rapid turnaround", "description": "Sourcing original spare parts and mechanical components without unnecessary delays." },
+      { "title": "Emergency response teams for critical situations", "description": "Continuous readiness to manage sudden stoppages and critical breakdowns." },
+      { "title": "Prompt solutions for optimal equipment performance", "description": "Immediate fault diagnosis and restoration of operational efficiency with minimal downtime." },
+      { "title": "Trained and experienced technicians available", "description": "Specialized technical crews with extensive field experience across diverse models." },
+      { "title": "Same-day response time", "description": "Prompt dispatch and technical follow-up for notifications within Jeddah." }
+    ],
+    "maintenanceEyebrow": "Preventive & Routine Care",
+    "maintenanceHeading": "Comprehensive Maintenance and Technical Upgrades",
+    "maintenanceSubtitle": "We cover all mechanical, hydraulic, and electrical requirements following regular inspection schedules.",
+    "modernizationBoxTitle": "Modernizing Older Systems",
+    "modernizationBoxText": "We provide modernization solutions for all models of elevators, escalators, moving walkways, and lifts. From a single hydraulic lift in high-grade buildings to commercial offices, we deliver a solution tailored to your budget.",
+    "modernizationBoxCta": "Explore Modernization Solutions",
+    "ctaBandHeading": "Looking for dependable maintenance or a quote in Jeddah?",
+    "ctaBandSubtitle": "Our engineering team is prepared to inspect your premises and present a maintenance plan aligned with safety requirements."
+  },
+  "about": {
+    "pageTitle": "About Us | Al-Masaed Al-Mubtakirah in Jeddah",
+    "pageDescription": "Learn about Al-Masaed Al-Mubtakirah in Jeddah, our vision in providing elevator maintenance, modernization and installation, and our commitment to user safety.",
+    "eyebrow": "About the Company",
+    "heading": "Your Certified Engineering Partner for Elevator Solutions in Jeddah",
+    "lead": "A Saudi company established in Jeddah under Commercial Registration No. 4030227058, operating in supplying, installing, maintaining, developing, and modernizing elevators of all sizes and types.",
+    "visionEyebrow": "Our Vision & Goals",
+    "visionHeading": "Sustainability and Efficiency in Alignment with Saudi Vision 2030",
+    "visionText": "Providing continuous maintenance, testing, and repair services in a consistent and timely manner for all brands and models of elevators, escalators, moving walkways, and lifts for people with special needs — in alignment with Saudi Vision 2030.",
+    "approachEyebrow": "Our Approach",
+    "approachHeading": "Customized Service Focusing on Operational Safety",
+    "approachText": "Our customized approach focuses on maintaining high efficiency, safety, and smooth operation in all your passenger transportation systems.",
+    "missionEyebrow": "Safety Mission",
+    "missionHeading": "User Safety Above All",
+    "missionText": "At Al-Masaed Al-Mubtakirah, we place user safety as our top priority, and no matter the challenge, we strive to deliver innovative solutions that elevate the experience for everyone.",
+    "logoMeaningTitle": "Brand Identity & Symbolism",
+    "logoMeaningIntro": "Our brand identity reflects our core engineering values and technological commitment across every project:",
+    "logoElements": [
+      {
+        "title": "Rising Lines",
+        "description": "Symbolizing movement, progression, and continuous advancement in service quality."
+      },
+      {
+        "title": "Geometric Structure",
+        "description": "Representing engineering precision, modern technology, and mechanical safety in manufacturing and installation."
+      },
+      {
+        "title": "Blue Gradients",
+        "description": "Embodying corporate trust, innovation, stability, and enduring sector expertise."
+      }
+    ],
+    "factsTitle": "Corporate Facts",
+    "facts": [
+      { "label": "Commercial Registration", "value": "4030227058" },
+      { "label": "Official Accreditation", "value": "Civil Defense Accredited" },
+      { "label": "Headquarters", "value": "Jeddah, Saudi Arabia" },
+      { "label": "Scope of Operations", "value": "Supply, installation, maintenance, and modernization" },
+      { "label": "Brands & Models Serviced", "value": "All elevator makes and models" },
+      { "label": "Service Territory", "value": "City of Jeddah" }
+    ]
+  },
+  "services": {
+    "pageTitle": "Elevator & Escalator Services in Jeddah | Al-Masaed Al-Mubtakirah",
+    "pageDescription": "Comprehensive services including elevator maintenance, modernization, installation, spare parts, and escalator maintenance in Jeddah.",
+    "eyebrow": "Comprehensive Solutions",
+    "heading": "Elevator & Escalator Services in Jeddah",
+    "intro": "We pride ourselves on flexibility, designing our maintenance plans to fit your needs, not ours. We provide customizable service plans tailored to clients in residential, commercial, and administrative properties.",
+    "cardLearnMore": "Service Details & Process",
+    "includedTitle": "What Is Included",
+    "processTitle": "Execution Steps & Process",
+    "equipmentTitle": "Equipment & Systems Covered",
+    "faqTitle": "Frequently Asked Questions",
+    "ctaTitle": "Need a Technical Consultation or Service Quote?",
+    "ctaText": "Contact us directly to arrange a site inspection and receive the suitable engineering plan for your facility.",
+    "maintenance": {
+      "title": "Elevator Maintenance",
+      "h1": "Elevator Maintenance in Jeddah: Routine Care & Emergency Response",
+      "shortDesc": "Preventive and corrective maintenance programs across all elevator models to ensure uninterrupted safety and performance.",
+      "intro": "We provide scheduled and preventive maintenance services for all elevator types in Jeddah in accordance with Civil Defense standards. Our contracts include regular inspections of all mechanical, electrical, and hydraulic components, backed by same-day response to prevent unnecessary downtime and ensure passenger safety.",
+      "included": [
+        "Door lock monitoring",
+        "Hydraulic cylinder replacement",
+        "Power unit replacement",
+        "Door equipment replacement",
+        "Signal fixture upgrades",
+        "Main valve replacement",
+        "Customized cabin interiors",
+        "Elevator door replacement"
+      ],
+      "process": [
+        { "step": "01", "title": "Comprehensive Engineering Inspection", "desc": "Detailed check of the cabin, traction machine, hoist cables or cylinders, and electrical control panels." },
+        { "step": "02", "title": "Operational Assessment Report", "desc": "Identifying component conditions requiring adjustment or proactive replacement prior to faults." },
+        { "step": "03", "title": "Routine Maintenance Execution", "desc": "Lubricating moving assemblies, adjusting door sensors, and testing emergency brakes and power backups." },
+        { "step": "04", "title": "Continuous Emergency Support", "desc": "Ready dispatch crews to attend to sudden stoppages and return the unit to active service promptly." }
+      ],
+      "equipment": [
+        "Residential and high-rise passenger elevators",
+        "Hydraulic elevators and villa lifts",
+        "Freight and cargo elevators",
+        "Hospital and stretcher elevators",
+        "Accessibility and panoramic glass lifts"
+      ],
+      "faqs": [
+        {
+          "q": "How frequently are routine inspections performed under the maintenance contract?",
+          "a": "Scheduled maintenance visits occur on a monthly basis to inspect, test, and adjust mechanical and electrical safety devices, lubrication, and brakes."
+        },
+        {
+          "q": "What is the typical response time for an emergency service call?",
+          "a": "We are committed to same-day response for all notifications within Jeddah, with immediate priority given to passenger entrapment cases."
+        },
+        {
+          "q": "Are your maintenance contracts approved by the Civil Defense?",
+          "a": "Yes, Al-Masaed Al-Mubtakirah is officially accredited by the Civil Defense and provides accredited maintenance contracts compliant with municipal and safety licensing."
+        },
+        {
+          "q": "Do you provide maintenance for different international brands?",
+          "a": "Yes, our technicians are trained and equipped to service all elevator brands and models commonly installed in the Saudi market."
+        }
+      ]
+    },
+    "modernization": {
+      "title": "Elevator Modernization",
+      "h1": "Elevator Modernization in Jeddah: Upgrading Safety & Performance",
+      "shortDesc": "Advanced solutions to renew aging elevators, upgrading control panels, motors, and interiors cost-effectively.",
+      "intro": "We provide modernization solutions for all models of elevators, escalators, moving walkways, and lifts in Jeddah. From a single hydraulic lift in high-grade buildings to commercial offices, we deliver a solution tailored to your budget. Modernization improves efficiency, reduces electrical consumption, and increases passenger reliability without replacing the entire shaft structure.",
+      "included": [
+        "Upgrading to microprocessor-based intelligent control panels",
+        "Replacing high-efficiency power units and traction machines",
+        "Door drive upgrades with modern safety light curtains",
+        "Cabin interior refurbishment and energy-efficient lighting",
+        "Signal fixtures, car operating panels, and digital floor displays",
+        "Hydraulic control valve and piston renewals"
+      ],
+      "process": [
+        { "step": "01", "title": "System Audit & Assessment", "desc": "Inspecting existing rails, wiring, machinery, and evaluating operating efficiency." },
+        { "step": "02", "title": "Modernization Scope & Proposal", "desc": "Formulating the upgrade package aligned with technical objectives and operational budgets." },
+        { "step": "03", "title": "Scheduled Replacement", "desc": "Installing modernized equipment systematically to keep building downtime minimal." },
+        { "step": "04", "title": "Calibration & Commissioning", "desc": "Testing load capacity, leveling accuracy, and safety gear before final handover." }
+      ],
+      "equipment": [
+        "Elevators exceeding 10 to 15 years of operational service",
+        "Hydraulic elevators experiencing thermal oil or speed inconsistencies",
+        "Commercial tower elevators with heavy passenger demands",
+        "Residential units prone to recurring relay or controller faults"
+      ],
+      "faqs": [
+        {
+          "q": "What is the primary difference between modernization and full replacement?",
+          "a": "Modernization replaces critical mechanical drives, control electronics, and doors while preserving sound guide rails and structural brackets, saving up to 50% in cost and drastically reducing shutdown time."
+        },
+        {
+          "q": "How long does elevator modernization typically take?",
+          "a": "A control system and door operator upgrade generally requires 3 to 7 working days, while a comprehensive modernization package takes between 1 and 2 weeks."
+        },
+        {
+          "q": "Does modernization reduce electrical power consumption?",
+          "a": "Yes, modern regenerative drives and VVVF frequency inverters reduce electrical energy usage by up to 40% compared to traditional legacy motors."
+        }
+      ]
+    },
+    "installation": {
+      "title": "Elevator Installation",
+      "h1": "Elevator Installation in Jeddah: Trusted Engineering Delivery",
+      "shortDesc": "Supply and installation of residential, commercial, and hydraulic elevators adhering to Saudi building codes.",
+      "intro": "Al-Masaed Al-Mubtakirah undertakes the supply and installation of elevators of all sizes and configurations for residential properties, private villas, commercial complexes, and public facilities in Jeddah. We adhere to meticulous engineering standards during shaft preparation, rail alignment, and machine installation to ensure smooth motion and lasting reliability complying with Civil Defense licensing.",
+      "included": [
+        "Engineering drawing review and shaft dimension verification",
+        "Supplying certified original European and Italian equipment",
+        "Laser-aligned guide rail and door frame installation",
+        "Cabin assembly, suspension ropes, and mechanical safety gear",
+        "Wiring and programming of control panels and automatic rescue devices",
+        "Load testing, speed verification, and compliance certification"
+      ],
+      "process": [
+        { "step": "01", "title": "Site & Shaft Verification", "desc": "Checking pit depth, overhead clearances, and vertical tolerances against specifications." },
+        { "step": "02", "title": "Equipment Sourcing", "desc": "Procuring certified equipment packages and staging the installation program." },
+        { "step": "03", "title": "Mechanical & Electrical Erection", "desc": "Fixing guide rails, assembling cabin sling, mounting machine, and connecting power systems." },
+        { "step": "04", "title": "Commissioning & Handover", "desc": "Trial runs, safety testing, client operational briefing, and warranty documentation." }
+      ],
+      "equipment": [
+        "Machine-Room-Less (MRL) passenger elevators",
+        "Traditional overhead machine-room elevators",
+        "Hydraulic villa elevators for compact spaces",
+        "Panoramic glass elevators for commercial centers",
+        "Service and freight elevators for warehouses"
+      ],
+      "faqs": [
+        {
+          "q": "Can an elevator be installed in an existing villa without a concrete shaft?",
+          "a": "Yes, we provide hydraulic and MRL lift packages that can be installed inside custom steel and glass structures with minimal pit and headroom requirements."
+        },
+        {
+          "q": "What safety codes are enforced during installation?",
+          "a": "We apply Saudi Building Code guidelines and Civil Defense requirements, including overspeed governors, progressive safety gear, and emergency lowering devices."
+        },
+        {
+          "q": "What warranty terms accompany new installations?",
+          "a": "We provide comprehensive equipment warranties alongside a complimentary preventive maintenance period included in the contract."
+        }
+      ]
+    },
+    "spareParts": {
+      "title": "Spare Parts",
+      "h1": "Original Elevator Spare Parts in Jeddah: Rapid & Verified Supply",
+      "shortDesc": "Provision of genuine mechanical, hydraulic, and electrical components across diverse elevator models.",
+      "intro": "Continuous elevator reliability depends on genuine spare parts conforming to manufacturer engineering specifications. Al-Masaed Al-Mubtakirah maintains an established supplier network allowing rapid procurement of mechanical, hydraulic, and electronic control items for all makes and models in Jeddah, minimizing unplanned operational disruptions.",
+      "included": [
+        "Genuine hydraulic cylinders, plungers, and seal kits",
+        "Hydraulic power packs, pumps, and submersible motors",
+        "Main control valves, check valves, and pressure limiters",
+        "Door drive operators, mechanical interlocks, and pulleys",
+        "Microprocessor controller boards and leveling sensors",
+        "Pushbuttons, digital displays, and landing call stations",
+        "Certified hoist ropes, diverter sheaves, and hydraulic fluids"
+      ],
+      "process": [
+        { "step": "01", "title": "Part Identification & Inspection", "desc": "Technical check to record manufacturer part numbers and physical specifications." },
+        { "step": "02", "title": "Procurement & Matching", "desc": "Verifying stock or dispatching through our accredited vendor network." },
+        { "step": "03", "title": "Installation & Calibration", "desc": "Fitting by qualified technicians followed by factory adjustment procedures." },
+        { "step": "04", "title": "Functional Verification", "desc": "Testing operation under load and issuing standard parts quality warranty." }
+      ],
+      "equipment": [
+        "Hydraulic lift components of all capacities",
+        "Geared and gearless traction elevator parts",
+        "Automatic and semi-automatic door mechanisms",
+        "Photoelectric light curtains and emergency safety sensors"
+      ],
+      "faqs": [
+        {
+          "q": "Can you source original parts for older or discontinued models?",
+          "a": "Yes, through our verified supplier network we source original components or approved engineering replacements compatible with your existing equipment."
+        },
+        {
+          "q": "Are spare parts available to non-contracted building owners?",
+          "a": "Yes, we provide diagnostic and replacement parts services for all property managers across Jeddah on an on-demand basis."
+        },
+        {
+          "q": "Do supplied parts carry a performance warranty?",
+          "a": "Yes, all replacement components are backed by quality warranties against manufacturing defects."
+        }
+      ]
+    },
+    "escalators": {
+      "title": "Escalators & Moving Walkways",
+      "h1": "Escalator & Moving Walkway Services in Jeddah: Continuous Safety",
+      "shortDesc": "Ongoing maintenance, inspection, and repair services for escalators, moving walks, and accessibility platforms.",
+      "intro": "Escalators and moving walkways represent vital pedestrian arteries in shopping malls, administrative complexes, and public hubs. Al-Masaed Al-Mubtakirah in Jeddah provides consistent, timely maintenance, testing, and repair services across all makes and models of escalators, moving walkways, and accessibility lifts to ensure seamless movement and passenger security.",
+      "included": [
+        "Step chain, roller assembly, and track alignment servicing",
+        "Handrail drive synchronization and tension calibration",
+        "Comb-plate safety contacts and emergency stop testing",
+        "Main drive gearbox, motor, and auxiliary brake maintenance",
+        "Automated lubrication system replenishment and cleaning",
+        "Safety compliance checks conforming to Civil Defense guidelines"
+      ],
+      "process": [
+        { "step": "01", "title": "Visual & Mechanical Inspection", "desc": "Examining steps, comb alignment, and handrail tension for smooth motion." },
+        { "step": "02", "title": "Safety Contact & Interlock Tests", "desc": "Verifying comb impact switches, drive chain breakage sensors, and emergency stops." },
+        { "step": "03", "title": "Lubrication & Running Adjustments", "desc": "Servicing chains and drive units with specified lubricants to reduce friction and noise." },
+        { "step": "04", "title": "Dynamic Testing Under Load", "desc": "Continuous trial running to verify speed consistency and smooth braking deceleration." }
+      ],
+      "equipment": [
+        "Commercial indoor escalators for malls and retail stores",
+        "Heavy-duty escalators for civic and transport facilities",
+        "Horizontal and inclined moving walkways for hypermarkets",
+        "Wheelchair platform lifts and accessibility solutions"
+      ],
+      "faqs": [
+        {
+          "q": "Why is routine preventative care critical for escalators?",
+          "a": "Escalators operate for prolonged periods under heavy continuous traffic; regular servicing ensures safety devices prevent accidental entrapment and maintain reliable transit."
+        },
+        {
+          "q": "What action should be taken if an escalator produces unusual noise?",
+          "a": "Immediately stop the equipment using the emergency stop button located at the entry or exit, and contact our team for technical evaluation before restarting."
+        },
+        {
+          "q": "Do you service all international escalator manufacturers?",
+          "a": "Yes, our technicians support all major escalator and passenger conveyor models operating throughout the Kingdom."
+        }
+      ]
+    }
+  },
+  "contact": {
+    "pageTitle": "Contact Us | Al-Masaed Al-Mubtakirah in Jeddah",
+    "pageDescription": "Contact Al-Masaed Al-Mubtakirah in Jeddah for service quotes, elevator maintenance, or emergency response. Unified number 920016876.",
+    "eyebrow": "Direct Communication",
+    "heading": "Contact Us for Elevator Services in Jeddah",
+    "subtitle": "Our engineering team is ready to answer inquiries, provide technical support, and inspect your property in Jeddah.",
+    "formTitle": "Send Your Request or Inquiry",
+    "formSubtitle": "Please fill out the form below and our customer service representative will contact you shortly.",
+    "nameLabel": "Full Name",
+    "namePlaceholder": "Enter your full name",
+    "phoneLabel": "Mobile Number",
+    "phonePlaceholder": "05X XXX XXXX",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "name@example.com",
+    "serviceLabel": "Requested Service",
+    "serviceSelectPlaceholder": "Select requested service",
+    "messageLabel": "Message or Requirement Details",
+    "messagePlaceholder": "Describe the elevator, building type, and nature of service or fault...",
+    "submitButton": "Submit Request Now",
+    "submitting": "Submitting...",
+    "successHeading": "Message Received Successfully",
+    "successMessage": "Thank you for contacting Al-Masaed Al-Mubtakirah. Our technical team will reach out to you by phone shortly.",
+    "sendAnother": "Send Another Request",
+    "infoTitle": "Official Contact Details",
+    "unifiedNumberTitle": "Unified Number",
+    "mobileWhatsAppTitle": "Mobile & WhatsApp",
+    "phoneTitle": "Direct Phone",
+    "emailTitle": "Official Email",
+    "crTitle": "Commercial Registration",
+    "accreditationTitle": "Official Accreditation",
+    "locationTitle": "City & Service Area",
+    "locationValue": "Jeddah, Saudi Arabia",
+    "validation": {
+      "nameRequired": "Please enter your name",
+      "nameTooShort": "Name must be at least 2 characters",
+      "phoneRequired": "Please enter your phone number",
+      "phoneInvalid": "Please enter a valid phone number",
+      "emailInvalid": "Please enter a valid email address",
+      "messageRequired": "Please enter your message",
+      "messageTooShort": "Message must be at least 5 characters"
+    }
+  },
+  "privacy": {
+    "pageTitle": "Privacy Policy | Al-Masaed Al-Mubtakirah",
+    "pageDescription": "Privacy policy and personal data protection principles for Al-Masaed Al-Mubtakirah in compliance with the Saudi Personal Data Protection Law (PDPL).",
+    "eyebrow": "Transparency & Data Protection",
+    "heading": "Privacy Policy & Personal Data Protection",
+    "lastUpdated": "Last updated: 2026",
+    "reviewNotice": "Note: This document represents the current draft policy for Al-Masaed Al-Mubtakirah website and is subject to final administrative review and adoption under applicable regulations of the Kingdom of Saudi Arabia.",
+    "sections": [
+      {
+        "title": "1. Introduction & Commitment",
+        "content": "Al-Masaed Al-Mubtakirah is committed to safeguarding the privacy of website visitors and clients in the Kingdom of Saudi Arabia, managing all collected data with full responsibility and transparency in compliance with established regulations, including the Saudi Personal Data Protection Law (PDPL)."
+      },
+      {
+        "title": "2. Data Collected",
+        "content": "We collect personal information voluntarily provided by users when submitting a contact inquiry or quote request through the website, including: full name, mobile number, email address (if provided), requested service type, and technical message details."
+      },
+      {
+        "title": "3. Purpose of Processing",
+        "content": "Collected data is used strictly for direct operational purposes: communicating with the client to respond to inquiries, preparing requested technical quotes and engineering studies, and arranging site inspection visits for installation, maintenance, or modernization."
+      },
+      {
+        "title": "4. Data Security & Retention",
+        "content": "We implement robust technical and organizational security controls across our databases to prevent unauthorized access, modification, or disclosure of personal data. Data is retained only for the duration required to fulfill operational purposes or meet legal requirements."
+      },
+      {
+        "title": "5. Third-Party Sharing",
+        "content": "We do not sell, rent, or disclose client personal data to third parties for commercial or promotional purposes. Information is disclosed solely to authorized regulatory bodies when required by applicable laws of the Kingdom."
+      },
+      {
+        "title": "6. Cookies & Site Analytics",
+        "content": "The website may utilize standard technical cookies and aggregated analytics to assess browsing performance and enhance the overall user experience without associating statistical trends with personal identities."
+      },
+      {
+        "title": "7. Data Subject Rights & Contact",
+        "content": "Users may contact us to review, update, or request deletion of their personal records by emailing directly: info@almubtakirah.com."
+      }
+    ]
+  },
+  "notFound": {
+    "pageTitle": "Page Not Found | Al-Masaed Al-Mubtakirah",
+    "pageDescription": "The page you are looking for is unavailable or has been moved.",
+    "code": "404",
+    "heading": "Page Not Found",
+    "description": "The link you followed may be incorrect, or the page address has changed.",
+    "backHome": "Return to Home Page"
   },
   "styleguide": {
     "title": "Design System & Component Library",
-    "subtitle": "Al-Masaed Al-Mubtakirah Design System Guidelines",
+    "subtitle": "UI architecture and brand guidelines for Al-Masaed Al-Mubtakirah",
     "colorTokens": "Color Palette",
-    "typography": "Typography Scale",
-    "buttons": "Interactive Buttons",
-    "formControls": "Form Controls & Inputs",
-    "feedbackComponents": "Badges & Feedback",
+    "typography": "Typography",
+    "buttons": "Action Buttons",
+    "formControls": "Form Controls",
+    "feedbackComponents": "Feedback & Badges",
     "disclosureComponents": "Accordions & Tabs",
-    "layoutComponents": "Sections & Containers",
-    "brandAssets": "Brand Pattern & Logo"
+    "layoutComponents": "Layouts & Containers",
+    "brandAssets": "Brand Assets & Logo"
   }
 }

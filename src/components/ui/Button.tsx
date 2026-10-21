@@ -15,6 +15,8 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   fullWidth?: boolean
   href?: string
   to?: string
+  target?: string
+  rel?: string
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -26,6 +28,8 @@ export const Button: React.FC<ButtonProps> = ({
   fullWidth = false,
   href,
   to,
+  target,
+  rel,
   children,
   className = '',
   disabled,
@@ -82,7 +86,12 @@ export const Button: React.FC<ButtonProps> = ({
 
   if (href) {
     return (
-      <a href={href} className={combinedClasses} rel="noopener noreferrer">
+      <a
+        href={href}
+        target={target}
+        rel={rel ?? (target === '_blank' ? 'noopener noreferrer' : undefined)}
+        className={combinedClasses}
+      >
         {content}
       </a>
     )

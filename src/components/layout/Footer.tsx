@@ -17,9 +17,14 @@ export const Footer: React.FC = () => {
   const quickLinks = [
     { label: t('nav.home'), to: prefix || '/' },
     { label: t('nav.about'), to: `${prefix}/about` },
+    { label: t('nav.services'), to: `${prefix}/services` },
     { label: t('nav.works'), to: `${prefix}/works` },
     { label: t('nav.blog'), to: `${prefix}/blog` },
     { label: t('nav.contact'), to: `${prefix}/contact` },
+    {
+      label: isEn ? 'Privacy Policy' : 'سياسة الخصوصية',
+      to: `${prefix}/privacy`,
+    },
   ]
 
   const serviceLinks = [
@@ -177,6 +182,13 @@ export const Footer: React.FC = () => {
               </span>
               <span>•</span>
               <span>{siteConfig.company.accreditationAr}</span>
+              <span>•</span>
+              <Link
+                to={`${prefix}/privacy`}
+                className="hover:text-white transition-colors underline-offset-4 hover:underline"
+              >
+                {isEn ? 'Privacy Policy' : 'سياسة الخصوصية'}
+              </Link>
             </div>
             <div className="text-center sm:text-end">
               <p>

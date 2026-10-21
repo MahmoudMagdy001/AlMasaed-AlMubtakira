@@ -10,6 +10,7 @@ export interface SeoProps {
   noindex?: boolean
   lang?: 'ar' | 'en'
   dir?: 'rtl' | 'ltr'
+  children?: React.ReactNode
 }
 
 export const Seo: React.FC<SeoProps> = ({
@@ -21,6 +22,7 @@ export const Seo: React.FC<SeoProps> = ({
   noindex = false,
   lang = 'ar',
   dir = 'rtl',
+  children,
 }) => {
   const fullTitle = title
     ? `${title} | شركة المصاعد المبتكرة`
@@ -47,6 +49,8 @@ export const Seo: React.FC<SeoProps> = ({
       <meta property="og:image" content={ogImage} />
       <meta property="og:locale" content={lang === 'ar' ? 'ar_SA' : 'en_US'} />
       <meta name="twitter:card" content="summary_large_image" />
+      {children}
     </Head>
+
   )
 }
