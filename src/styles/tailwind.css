@@ -13,5 +13,53 @@
 @layer base {
   html {
     font-family: 'Tajawal', 'Segoe UI', system-ui, sans-serif;
+    color: var(--text-body);
+    background-color: var(--surface-base);
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  ::selection {
+    background-color: var(--brand-400);
+    color: var(--brand-900);
+  }
+
+  /* Accessible focus ring across all interactive controls */
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+}
+
+@layer utilities {
+  .bg-gradient-brand-dark {
+    background-image: linear-gradient(135deg, #132454 0%, #336ea6 100%);
+  }
+
+  .bg-gradient-brand-light {
+    background-image: linear-gradient(135deg, #336ea6 0%, #5ec1f0 100%);
+  }
+
+  .bg-gradient-brand-hero {
+    background-image: linear-gradient(
+      135deg,
+      #132454 0%,
+      #1b3b5a 50%,
+      #336ea6 100%
+    );
   }
 }

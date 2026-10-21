@@ -4,7 +4,8 @@
     "slogan": "Innovation that elevates you",
     "tagline": "Maintenance – Modernization – Installation – Spare Parts",
     "cr": "Commercial Registration No. 4030227058",
-    "accreditation": "Civil Defense Accredited"
+    "accreditation": "Civil Defense Accredited",
+    "city": "Jeddah"
   },
   "nav": {
     "home": "Home",
@@ -12,16 +13,61 @@
     "services": "Services",
     "works": "Works",
     "blog": "Blog",
-    "contact": "Contact Us"
+    "contact": "Contact",
+    "servicesMenu": {
+      "maintenance": "Elevator Maintenance",
+      "modernization": "Elevator Modernization",
+      "installation": "Elevator Installation",
+      "spareParts": "Elevator Spare Parts",
+      "escalators": "Escalators & Moving Walkways"
+    }
   },
   "actions": {
     "requestQuote": "Request a Quote",
     "callNow": "Call Now",
     "readMore": "Read More",
-    "contactUs": "Contact Us"
+    "contactUs": "Contact Us",
+    "viewWorks": "View Projects",
+    "sendMessage": "Send Message",
+    "close": "Close",
+    "openMenu": "Open Menu",
+    "switchLanguage": "العربية",
+    "skipToContent": "Skip to main content"
   },
   "footer": {
+    "aboutTitle": "About Company",
+    "aboutText": "Saudi company established in Jeddah, working in supplying, installing, maintaining, and modernizing elevators of all sizes and shapes, accredited with Civil Defense.",
+    "quickLinks": "Quick Links",
+    "servicesTitle": "Services",
+    "contactTitle": "Contact Information",
     "rights": "All rights reserved",
-    "description": "Saudi company specialized in supply, installation, maintenance, and modernization of elevators and escalators in Jeddah."
+    "unifiedPhoneLabel": "Unified Number",
+    "mobilePhoneLabel": "Mobile & WhatsApp",
+    "emailLabel": "Email",
+    "crLabel": "Commercial Registration"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An unexpected error occurred",
+    "success": "Operation completed successfully",
+    "emptyState": "No items to display at this moment",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page",
+    "of": "of",
+    "required": "Required",
+    "optional": "Optional"
+  },
+  "styleguide": {
+    "title": "Design System & Component Library",
+    "subtitle": "Al-Masaed Al-Mubtakirah Design System Guidelines",
+    "colorTokens": "Color Palette",
+    "typography": "Typography Scale",
+    "buttons": "Interactive Buttons",
+    "formControls": "Form Controls & Inputs",
+    "feedbackComponents": "Badges & Feedback",
+    "disclosureComponents": "Accordions & Tabs",
+    "layoutComponents": "Sections & Containers",
+    "brandAssets": "Brand Pattern & Logo"
   }
 }

@@ -1,28 +1,48 @@
 :root {
-  --brand-900: #132454;
-  --brand-800: #1b3b5a;
-  --brand-700: #234f78;
-  --brand-600: #336ea6;
-  --brand-500: #3d94cc;
-  --brand-400: #5ec1f0;
-  --brand-300: #95c0e6;
-  --brand-200: #c3daf1;
-  --brand-100: #e1ecf8;
+  /* Brand palette */
   --brand-50: #f0f6fc;
+  --brand-100: #e1ecf8;
+  --brand-200: #c3daf1;
+  --brand-300: #95c0e6;
+  --brand-400: #5ec1f0;
+  --brand-500: #3d94cc;
+  --brand-600: #336ea6;
+  --brand-700: #234f78;
+  --brand-800: #1b3b5a;
+  --brand-900: #132454;
 
+  /* Neutrals */
   --surface-base: #ffffff;
   --surface-soft: #f4f7fb;
   --surface-border: #dde4ef;
+  --surface-border-subtle: #edf2f9;
 
+  /* Typography colors (AA compliant on their respective backgrounds) */
   --text-heading: #132454;
   --text-body: #3a4560;
   --text-muted: #6a768f;
+  --text-inverse: #ffffff;
+  --text-inverse-muted: #e1ecf8;
 
+  /* Feedback */
   --feedback-success: #1f8a5b;
   --feedback-error: #c0392b;
   --feedback-warning: #b7791f;
 
+  /* WhatsApp */
+  --whatsapp: #25d366;
+  --whatsapp-hover: #20bd5a;
+
+  /* Layout & Geometry */
   --radius-control: 8px;
   --radius-card: 12px;
+  --radius-full: 9999px;
+
+  /* Shadows */
   --shadow-card: 0 6px 24px rgba(19, 36, 84, 0.08);
+  --shadow-elevated: 0 12px 32px rgba(19, 36, 84, 0.12);
+  --shadow-header: 0 2px 12px rgba(19, 36, 84, 0.06);
+
+  /* Focus ring */
+  --focus-ring: 0 0 0 3px rgba(94, 193, 240, 0.45);
 }
