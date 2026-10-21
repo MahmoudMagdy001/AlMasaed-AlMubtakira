@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { X } from 'lucide-react'
+import { useFocusTrap } from '@/hooks/useFocusTrap'
 
 export interface DrawerProps {
   isOpen: boolean
@@ -17,6 +18,7 @@ export const Drawer: React.FC<DrawerProps> = ({
   children,
 }) => {
   const drawerRef = useRef<HTMLDivElement>(null)
+  useFocusTrap(drawerRef, isOpen)
 
   useEffect(() => {
     if (!isOpen) return
@@ -48,7 +50,7 @@ export const Drawer: React.FC<DrawerProps> = ({
       className="fixed inset-0 z-50 overflow-hidden"
       role="dialog"
       aria-modal="true"
-      aria-labelledby={title ? 'drawer-title' : undefined}
+      aria-labelledby={title ? 'drawer-title' : 'drawer-logo-label'}
     >
       {/* Backdrop */}
       <div
@@ -61,6 +63,7 @@ export const Drawer: React.FC<DrawerProps> = ({
       <div
         ref={drawerRef}
         className={`fixed inset-y-0 ${placementClasses} w-full max-w-xs sm:max-w-sm bg-white shadow-elevated z-10 flex flex-col focus:outline-none`}
+        tabIndex={-1}
       >
         <div className="flex items-center justify-between p-4 sm:p-5 border-b border-surface-border">
           {title ? (
@@ -71,7 +74,9 @@ export const Drawer: React.FC<DrawerProps> = ({
               {title}
             </h3>
           ) : (
-            <span />
+            <span id="drawer-logo-label" className="sr-only">
+              القائمة الرئيسية
+            </span>
           )}
           <button
             onClick={onClose}

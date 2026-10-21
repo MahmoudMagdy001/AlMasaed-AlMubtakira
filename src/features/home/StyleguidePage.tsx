@@ -303,9 +303,9 @@ export const StyleguidePage: React.FC = () => {
               <span className="text-xs text-content-muted font-mono">
                 H1 / 48px — 56px (Bold 700)
               </span>
-              <h1 className="text-3xl md:text-5xl font-bold text-content-heading mt-1">
+              <p className="text-3xl md:text-5xl font-bold text-content-heading mt-1">
                 شركة المصاعد المبتكرة: صيانة وتحديث وتركيب المصاعد في جدة
-              </h1>
+              </p>
             </div>
             <div>
               <span className="text-xs text-content-muted font-mono">

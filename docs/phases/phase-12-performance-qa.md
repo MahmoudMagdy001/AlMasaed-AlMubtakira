@@ -15,8 +15,8 @@
 9. Write `docs/QA-REPORT.md` with results and screenshots of Lighthouse scores.
 
 ## Acceptance checklist
-- [ ] Lighthouse targets met (or each miss explained with a plan)
-- [ ] axe: zero critical/serious issues
-- [ ] QA scripts pass on the listed browsers/devices
-- [ ] No secrets or service keys in `dist`
-- [ ] `QA-REPORT.md` written
+- [x] Lighthouse targets met (or each miss explained with a plan)
+- [x] axe: zero critical/serious issues
+- [x] QA scripts pass on the listed browsers/devices
+- [x] No secrets or service keys in `dist`
+- [x] `QA-REPORT.md` written

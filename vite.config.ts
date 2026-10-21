@@ -1,5 +1,6 @@
+import fs from 'node:fs'
 import path from 'node:path'
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 import type { ViteReactSSGOptions } from 'vite-react-ssg'
 import react from '@vitejs/plugin-react'
 
@@ -9,6 +10,62 @@ declare module 'vite' {
   interface UserConfig {
     ssgOptions?: ViteReactSSGOptions
   }
+}
+
+// Injects <link rel="preload"> for Tajawal Arabic 400 + 700 into every built HTML page.
+// Font filenames are content-hashed, so we find them dynamically.
+function injectFontPreloads(distDir: string) {
+  if (!fs.existsSync(distDir)) return
+
+  const assetsDir = path.join(distDir, 'assets')
+  if (!fs.existsSync(assetsDir)) return
+
+  const assetFiles = fs.readdirSync(assetsDir)
+  const font400 = assetFiles.find(
+    (f) => f.includes('tajawal-arabic-400') && f.endsWith('.woff2'),
+  )
+  const font700 = assetFiles.find(
+    (f) => f.includes('tajawal-arabic-700') && f.endsWith('.woff2'),
+  )
+
+  const fonts = [font400, font700].filter(Boolean) as string[]
+  if (fonts.length === 0) return
+
+  const preloadTags = fonts
+    .map(
+      (f) =>
+        `<link rel="preload" as="font" type="font/woff2" crossorigin="" href="/assets/${f}">`,
+    )
+    .join('')
+
+  const htmlFiles: string[] = []
+  function walk(dir: string) {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name)
+      if (entry.isDirectory()) walk(full)
+      else if (entry.name.endsWith('.html')) htmlFiles.push(full)
+    }
+  }
+  walk(distDir)
+
+  let injectedCount = 0
+  for (const file of htmlFiles) {
+    let html = fs.readFileSync(file, 'utf8')
+    if (html.includes('rel="preload" as="font"')) continue
+    if (html.includes('<meta charset="UTF-8">')) {
+      html = html.replace(
+        '<meta charset="UTF-8">',
+        `${preloadTags}<meta charset="UTF-8">`,
+      )
+    } else {
+      html = html.replace('</head>', `${preloadTags}</head>`)
+    }
+    fs.writeFileSync(file, html)
+    injectedCount++
+  }
+  console.log(
+    `[font-preload] Injected preload tags for ${fonts.length} Tajawal fonts into ${injectedCount} HTML files.`,
+  )
 }
 
 export default defineConfig({
@@ -77,6 +134,11 @@ export default defineConfig({
       return Array.from(new Set([...staticRoutes, ...dynamicRoutes]))
     },
     async onFinished() {
+      // 1. Inject Tajawal font preloading tags across all prerendered HTML files
+      const distDir = path.resolve(__dirname, 'dist')
+      injectFontPreloads(distDir)
+
+      // 2. Generate sitemap, robots, and merge redirects
       const { execSync } = await import('node:child_process')
       try {
         execSync('node scripts/generate-sitemap.mjs', { stdio: 'inherit' })

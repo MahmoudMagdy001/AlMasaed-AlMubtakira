@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { X } from 'lucide-react'
+import { useFocusTrap } from '@/hooks/useFocusTrap'
 
 export interface DialogProps {
   isOpen: boolean
@@ -21,6 +22,7 @@ export const Dialog: React.FC<DialogProps> = ({
   showCloseButton = true,
 }) => {
   const dialogRef = useRef<HTMLDivElement>(null)
+  useFocusTrap(dialogRef, isOpen)
 
   useEffect(() => {
     if (!isOpen) return
