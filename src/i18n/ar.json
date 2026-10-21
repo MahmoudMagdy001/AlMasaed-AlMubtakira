@@ -34,7 +34,8 @@
     "switchLanguage": "English",
     "skipToContent": "الانتقال إلى المحتوى الرئيسي",
     "backHome": "العودة للرئيسية",
-    "viewAllServices": "استعراض جميع الخدمات"
+    "viewAllServices": "استعراض جميع الخدمات",
+    "scrollToTop": "العودة إلى أعلى الصفحة"
   },
   "footer": {
     "aboutTitle": "عن الشركة",

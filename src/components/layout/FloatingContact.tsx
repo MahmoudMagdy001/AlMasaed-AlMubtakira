@@ -8,7 +8,7 @@ export const FloatingContact: React.FC = () => {
   return (
     <aside
       aria-label="قنوات التواصل السريع"
-      className="fixed bottom-6 start-6 z-50 flex flex-col gap-3 print:hidden"
+      className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 print:hidden"
     >
       {/* WhatsApp Floating Button */}
       <a

@@ -8,6 +8,7 @@ import {
   FloatingContact,
   SkipToContent,
   ScrollRestoration,
+  ScrollToTop,
 } from '@/components/layout'
 import { ToastProvider } from '@/components/ui'
 import { AnalyticsProvider } from '@/components/analytics/AnalyticsProvider'
@@ -39,6 +40,7 @@ const PublicLayoutContent: React.FC = () => {
       </main>
       <Footer />
       <FloatingContact />
+      <ScrollToTop />
     </div>
   )
 }
