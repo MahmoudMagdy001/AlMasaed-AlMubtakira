@@ -14,8 +14,9 @@
 8. Components accept the final SEO props; the metadata and JSON-LD for blog are completed in Phase 11.
 
 ## Acceptance checklist
-- [ ] Only published posts with `published_at <= now()` appear (verify with anon key)
-- [ ] Post HTML is sanitized; no script/iframe other than allowed YouTube
-- [ ] TOC anchors work; layout good at 375 / 768 / 1280
-- [ ] Bilingual posts link to each other via `translation_key`
-- [ ] List queries do not fetch `content_html`
+- [x] Only published posts with `published_at <= now()` appear (verify with anon key)
+- [x] Post HTML is sanitized; no script/iframe other than allowed YouTube
+- [x] TOC anchors work; layout good at 375 / 768 / 1280
+- [x] Bilingual posts link to each other via `translation_key`
+- [x] List queries do not fetch `content_html`
+

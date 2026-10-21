@@ -6,6 +6,9 @@ import { ServicesPage } from './features/services/ServicesPage'
 import { ServiceDetailPage } from './features/services/ServiceDetailPage'
 import { WorksPage } from './features/works/WorksPage'
 import { WorkDetailPage } from './features/works/WorkDetailPage'
+import { BlogIndexPage } from './features/blog/BlogIndexPage'
+import { BlogCategoryPage } from './features/blog/BlogCategoryPage'
+import { BlogPostPage } from './features/blog/BlogPostPage'
 import { ContactPage } from './features/contact/ContactPage'
 import { PrivacyPage } from './features/privacy/PrivacyPage'
 import { NotFoundPage } from './features/home/NotFoundPage'
@@ -42,6 +45,11 @@ export const routes: RouteObject[] = [
       },
       { path: 'works', element: <WorksPage /> },
       { path: 'works/:slug', element: <WorkDetailPage /> },
+      { path: 'blog', element: <BlogIndexPage /> },
+      { path: 'blog/page/:page', element: <BlogIndexPage /> },
+      { path: 'blog/category/:slug', element: <BlogCategoryPage /> },
+      { path: 'blog/category/:slug/page/:page', element: <BlogCategoryPage /> },
+      { path: 'blog/:slug', element: <BlogPostPage /> },
       { path: 'contact', element: <ContactPage /> },
       { path: 'privacy', element: <PrivacyPage /> },
 
@@ -71,6 +79,11 @@ export const routes: RouteObject[] = [
       },
       { path: 'en/works', element: <WorksPage /> },
       { path: 'en/works/:slug', element: <WorkDetailPage /> },
+      { path: 'en/blog', element: <BlogIndexPage /> },
+      { path: 'en/blog/page/:page', element: <BlogIndexPage /> },
+      { path: 'en/blog/category/:slug', element: <BlogCategoryPage /> },
+      { path: 'en/blog/category/:slug/page/:page', element: <BlogCategoryPage /> },
+      { path: 'en/blog/:slug', element: <BlogPostPage /> },
       { path: 'en/contact', element: <ContactPage /> },
       { path: 'en/privacy', element: <PrivacyPage /> },
 

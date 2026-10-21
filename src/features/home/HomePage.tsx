@@ -31,6 +31,7 @@ import { Seo } from '@/components/seo/Seo'
 import { useSiteSettings } from '@/hooks/useSiteSettings'
 import { useWorks } from '@/hooks/useWorks'
 import { usePartners } from '@/hooks/usePartners'
+import { useBlogPosts } from '@/hooks/useBlog'
 import { WorksSection } from './components/WorksSection'
 import { PartnersSection } from './components/PartnersSection'
 import { LatestPostsSection } from './components/LatestPostsSection'
@@ -44,8 +45,13 @@ export const HomePage: React.FC = () => {
   const settings = useSiteSettings()
   const { data: worksData } = useWorks({ limit: 6 })
   const { data: partnersData } = usePartners()
+  const { data: postsData } = useBlogPosts({
+    lang: isEn ? 'en' : 'ar',
+    limit: 3,
+  })
 
   const prefix = isEn ? '/en' : ''
+
 
   // Why Us icon mapping for the 7 points from docs/02
   const whyUsIcons = [
@@ -415,7 +421,8 @@ export const HomePage: React.FC = () => {
       <PartnersSection partners={partnersData} />
 
       {/* 8. Latest Posts Section (hidden when empty) */}
-      <LatestPostsSection posts={null} />
+      <LatestPostsSection posts={postsData?.posts} />
+
 
       {/* 9. CTA Band */}
       <CtaBand />

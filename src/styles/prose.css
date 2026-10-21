@@ -1,56 +1,268 @@
+/* ==========================================================================
+   prose-article typography & styling
+   Fully RTL-friendly using CSS logical properties; seamlessly supports LTR.
+   ========================================================================== */
+
 .prose-article {
   color: var(--text-body);
-  line-height: 1.8;
+  line-height: 1.85;
   font-size: 1.125rem;
 }
 
+/* Headings with comfortable scroll clearance under sticky navigation */
 .prose-article h1,
 .prose-article h2,
 .prose-article h3,
 .prose-article h4 {
   color: var(--text-heading);
-  line-height: 1.3;
+  line-height: 1.35;
   font-weight: 700;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+  scroll-margin-top: 6.5rem;
 }
 
 .prose-article h2 {
   font-size: 1.75rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--surface-border-subtle);
 }
 
 .prose-article h3 {
   font-size: 1.375rem;
+  margin-top: 2rem;
+  margin-bottom: 0.875rem;
 }
 
+.prose-article h4 {
+  font-size: 1.125rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Body paragraphs */
 .prose-article p {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.35rem;
+  text-wrap: pretty;
 }
 
+/* Links */
 .prose-article a {
   color: var(--brand-600);
   text-decoration: underline;
   text-underline-offset: 4px;
+  font-weight: 500;
+  transition: color 0.15s ease-in-out;
 }
 
 .prose-article a:hover {
   color: var(--brand-900);
 }
 
-.prose-article ul,
+/* Lists */
+.prose-article ul {
+  list-style-type: disc;
+  margin-bottom: 1.5rem;
+  padding-inline-start: 1.5rem;
+}
+
 .prose-article ol {
-  margin-bottom: 1.25rem;
+  list-style-type: decimal;
+  margin-bottom: 1.5rem;
   padding-inline-start: 1.5rem;
 }
 
 .prose-article li {
   margin-bottom: 0.5rem;
+  line-height: 1.75;
 }
 
+.prose-article li > ul,
+.prose-article li > ol {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Task lists (TipTap checklist extension) */
+.prose-article ul[data-type='taskList'] {
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.prose-article li[data-type='taskItem'] {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.prose-article li[data-type='taskItem'] > label {
+  user-select: none;
+  margin-top: 0.25rem;
+}
+
+/* Blockquote */
 .prose-article blockquote {
+  border-inline-start: 4px solid var(--brand-500);
+  background-color: var(--brand-50);
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius-control);
+  font-style: normal;
+  color: var(--text-body);
+  margin: 2rem 0;
+}
+
+.prose-article blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Callout boxes */
+.prose-article .callout,
+.prose-article .callout-box {
   border-inline-start: 4px solid var(--brand-400);
-  padding-inline-start: 1rem;
-  font-style: italic;
+  background-color: var(--surface-soft);
+  border: 1px solid var(--surface-border);
+  border-inline-start-width: 4px;
+  border-inline-start-color: var(--brand-600);
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius-card);
+  margin: 2rem 0;
+}
+
+.prose-article .callout-warning {
+  border-inline-start-color: var(--feedback-warning);
+  background-color: #fffbf0;
+}
+
+.prose-article .callout-success {
+  border-inline-start-color: var(--feedback-success);
+  background-color: #f2faf5;
+}
+
+/* Code & Pre */
+.prose-article code {
+  background-color: var(--surface-soft);
+  color: var(--brand-900);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.875em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  direction: ltr;
+  display: inline-block;
+}
+
+.prose-article pre {
+  background-color: var(--brand-900);
+  color: #ffffff;
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius-card);
+  overflow-x: auto;
+  margin: 2rem 0;
+  direction: ltr;
+  text-align: left;
+}
+
+.prose-article pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+  display: block;
+}
+
+/* Horizontal Rule */
+.prose-article hr {
+  border: 0;
+  height: 1px;
+  background-color: var(--surface-border);
+  margin: 2.5rem 0;
+}
+
+/* Figures & Images */
+.prose-article figure {
+  margin: 2.5rem 0;
+}
+
+.prose-article figure img {
+  border-radius: var(--radius-card);
+  margin-inline: auto;
+  display: block;
+  max-width: 100%;
+  height: auto;
+  box-shadow: 0 4px 16px rgba(19, 36, 84, 0.06);
+}
+
+.prose-article figcaption {
+  text-align: center;
+  font-size: 0.875rem;
   color: var(--text-muted);
-  margin: 1.5rem 0;
+  margin-top: 0.75rem;
+  line-height: 1.5;
+}
+
+/* Tables & Table wrapper (horizontal scroll protection on mobile) */
+.prose-article .table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin: 2rem 0;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-card);
+  background-color: #ffffff;
+  -webkit-overflow-scrolling: touch;
+}
+
+.prose-article table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: start;
+  font-size: 0.9375rem;
+}
+
+.prose-article th {
+  background-color: var(--surface-soft);
+  color: var(--text-heading);
+  font-weight: 700;
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--surface-border);
+  white-space: nowrap;
+}
+
+.prose-article td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--surface-border-subtle);
+  color: var(--text-body);
+}
+
+.prose-article tr:last-child td {
+  border-bottom: none;
+}
+
+.prose-article tr:nth-child(even) td {
+  background-color: #fbfcfe;
+}
+
+/* In-article CTA block */
+.prose-article .cta-block,
+.prose-article .article-cta {
+  background: linear-gradient(135deg, var(--brand-900) 0%, var(--brand-700) 100%);
+  color: #ffffff;
+  padding: 2.25rem 2rem;
+  border-radius: var(--radius-card);
+  margin: 3rem 0;
+  text-align: center;
+}
+
+.prose-article .cta-block h3,
+.prose-article .article-cta h3 {
+  color: #ffffff;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1.5rem;
+}
+
+.prose-article .cta-block p,
+.prose-article .article-cta p {
+  color: var(--brand-100);
+  margin-bottom: 1.5rem;
+  max-width: 600px;
+  margin-inline: auto;
 }

@@ -486,5 +486,36 @@
       "relatedHeading": "Related Projects",
       "backToWorks": "Back to All Projects"
     }
+  },
+  "blog": {
+    "pageTitle": "Engineering Blog & Technical Insights | Al-Masaed Al-Mubtakirah",
+    "pageDescription": "Specialized articles and technical guidelines on elevator maintenance, installation, modernization, and Civil Defense standards in Jeddah.",
+    "eyebrow": "Engineering Blog",
+    "heading": "Technical Articles & Engineering Insights",
+    "intro": "Your comprehensive guide to elevator safety standards, preventive maintenance routines, and modernization solutions for residential and commercial properties.",
+    "allCategories": "All Categories",
+    "filterLabel": "Filter articles by category",
+    "readTime": "{{count}} min read",
+    "publishedAt": "Published:",
+    "updatedAt": "Updated:",
+    "byAuthor": "By:",
+    "tableOfContents": "Table of Contents",
+    "shareArticle": "Share Article",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied to clipboard",
+    "tags": "Tags:",
+    "relatedPosts": "Related Articles",
+    "prevPost": "Previous Article",
+    "nextPost": "Next Article",
+    "faqTitle": "Frequently Asked Questions",
+    "emptyHeading": "Articles in Preparation",
+    "emptyMessage": "Our engineering team is currently authoring comprehensive technical articles. Please check back soon for fresh updates.",
+    "backToBlog": "Back to All Articles",
+    "translationTwinNotice": "هذا المقال متوفر باللغة العربية أيضاً",
+    "readInOtherLang": "اقرأ بالعربية",
+    "ctaTitle": "Looking for engineering advice or a maintenance contract?",
+    "ctaText": "Our Civil Defense certified engineering team in Jeddah is ready to inspect your elevator and recommend tailored technical solutions.",
+    "ctaButton": "Request a Free Consultation"
   }
 }
+

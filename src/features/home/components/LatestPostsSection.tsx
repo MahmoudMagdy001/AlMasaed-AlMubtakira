@@ -4,10 +4,12 @@ import { Link, useLocation } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, Calendar, Clock } from 'lucide-react'
 import { Container, Section, SectionHeading } from '@/components/ui'
 import type { Tables } from '@/types/database.types'
+import type { PostListItem } from '@/services/blogService'
 
 interface LatestPostsSectionProps {
-  posts?: Tables<'posts'>[] | null
+  posts?: (PostListItem | Tables<'posts'>)[] | null
 }
+
 
 export const LatestPostsSection: React.FC<LatestPostsSectionProps> = ({ posts }) => {
   const { t } = useTranslation()
