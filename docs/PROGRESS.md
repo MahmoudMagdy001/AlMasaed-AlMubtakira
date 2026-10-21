@@ -5,7 +5,7 @@ The agent ticks items here at the end of each phase and lists open issues.
 | Phase | Name | Status | Notes |
 |---|---|---|---|
 | 00 | Project setup | [x] | Scaffolded, strict TS, RTL/Tajawal, SSG prerendering verified, brand assets & favicons generated, clean lint/typecheck. |
-| 01 | Design system & layout | [ ] | |
+| 01 | Design system & layout | [x] | Brand design tokens, 20+ core UI components, responsive Header/Footer, BrandPattern, Logo, FloatingContact, and /_styleguide route implemented and verified. |
 | 02 | Supabase database, RLS, storage | [ ] | |
 | 03 | Static public pages (ar + en) | [ ] | |
 | 04 | Public Works & Partners | [ ] | |
@@ -25,6 +25,8 @@ The agent ticks items here at the end of each phase and lists open issues.
 ## Decisions taken
 - Used `Head` from `vite-react-ssg` for head and meta tags to ensure unified helmet context during static prerendering.
 - Structured brand assets into `src/assets/brand/` with optimized WebP/PNG formats and pre-scaled header/footer dimensions as specified in `01-brand-design-system.md`.
+- Implemented logical CSS properties (`ms-`, `me-`, `ps-`, `pe-`, `start`, `end`) throughout layout and components for seamless RTL/LTR switching.
+- Created `siteConfig.ts` with typed facts and contact info strictly conforming to `10-fixed-decisions.md` (null fields omitted from rendering).
 
 ## Deviations from the spec
 None.
