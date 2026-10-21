@@ -1,0 +1,27 @@
+{
+  "brand": {
+    "name": "Al-Masaed Al-Mubtakirah Company",
+    "slogan": "Innovation that elevates you",
+    "tagline": "Maintenance – Modernization – Installation – Spare Parts",
+    "cr": "Commercial Registration No. 4030227058",
+    "accreditation": "Civil Defense Accredited"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "services": "Services",
+    "works": "Works",
+    "blog": "Blog",
+    "contact": "Contact Us"
+  },
+  "actions": {
+    "requestQuote": "Request a Quote",
+    "callNow": "Call Now",
+    "readMore": "Read More",
+    "contactUs": "Contact Us"
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "description": "Saudi company specialized in supply, installation, maintenance, and modernization of elevators and escalators in Jeddah."
+  }
+}

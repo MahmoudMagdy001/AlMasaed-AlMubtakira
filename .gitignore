@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Production output
+dist/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Tool and editor artifacts (09-natural-look-rules)
+.claude/
+.cursor/
+.agent/
+.gemini/
+.windsurf/
+*.log
+
+# OS metadata
+.DS_Store
+Thumbs.db

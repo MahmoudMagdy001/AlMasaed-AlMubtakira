@@ -1,0 +1,28 @@
+:root {
+  --brand-900: #132454;
+  --brand-800: #1b3b5a;
+  --brand-700: #234f78;
+  --brand-600: #336ea6;
+  --brand-500: #3d94cc;
+  --brand-400: #5ec1f0;
+  --brand-300: #95c0e6;
+  --brand-200: #c3daf1;
+  --brand-100: #e1ecf8;
+  --brand-50: #f0f6fc;
+
+  --surface-base: #ffffff;
+  --surface-soft: #f4f7fb;
+  --surface-border: #dde4ef;
+
+  --text-heading: #132454;
+  --text-body: #3a4560;
+  --text-muted: #6a768f;
+
+  --feedback-success: #1f8a5b;
+  --feedback-error: #c0392b;
+  --feedback-warning: #b7791f;
+
+  --radius-control: 8px;
+  --radius-card: 12px;
+  --shadow-card: 0 6px 24px rgba(19, 36, 84, 0.08);
+}
