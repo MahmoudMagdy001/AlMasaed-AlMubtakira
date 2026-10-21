@@ -120,6 +120,7 @@ create table public.media (
 );
 create index media_folder_idx on public.media (folder, created_at desc);
 create index media_created_idx on public.media (created_at desc);
+create index media_uploaded_by_idx on public.media (uploaded_by);
 create trigger media_updated before update on public.media
   for each row execute function public.set_updated_at();
 
@@ -205,6 +206,7 @@ create index posts_category_idx on public.posts (category_id);
 create index posts_translation_idx on public.posts (translation_key);
 create index posts_author_idx on public.posts (author_id);
 create index posts_featured_image_idx on public.posts (featured_image_id);
+create index posts_og_image_idx on public.posts (og_image_id);
 create trigger posts_updated before update on public.posts
   for each row execute function public.set_updated_at();
 

@@ -47,3 +47,31 @@ SVG is allowed for logos only and is uploaded by staff only.
 
 ## Seed
 `site_settings` starter rows and 5 blog categories are included in the SQL. **No fake posts, works or partners.**
+
+## User Invitation & Role Management
+
+Public sign-up is disabled by design. All staff accounts must be created through manual invitation:
+
+1. **Invite User in Supabase Dashboard**:
+   - Go to **Authentication** -> **Users** in the Supabase Dashboard.
+   - Click **Invite user** and enter the staff member's email address.
+   - Supabase sends an invitation email with a magic link allowing the user to set their password.
+
+2. **Automatic Profile Creation**:
+   - The trigger `on_auth_user_created` automatically inserts a corresponding row into `public.profiles` with `role = 'none'`.
+   - With `role = 'none'`, the user has zero staff privileges and cannot read or write private content or admin endpoints.
+
+3. **Promote User Role**:
+   - To grant editor access:
+     ```sql
+     update public.profiles
+     set role = 'editor'
+     where id = (select id from auth.users where email = 'editor@almubtakirah.com');
+     ```
+   - To grant administrator access:
+     ```sql
+     update public.profiles
+     set role = 'admin'
+     where id = (select id from auth.users where email = 'admin@almubtakirah.com');
+     ```
+   - In subsequent phases, admins can also promote or demote roles directly through the Admin Users interface (`/admin/users`).
