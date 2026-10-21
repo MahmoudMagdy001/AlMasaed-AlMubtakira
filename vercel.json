@@ -2,6 +2,19 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.almubtakirah.com"
+        }
+      ],
+      "destination": "https://almubtakirah.com/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/admin/:path*",
@@ -27,7 +40,6 @@
         }
       ]
     },
-
     {
       "source": "/(.*).html",
       "headers": [
@@ -53,8 +65,12 @@
           "value": "SAMEORIGIN"
         },
         {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=()"
+        },
+        {
           "key": "Content-Security-Policy-Report-Only",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-ancestors 'self';"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.supabase.co https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com https://www.googletagmanager.com; frame-ancestors 'self';"
         }
       ]
     }

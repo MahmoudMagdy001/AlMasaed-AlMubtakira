@@ -17,7 +17,7 @@ The agent ticks items here at the end of each phase and lists open issues.
 | 10 | SEO fields & SEO Analyzer | [x] | Pure TS Arabic-aware SEO analyzer engine (22 checks, 100 pts), live debounced panel with score gauge, fix tips & metrics, SERP & social previews, duplicate title/slug detection, confirmation on publish if score < 50, posts list badge, dashboard widget, and Vitest test suite. |
 | 11 | Technical SEO: prerender, sitemap, schema, rebuild hook | [x] | Full static prerendering (34 HTML pages) via vite-react-ssg, complete SEO metadata & OpenGraph, typed Schema.org JSON-LD (Organization, WebSite, LocalBusiness HomeAndConstructionBusiness, Service, FAQPage, BlogPosting, CreativeWork, BreadcrumbList), automated sitemap.xml & robots.txt generation with hreflang alternates, slug-change 301 redirects migration & vercel.json merge, trigger-rebuild Edge Function with 60s debounce, 678 automated SEO assertions passed with zero errors. |
 | 12 | Performance, accessibility, QA | [x] | Automated font preloads (Tajawal 400/700 woff2 in all 35 HTML files), focus traps in Drawer/Dialog/Lightbox (useFocusTrap), CSP Report-Only & security headers, zero secret leaks, single H1 outline verified across all pages, 0 axe critical/serious issues, 22-assertion QA test suite passed. Written docs/QA-REPORT.md. |
-| 13 | Deployment, domain, analytics hooks, final audit | [ ] | |
+| 13 | Deployment, domain, analytics hooks, final audit | [x] | Vercel www host redirects, CSP report-only, AnalyticsProvider with GTM/Consent Mode v2/SPA tracking, GSC verification meta support, removed internal _styleguide route, final natural-look audit passed with zero hits, wrote docs/HANDOVER.md, bumped version to 1.0.0. |
 
 ## Added dependencies (with one-line reason)
 
@@ -95,6 +95,12 @@ The agent ticks items here at the end of each phase and lists open issues.
 - Converted typography showcase sample heading in `StyleguidePage.tsx` into a styled text element to maintain a strict single-H1 semantic outline across all built HTML files.
 - Created and executed `scripts/test-phase-12-qa.mjs` asserting bundle size budgets, font preloads, bundle isolation, a11y attributes, security headers, zero secret leaks, and zero placeholder text (22 assertions passed).
 - Authored comprehensive quality assurance report in `docs/QA-REPORT.md`.
+- Configured host-based 301 redirect for `www.almubtakirah.com` -> `https://almubtakirah.com/:path*` in `vercel.json` alongside fine-grained security and cache headers.
+- Created `AnalyticsProvider`, `trackEvent`, and `CookieConsent` components supporting Google Tag Manager dynamic script injection, Google Consent Mode v2, and SPA route tracking on public pages while strictly excluding `/admin`.
+- Added `VITE_GSC_VERIFICATION` meta tag support to `Seo` component for home page Search Console verification.
+- Removed internal `_styleguide` route, component import, and robots rule for production release purity.
+- Wrote comprehensive project handover manual `docs/HANDOVER.md` for company management, content editors, and technical administrators.
+- Executed final natural-look audit via `scripts/final-audit.mjs` verifying 0 tool names, 0 artificial commentary, 0 console.logs, and 0 secret leaks across repository and build outputs.
 
 ## Flagged copy for human/owner review
 

@@ -222,7 +222,6 @@ ${urlEntries.join('\n')}
   const robotsTxt = `User-agent: *
 Allow: /
 Disallow: /admin
-Disallow: /_styleguide
 
 Sitemap: ${SITE_URL}/sitemap.xml
 `

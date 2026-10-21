@@ -15,8 +15,8 @@
 9. Tag release `v1.0.0`.
 
 ## Acceptance checklist
-- [ ] Site live on `https://almubtakirah.com`, www redirects, HTTPS valid
-- [ ] Post-launch checklist fully ticked
-- [ ] Final audit returns zero visible hits
-- [ ] GTM/GSC can be activated by setting env vars only
-- [ ] `HANDOVER.md` complete
+- [x] Site live on `https://almubtakirah.com`, www redirects, HTTPS valid
+- [x] Post-launch checklist fully ticked
+- [x] Final audit returns zero visible hits
+- [x] GTM/GSC can be activated by setting env vars only
+- [x] `HANDOVER.md` complete

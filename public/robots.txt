@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /admin
-Disallow: /_styleguide
 
 Sitemap: https://almubtakirah.com/sitemap.xml

@@ -119,6 +119,12 @@ export const Seo: React.FC<SeoProps> = ({
       <title>{fullTitle}</title>
       <meta name="description" content={fullDescription} />
       <meta name="theme-color" content="#132454" />
+      {import.meta.env.VITE_GSC_VERIFICATION && (
+        <meta
+          name="google-site-verification"
+          content={import.meta.env.VITE_GSC_VERIFICATION}
+        />
+      )}
 
       {/* Canonical */}
       <link rel="canonical" href={canonicalUrl} />

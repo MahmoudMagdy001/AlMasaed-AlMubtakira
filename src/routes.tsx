@@ -14,7 +14,6 @@ import { BlogPostPage } from './features/blog/BlogPostPage'
 import { ContactPage } from './features/contact/ContactPage'
 import { PrivacyPage } from './features/privacy/PrivacyPage'
 import { NotFoundPage } from './features/home/NotFoundPage'
-import { StyleguidePage } from './features/home/StyleguidePage'
 
 // Lazy-loaded Admin components to keep the public bundle lean and free of admin/TipTap code
 const AdminRoot = React.lazy(() =>
@@ -172,8 +171,7 @@ export const routes: RouteObject[] = [
       { path: 'en/contact', element: <ContactPage /> },
       { path: 'en/privacy', element: <PrivacyPage /> },
 
-      // Internal / styleguide / catch-all
-      { path: '_styleguide', element: <StyleguidePage /> },
+      // Catch-all 404
       { path: '*', element: <NotFoundPage /> },
     ],
   },

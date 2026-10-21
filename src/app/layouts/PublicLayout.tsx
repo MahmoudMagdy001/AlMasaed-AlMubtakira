@@ -10,6 +10,7 @@ import {
   ScrollRestoration,
 } from '@/components/layout'
 import { ToastProvider } from '@/components/ui'
+import { AnalyticsProvider } from '@/components/analytics/AnalyticsProvider'
 
 const PublicLayoutContent: React.FC = () => {
   const { i18n } = useTranslation()
@@ -45,9 +46,11 @@ const PublicLayoutContent: React.FC = () => {
 export const PublicLayout: React.FC = () => {
   return (
     <AppProviders>
-      <ToastProvider>
-        <PublicLayoutContent />
-      </ToastProvider>
+      <AnalyticsProvider>
+        <ToastProvider>
+          <PublicLayoutContent />
+        </ToastProvider>
+      </AnalyticsProvider>
     </AppProviders>
   )
 }
