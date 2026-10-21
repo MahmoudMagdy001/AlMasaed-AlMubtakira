@@ -11,7 +11,7 @@ The agent ticks items here at the end of each phase and lists open issues.
 | 04 | Public Works & Partners | [x] | Works index & detail pages with accessible lightbox, filter & pagination, noindex on 0 works. Partners logo grid with grayscale hover and nofollow links. Site settings loader with React Query cache & static fallback. Contact form wired to Supabase with honeypot, minimum fill time, dataLayer event, and zero client PII logging. Automated policy suite passed. |
 | 05 | Public Blog | [x] | Typed blogService reading published posts from Supabase (excluding content_html for list queries), BlogIndexPage with category filtering and 9/page pagination, BlogCategoryPage, BlogPostPage with LCP featured image (fetchpriority="high"), TOC anchor navigation, allow-list HTML sanitization (YouTube embed support, table wrapper horizontal scroll), FAQ accordion, share buttons without third-party trackers, bilingual translation twin pairing via translation_key, and prev/next links. All 25 static pages SSG prerendered cleanly. |
 | 06 | Admin foundation & auth | [x] | Admin foundation, auth context & listener, route guard (session + staff role check), AdminLayout (responsive sidebar, top bar, user profile footer), live Dashboard home with KPI cards, shared admin components (DataTable, ConfirmDialog, FormField, PageHeader, StatusBadge, UnsavedChangesGuard), lazy-loaded route chunking, vercel.json SPA rewrite & noindex headers, SSG excluded. Passed automated test suite. |
-| 07 | Media Manager | [ ] | |
+| 07 | Media Manager | [x] | Client-side image processing pipeline (Canvas/WebP quality 0.82, max 2400px, 480/960/1600 variants, SHA-256 duplicate warning), MediaPage with Grid & List views, search, filters, pagination, multi-select bulk delete & move, MediaDetailPanel with live usage detection across posts/works/partners/settings, file replacement, delete protection, and reusable keyboard-accessible <MediaPicker> dialog. Finalized getImageProps with sizes support and automated 23/23 test suite. |
 | 08 | Admin: Works, Partners, Messages, Settings | [ ] | |
 | 09 | Blog admin & TipTap editor | [ ] | |
 | 10 | SEO fields & SEO Analyzer | [ ] | |
@@ -56,6 +56,10 @@ The agent ticks items here at the end of each phase and lists open issues.
 - Enforced `X-Robots-Tag: noindex, nofollow` on `/admin/(.*)` and SPA rewrite `/admin/:path*` to `/index.html` in `vercel.json` for deep linking and page refresh.
 - Cleared React Query cache (`queryClient.clear()`) and Auth profile state upon sign-out to prevent stale staff data retention.
 - Split Auth context definitions into `authContextDef.ts`, `useAuth.ts`, and `AuthContext.tsx` to guarantee 100% compliance with React Fast Refresh.
+- Implemented client-side image processing pipeline using HTML Canvas and native WebP encoding (`quality ≈ 0.82`) downscaling large phone photos to max 2400px and generating 480/960/1600px variants, achieving a 95.1% size reduction (70.0 KB test JPEG -> 3.4 KB WebP).
+- Implemented live usage detection in `detectMediaUsage` scanning posts (`featured_image_id`, `og_image_id`, `content_html`), works (`cover_media_id`, `gallery_media_ids`), partners (`logo_media_id`), and `site_settings` to prevent accidental deletion of referenced media assets.
+- Built reusable `<MediaPicker>` dialog supporting single and multi-selection, search, folder filtering, direct modal uploads, and full keyboard accessibility (Escape to dismiss, Tab trapping, Enter to pick).
+- Finalized `getImageProps()` supporting responsive `srcset`, custom `sizes`, dimensions preservation, and graceful fallback for string URLs or missing alt text.
 
 ## Flagged copy for human/owner review
 

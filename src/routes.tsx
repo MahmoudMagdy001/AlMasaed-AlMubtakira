@@ -39,6 +39,11 @@ const DashboardPage = React.lazy(() =>
     default: m.DashboardPage,
   })),
 )
+const MediaPage = React.lazy(() =>
+  import('./features/admin/MediaPage').then((m) => ({
+    default: m.MediaPage,
+  })),
+)
 const AdminPlaceholderPage = React.lazy(() =>
   import('./features/admin/AdminPlaceholderPage').then((m) => ({
     default: m.AdminPlaceholderPage,
@@ -207,12 +212,7 @@ export const routes: RouteObject[] = [
       },
       {
         path: 'media',
-        element: (
-          <AdminPlaceholderPage
-            title="مكتبة الوسائط"
-            phaseNumber="المرحلة 07"
-          />
-        ),
+        element: <MediaPage />,
       },
       {
         path: 'messages',
