@@ -42,10 +42,15 @@ import {
   type SchemaType,
 } from '@/features/blog/blogAdminService'
 import { useSeoAnalyzer, SeoAnalyzerPanel } from '@/features/blog/seo'
-import { TipTapEditor } from '@/features/blog/editor/TipTapEditor'
 import type { MediaRow } from '@/features/media/types'
 import { getStoragePublicUrl } from '@/lib/media'
 import { REBUILD_NOTICE } from '@/lib/rebuild'
+
+const TipTapEditor = React.lazy(() =>
+  import('@/features/blog/editor/TipTapEditor').then((m) => ({
+    default: m.TipTapEditor,
+  })),
+)
 
 export const PostEditPage: React.FC = () => {
   const { id } = useParams<{ id: string }>()
@@ -741,13 +746,21 @@ export const PostEditPage: React.FC = () => {
             </div>
 
             <div className="p-2 sm:p-4">
-              <TipTapEditor
-                contentHtml={contentHtml}
-                contentJson={contentJson}
-                onChange={handleEditorChange}
-                lang={lang}
-                placeholder="ابدأ بكتابة المقال هنا... يمكنك إدراج صور، جداول، فيديوهات يوتيوب، وبلوكات الأسئلة المخصصة للمصاعد عبر القائمة."
-              />
+              <React.Suspense
+                fallback={
+                  <div className="h-64 flex items-center justify-center text-sm text-content-muted">
+                    جارٍ تحميل المحرر...
+                  </div>
+                }
+              >
+                <TipTapEditor
+                  contentHtml={contentHtml}
+                  contentJson={contentJson}
+                  onChange={handleEditorChange}
+                  lang={lang}
+                  placeholder="ابدأ بكتابة المقال هنا... يمكنك إدراج صور، جداول، فيديوهات يوتيوب، وبلوكات الأسئلة المخصصة للمصاعد عبر القائمة."
+                />
+              </React.Suspense>
             </div>
           </div>
 

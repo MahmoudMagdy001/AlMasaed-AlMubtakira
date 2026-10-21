@@ -24,6 +24,16 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
+            if (
+              id.includes('react/') ||
+              id.includes('react-dom/') ||
+              id.includes('react-router-dom/') ||
+              id.includes('react-router/') ||
+              id.includes('@remix-run') ||
+              id.includes('react-helmet-async')
+            ) {
+              return 'vendor-react'
+            }
             if (id.includes('@supabase')) return 'vendor-supabase'
             if (id.includes('@tanstack/react-query')) return 'vendor-query'
             if (id.includes('lucide-react')) return 'vendor-icons'
@@ -36,6 +46,18 @@ export default defineConfig({
             }
           }
         },
+      },
+    },
+    modulePreload: {
+      resolveDependencies(_filename, deps) {
+        return deps.filter(
+          (dep) =>
+            !dep.includes('tiptap') &&
+            !dep.includes('PostEditPage') &&
+            !dep.includes('Admin') &&
+            !dep.includes('prosemirror') &&
+            !dep.includes('lowlight'),
+        )
       },
     },
   },
