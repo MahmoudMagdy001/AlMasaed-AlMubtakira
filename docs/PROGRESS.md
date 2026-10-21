@@ -3,7 +3,7 @@
 The agent ticks items here at the end of each phase and lists open issues.
 
 | Phase | Name | Status | Notes |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | 00 | Project setup | [x] | Scaffolded, strict TS, RTL/Tajawal, SSG prerendering verified, brand assets & favicons generated, clean lint/typecheck. |
 | 01 | Design system & layout | [x] | Brand design tokens, 20+ core UI components, responsive Header/Footer, BrandPattern, Logo, FloatingContact, and /_styleguide route implemented and verified. |
 | 02 | Supabase database, RLS, storage | [x] | Modular migrations 001-008 created, RLS policies & helper functions with search_path set, FK performance indexes added, typed client & Database types implemented, automated policy test suite verified. |
@@ -20,9 +20,11 @@ The agent ticks items here at the end of each phase and lists open issues.
 | 13 | Deployment, domain, analytics hooks, final audit | [ ] | |
 
 ## Added dependencies (with one-line reason)
+
 - `sharp` (dev): Generates responsive WebP brand assets, multi-resolution favicons, and OG default card from raw brand book PNGs.
 
 ## Decisions taken
+
 - Used `Head` from `vite-react-ssg` for head and meta tags to ensure unified helmet context during static prerendering.
 - Structured brand assets into `src/assets/brand/` with optimized WebP/PNG formats and pre-scaled header/footer dimensions as specified in `01-brand-design-system.md`.
 - Implemented logical CSS properties (`ms-`, `me-`, `ps-`, `pe-`, `start`, `end`) throughout layout and components for seamless RTL/LTR switching.
@@ -55,14 +57,15 @@ The agent ticks items here at the end of each phase and lists open issues.
 - Cleared React Query cache (`queryClient.clear()`) and Auth profile state upon sign-out to prevent stale staff data retention.
 - Split Auth context definitions into `authContextDef.ts`, `useAuth.ts`, and `AuthContext.tsx` to guarantee 100% compliance with React Fast Refresh.
 
-
 ## Flagged copy for human/owner review
+
 - **Installation, Spare Parts, and Escalators service pages:** The initial copy is strictly grounded in verified facts from `02-content-and-pages.md` and `10-fixed-decisions.md`. Flagged for owner/business review to expand with specific brand partnerships, manufacturer representations, or catalog lines once available.
 - **Privacy Policy (`/privacy`, `/en/privacy`):** Initial draft covers core Saudi Personal Data Protection Law (PDPL) requirements; flagged for company legal review prior to final sign-off.
 
 ## Deviations from the spec
+
 None.
 
 ## Open issues
-None.
 
+None.

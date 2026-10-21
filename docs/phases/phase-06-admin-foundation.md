@@ -4,6 +4,7 @@
 **Goal:** a secure, empty admin shell.
 
 ## Tasks
+
 1. `/admin/login` (email + password, forgot password flow, error messages), session persistence, logout.
 2. `AuthProvider` + route guard: requires session **and** `is_staff()` (query own profile). Role `none` → "no access" screen. Expired session → redirect to login with return path.
 3. `AdminLayout`: sidebar (Dashboard, Posts, Categories, Tags, Works, Partners, Media, Messages, Settings, Users), top bar (user menu, view site), responsive.
@@ -14,8 +15,10 @@
 8. Password reset page and Supabase redirect URLs set.
 
 ## Acceptance checklist
+
 - [x] Unauthenticated users cannot see any admin screen or data
 - [x] A user with role `none` cannot access anything
 - [x] Deep-link to `/admin/...` works on Vercel (rewrite) and after refresh
 - [x] Public bundle size unaffected by admin code (report sizes)
 - [x] Logout clears session and cached queries
+

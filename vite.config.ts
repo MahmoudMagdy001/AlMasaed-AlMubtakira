@@ -1,6 +1,13 @@
 import path from 'node:path'
 import { defineConfig } from 'vite'
+import type { ViteReactSSGOptions } from 'vite-react-ssg'
 import react from '@vitejs/plugin-react'
+
+declare module 'vite' {
+  interface UserConfig {
+    ssgOptions?: ViteReactSSGOptions
+  }
+}
 
 export default defineConfig({
   plugins: [react()],
@@ -26,8 +33,8 @@ export default defineConfig({
   ssgOptions: {
     entry: 'src/main.tsx',
     formatting: 'none',
-    includedRoutes(paths) {
-      return paths.filter((p) => {
+    includedRoutes(paths: string[]) {
+      return paths.filter((p: string) => {
         const clean = p.startsWith('/') ? p : `/${p}`
         return !clean.startsWith('/admin') && !p.startsWith('/admin')
       })
