@@ -10,7 +10,6 @@ import {
   Image,
   Inbox,
   Settings,
-  Users,
   ExternalLink,
   LogOut,
   Menu,
@@ -45,7 +44,6 @@ const NAV_ITEMS: NavItem[] = [
   { name: 'مكتبة الوسائط والصور', href: '/admin/media', icon: Image },
   { name: 'طلبات عروض الأسعار والرسائل', href: '/admin/messages', icon: Inbox },
   { name: 'إعدادات الموقع ومعلومات التواصل', href: '/admin/settings', icon: Settings, adminOnly: true },
-  { name: 'فريق العمل وصلاحيات المستخدمين', href: '/admin/users', icon: Users, adminOnly: true },
 ]
 
 const AdminLayoutInner: React.FC = () => {
@@ -118,9 +116,6 @@ const AdminLayoutInner: React.FC = () => {
                 className="focus-visible:outline-none"
               >
                 <Logo theme="light" asLink={false} />
-                <span className="text-[11px] font-bold text-brand-600 block mt-1 tracking-wider uppercase">
-                  لوحة التحكم المركزية
-                </span>
               </Link>
 
               <button
