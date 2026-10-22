@@ -5,8 +5,10 @@ import {
   ShieldCheck,
   CheckCircle2,
   TrendingUp,
+  Hexagon,
+  Palette,
+  Wrench,
   Cpu,
-  Layers,
   Building2,
   MapPin,
   FileCheck,
@@ -48,18 +50,33 @@ export const AboutPage: React.FC = () => {
   }>) || []
 
   const logoIcons = [
-    <TrendingUp key="0" className="w-6 h-6 text-brand-600" aria-hidden="true" />,
-    <Cpu key="1" className="w-6 h-6 text-brand-600" aria-hidden="true" />,
-    <Layers key="2" className="w-6 h-6 text-brand-600" aria-hidden="true" />,
+    <TrendingUp key="0" className="w-6 h-6 text-brand-600 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" />,
+    <Hexagon key="1" className="w-6 h-6 text-brand-700 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" />,
+    <Palette key="2" className="w-6 h-6 text-brand-600 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" />,
+  ]
+
+  const logoBadgeStyles = [
+    'bg-gradient-to-br from-brand-50 to-brand-100/80 border-brand-200/60 text-brand-600',
+    'bg-gradient-to-br from-blue-50 to-indigo-100/70 border-indigo-200/60 text-brand-700',
+    'bg-gradient-to-br from-sky-50 to-cyan-100/70 border-sky-200/60 text-brand-600',
   ]
 
   const factIcons = [
     <FileCheck key="0" className="w-5 h-5 text-brand-600" aria-hidden="true" />,
     <ShieldCheck key="1" className="w-5 h-5 text-feedback-success" aria-hidden="true" />,
-    <MapPin key="2" className="w-5 h-5 text-brand-600" aria-hidden="true" />,
-    <Building2 key="3" className="w-5 h-5 text-brand-600" aria-hidden="true" />,
+    <Building2 key="2" className="w-5 h-5 text-brand-600" aria-hidden="true" />,
+    <Wrench key="3" className="w-5 h-5 text-brand-600" aria-hidden="true" />,
     <CheckCircle2 key="4" className="w-5 h-5 text-brand-600" aria-hidden="true" />,
     <MapPin key="5" className="w-5 h-5 text-brand-600" aria-hidden="true" />,
+  ]
+
+  const factBadgeStyles = [
+    'bg-brand-50 text-brand-600 border-brand-100',
+    'bg-emerald-50 text-feedback-success border-emerald-100',
+    'bg-brand-50 text-brand-600 border-brand-100',
+    'bg-brand-50 text-brand-600 border-brand-100',
+    'bg-brand-50 text-brand-600 border-brand-100',
+    'bg-brand-50 text-brand-600 border-brand-100',
   ]
 
   return (
@@ -106,9 +123,10 @@ export const AboutPage: React.FC = () => {
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Vision */}
-            <div className="p-8 rounded-card border border-surface-border bg-white flex flex-col justify-between shadow-xs">
+            <div className="p-8 rounded-card border border-surface-border bg-white flex flex-col justify-between shadow-xs hover:border-brand-300 hover:shadow-card transition-all duration-300">
               <div>
-                <span className="text-xs font-bold text-brand-600 uppercase tracking-wide block mb-3">
+                <span className="text-xs font-bold text-brand-600 uppercase tracking-wide mb-3 flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4 text-brand-600 shrink-0" />
                   {t('about.visionEyebrow')}
                 </span>
                 <h2 className="text-xl font-bold text-content-heading mb-4 leading-snug">
@@ -121,9 +139,10 @@ export const AboutPage: React.FC = () => {
             </div>
 
             {/* Approach */}
-            <div className="p-8 rounded-card border border-surface-border bg-white flex flex-col justify-between shadow-xs">
+            <div className="p-8 rounded-card border border-surface-border bg-white flex flex-col justify-between shadow-xs hover:border-brand-300 hover:shadow-card transition-all duration-300">
               <div>
-                <span className="text-xs font-bold text-brand-600 uppercase tracking-wide block mb-3">
+                <span className="text-xs font-bold text-brand-600 uppercase tracking-wide mb-3 flex items-center gap-2">
+                  <Cpu className="w-4 h-4 text-brand-600 shrink-0" />
                   {t('about.approachEyebrow')}
                 </span>
                 <h2 className="text-xl font-bold text-content-heading mb-4 leading-snug">
@@ -136,10 +155,10 @@ export const AboutPage: React.FC = () => {
             </div>
 
             {/* Safety Mission */}
-            <div className="p-8 rounded-card border border-surface-border bg-brand-50/50 flex flex-col justify-between shadow-xs">
+            <div className="p-8 rounded-card border border-surface-border bg-brand-50/50 flex flex-col justify-between shadow-xs hover:border-brand-300 hover:shadow-card transition-all duration-300">
               <div>
-                <span className="text-xs font-bold text-feedback-success uppercase tracking-wide block mb-3 flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4" />
+                <span className="text-xs font-bold text-feedback-success uppercase tracking-wide mb-3 flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-feedback-success shrink-0" />
                   {t('about.missionEyebrow')}
                 </span>
                 <h2 className="text-xl font-bold text-content-heading mb-4 leading-snug">
@@ -158,7 +177,7 @@ export const AboutPage: React.FC = () => {
       <Section variant="soft" className="border-t border-b border-surface-border">
         <Container>
           <SectionHeading
-            kicker={isEn ? 'Visual Identity' : 'الهوية البصرية'}
+            kicker={isEn ? 'Visual Identity & Philosophy' : 'فلسفة الهوية الهندسية'}
             title={t('about.logoMeaningTitle')}
             intro={t('about.logoMeaningIntro')}
             className="max-w-3xl mb-12"
@@ -168,12 +187,16 @@ export const AboutPage: React.FC = () => {
             {logoElements.map((elem, idx) => (
               <div
                 key={idx}
-                className="p-6 rounded-card bg-white border border-surface-border flex flex-col"
+                className="group p-7 rounded-card bg-white border border-surface-border flex flex-col hover:border-brand-300 hover:shadow-card transition-all duration-300"
               >
-                <div className="w-12 h-12 rounded-control bg-brand-50 flex items-center justify-center mb-5">
+                <div
+                  className={`w-14 h-14 rounded-2xl border flex items-center justify-center mb-6 shadow-xs group-hover:shadow-sm transition-all duration-300 ${
+                    logoBadgeStyles[idx % logoBadgeStyles.length]
+                  }`}
+                >
                   {logoIcons[idx % logoIcons.length]}
                 </div>
-                <h3 className="text-lg font-bold text-content-heading mb-3">
+                <h3 className="text-lg font-bold text-content-heading mb-3 group-hover:text-brand-600 transition-colors duration-200">
                   {elem.title}
                 </h3>
                 <p className="text-sm text-content-body leading-relaxed">
@@ -190,20 +213,23 @@ export const AboutPage: React.FC = () => {
         <Container>
           <div className="max-w-4xl mx-auto">
             <SectionHeading
-              kicker={isEn ? 'Verified Facts' : 'حقائق وبيانات رسمية'}
+              kicker={isEn ? 'Official Credentials & Facts' : 'اعتمادات رسمية وموثوقية'}
               title={t('about.factsTitle')}
               align="center"
-              className="mb-10"
+              className="mb-10 max-w-2xl mx-auto"
             />
-
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {facts.map((fact, idx) => (
                 <div
                   key={idx}
-                  className="p-5 rounded-control bg-surface-subtle/60 border border-surface-border flex items-start gap-4"
+                  className="p-5 rounded-control bg-surface-subtle/50 border border-surface-border flex items-start gap-4 hover:border-brand-300 hover:shadow-xs hover:bg-white transition-all duration-300"
                 >
-                  <div className="mt-0.5 flex-shrink-0">
+                  <div
+                    className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 shadow-xs ${
+                      factBadgeStyles[idx % factBadgeStyles.length]
+                    }`}
+                  >
                     {factIcons[idx % factIcons.length]}
                   </div>
                   <div>

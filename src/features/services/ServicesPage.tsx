@@ -4,12 +4,11 @@ import { useLocation, Link } from 'react-router-dom'
 import {
   Wrench,
   Sparkles,
-  Layers,
-  Cpu,
-  Compass,
+  Building2,
+  PackageCheck,
+  ArrowUpDown,
   ArrowLeft,
   ArrowRight,
-  CheckCircle2,
 } from 'lucide-react'
 import {
   Container,
@@ -17,6 +16,8 @@ import {
   BrandPattern,
   Breadcrumbs,
 } from '@/components/ui'
+import { getServiceIncludedIcon } from './serviceIcons'
+import type { ServiceKey } from './ServiceDetailPage'
 
 import { CtaBand } from '@/components/layout/CtaBand'
 import { Seo, getCollectionPageSchema } from '@/components/seo'
@@ -37,7 +38,8 @@ export const ServicesPage: React.FC = () => {
   const services = [
     {
       key: 'maintenance',
-      icon: <Wrench className="w-6 h-6 text-brand-600" aria-hidden="true" />,
+      icon: <Wrench className="w-7 h-7 text-brand-600 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" />,
+      badgeClass: 'bg-gradient-to-br from-brand-50 to-brand-100/80 border-brand-200/80',
       title: t('services.maintenance.title'),
       desc: t('services.maintenance.intro'),
       slug: 'elevator-maintenance',
@@ -47,7 +49,8 @@ export const ServicesPage: React.FC = () => {
     },
     {
       key: 'modernization',
-      icon: <Sparkles className="w-6 h-6 text-brand-600" aria-hidden="true" />,
+      icon: <Sparkles className="w-7 h-7 text-indigo-600 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" />,
+      badgeClass: 'bg-gradient-to-br from-indigo-50 to-blue-100/70 border-indigo-200/80',
       title: t('services.modernization.title'),
       desc: t('services.modernization.intro'),
       slug: 'elevator-modernization',
@@ -57,7 +60,8 @@ export const ServicesPage: React.FC = () => {
     },
     {
       key: 'installation',
-      icon: <Layers className="w-6 h-6 text-brand-600" aria-hidden="true" />,
+      icon: <Building2 className="w-7 h-7 text-amber-600 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" />,
+      badgeClass: 'bg-gradient-to-br from-amber-50 to-orange-100/70 border-amber-200/80',
       title: t('services.installation.title'),
       desc: t('services.installation.intro'),
       slug: 'elevator-installation',
@@ -67,7 +71,8 @@ export const ServicesPage: React.FC = () => {
     },
     {
       key: 'spareParts',
-      icon: <Cpu className="w-6 h-6 text-brand-600" aria-hidden="true" />,
+      icon: <PackageCheck className="w-7 h-7 text-emerald-600 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" />,
+      badgeClass: 'bg-gradient-to-br from-emerald-50 to-teal-100/70 border-emerald-200/80',
       title: t('services.spareParts.title'),
       desc: t('services.spareParts.intro'),
       slug: 'elevator-spare-parts',
@@ -77,7 +82,8 @@ export const ServicesPage: React.FC = () => {
     },
     {
       key: 'escalators',
-      icon: <Compass className="w-6 h-6 text-brand-600" aria-hidden="true" />,
+      icon: <ArrowUpDown className="w-7 h-7 text-purple-600 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" />,
+      badgeClass: 'bg-gradient-to-br from-purple-50 to-indigo-100/70 border-purple-200/80',
       title: t('services.escalators.title'),
       desc: t('services.escalators.intro'),
       slug: 'escalators-moving-walkways',
@@ -141,21 +147,20 @@ export const ServicesPage: React.FC = () => {
               return (
                 <article
                   key={service.key}
-                  className="bg-white rounded-card border border-surface-border p-8 md:p-10 hover:shadow-card-hover transition-all duration-200 flex flex-col lg:flex-row gap-8 items-start justify-between"
+                  className="group bg-white rounded-card border border-surface-border p-8 md:p-10 hover:border-brand-300 hover:shadow-card transition-all duration-300 flex flex-col lg:flex-row gap-8 items-start justify-between"
                 >
                   <div className="lg:max-w-2xl flex-1">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 rounded-control bg-brand-50 flex items-center justify-center flex-shrink-0">
+                    <div className="flex items-center gap-4 mb-5">
+                      <div className={`w-14 h-14 rounded-2xl border flex items-center justify-center shrink-0 shadow-xs group-hover:shadow-sm transition-all duration-300 ${service.badgeClass}`}>
                         {service.icon}
                       </div>
                       <div>
-                        <span className="text-xs font-bold text-brand-600 uppercase tracking-wider block">
+                        <span className="text-xs font-bold text-brand-600 uppercase tracking-wider block mb-1">
                           0{index + 1}
                         </span>
-                        <h2 className="text-2xl font-bold text-content-heading">
+                        <h2 className="text-2xl font-bold text-content-heading group-hover:text-brand-600 transition-colors">
                           <Link
                             to={detailUrl}
-                            className="hover:text-brand-600 transition-colors"
                           >
                             {service.title}
                           </Link>
@@ -163,20 +168,28 @@ export const ServicesPage: React.FC = () => {
                       </div>
                     </div>
 
-                    <p className="text-content-body text-base leading-relaxed mb-6">
+                    <p className="text-content-body text-base leading-relaxed mb-6 font-normal">
                       {service.desc}
                     </p>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-6">
-                      {service.items.map((item, i) => (
-                        <div
-                          key={i}
-                          className="flex items-center gap-2 text-sm text-content-body font-medium"
-                        >
-                          <CheckCircle2 className="w-4 h-4 text-brand-600 flex-shrink-0" />
-                          <span>{item}</span>
-                        </div>
-                      ))}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+                      {service.items.map((item, i) => {
+                        const ItemIcon = getServiceIncludedIcon(
+                          service.key as ServiceKey,
+                          i,
+                        )
+                        return (
+                          <div
+                            key={i}
+                            className="flex items-center gap-2.5 text-sm text-content-body font-medium"
+                          >
+                            <div className="w-6 h-6 rounded-md bg-brand-50 border border-brand-200/80 flex items-center justify-center shrink-0 text-brand-600">
+                              <ItemIcon className="w-3.5 h-3.5" />
+                            </div>
+                            <span>{item}</span>
+                          </div>
+                        )
+                      })}
                     </div>
                   </div>
 

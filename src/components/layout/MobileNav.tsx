@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Phone, Globe } from 'lucide-react'
+import { Phone, Globe, Calendar } from 'lucide-react'
 import { Drawer } from '../ui/Drawer'
 import { Logo } from '../ui/Logo'
 import { useSiteSettings } from '@/hooks/useSiteSettings'
@@ -64,6 +64,15 @@ export const MobileNav: React.FC<MobileNavProps> = ({
         </div>
 
         <div className="pt-6 border-t border-surface-border flex flex-col gap-3">
+          <Link
+            to={`${prefix}/contact`}
+            onClick={onClose}
+            className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-control bg-brand-500 text-white font-semibold text-sm hover:bg-brand-400 transition-colors shadow-sm"
+          >
+            <Calendar className="w-4 h-4 text-brand-100" aria-hidden="true" />
+            <span>{t('actions.bookConsultation')}</span>
+          </Link>
+
           <a
             href={`tel:${settings.contact.unifiedNumber}`}
             className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-control bg-brand-900 text-white font-semibold text-sm hover:bg-brand-800 transition-colors"

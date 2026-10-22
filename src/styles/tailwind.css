@@ -62,4 +62,25 @@
       #336ea6 100%
     );
   }
+
+  /* Infinite marquee scroll animation for partners */
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    display: flex !important;
+    width: max-content !important;
+    animation: marquee 28s linear infinite !important;
+    will-change: transform;
+  }
+
+  .animate-marquee:hover {
+    animation-play-state: paused !important;
+  }
 }

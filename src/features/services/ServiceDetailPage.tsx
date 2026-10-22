@@ -2,12 +2,15 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, Link } from 'react-router-dom'
 import {
-  CheckCircle2,
-  Layers,
   ArrowLeft,
   ArrowRight,
   Phone,
 } from 'lucide-react'
+import {
+  getServiceIncludedIcon,
+  getEquipmentIcon,
+  getServiceProcessIcon,
+} from './serviceIcons'
 import {
   Container,
   Section,
@@ -70,7 +73,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
     }) as Array<{ step: string; title: string; desc: string }>) || [],
     equipment: (t(`services.${serviceKey}.equipment`, {
       returnObjects: true,
-    }) as string[]) || [],
+    }) as Array<string | { title: string; desc: string; tag?: string }>) || [],
     faqs: (t(`services.${serviceKey}.faqs`, {
       returnObjects: true,
     }) as Array<{ q: string; a: string }>) || [],
@@ -149,10 +152,9 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
 
             <div className="flex flex-wrap items-center gap-4">
               <Button
-                variant="primary"
+                variant="hero"
                 size="lg"
                 to={`${prefix}/contact`}
-                className="bg-brand-600 hover:bg-brand-500 font-semibold"
                 rightIcon={
                   isRtl ? (
                     <ArrowLeft className="w-5 h-5" />
@@ -167,8 +169,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                 variant="inverse"
                 size="lg"
                 href={`tel:${settings.contact.unifiedNumber}`}
-                leftIcon={<Phone className="w-5 h-5 text-brand-400" />}
-                className="font-semibold"
+                leftIcon={<Phone className="w-5 h-5 text-brand-300" />}
               >
                 {t('actions.callNow')}
               </Button>
@@ -187,17 +188,22 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               className="mb-8"
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {serviceData.included.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="p-4 rounded-control border border-surface-border bg-surface-subtle/50 flex items-start gap-3"
-                >
-                  <CheckCircle2 className="w-5 h-5 text-brand-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm font-semibold text-content-body">
-                    {item}
-                  </span>
-                </div>
-              ))}
+              {serviceData.included.map((item, idx) => {
+                const IconComponent = getServiceIncludedIcon(serviceKey, idx)
+                return (
+                  <div
+                    key={idx}
+                    className="group p-4 md:p-5 rounded-card border border-surface-border bg-white hover:border-brand-300 hover:shadow-card transition-all duration-200 flex items-start gap-3.5"
+                  >
+                    <div className="w-10 h-10 rounded-control bg-brand-50 border border-brand-100 flex items-center justify-center shrink-0 text-brand-600 group-hover:bg-brand-600 group-hover:text-white transition-colors duration-200 mt-0.5 shadow-xs">
+                      <IconComponent className="w-5 h-5 transition-transform duration-200 group-hover:scale-105" />
+                    </div>
+                    <span className="text-sm md:text-[0.925rem] font-semibold text-content-heading leading-relaxed pt-1 group-hover:text-brand-900 transition-colors">
+                      {item}
+                    </span>
+                  </div>
+                )
+              })}
             </div>
           </div>
         </Container>
@@ -214,24 +220,35 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {serviceData.process.map((step) => (
-              <div
-                key={step.step}
-                className="p-6 rounded-card bg-white border border-surface-border flex flex-col justify-between shadow-xs"
-              >
-                <div>
-                  <span className="text-2xl font-black text-brand-300 block mb-3 font-mono">
-                    {step.step}
-                  </span>
-                  <h3 className="text-lg font-bold text-content-heading mb-2">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm text-content-body leading-relaxed">
-                    {step.desc}
-                  </p>
+            {serviceData.process.map((step, idx) => {
+              const StepIcon = getServiceProcessIcon(serviceKey, idx)
+              return (
+                <div
+                  key={step.step}
+                  className="p-6 md:p-7 rounded-card bg-white border border-surface-border flex flex-col justify-between shadow-xs hover:border-brand-300 hover:shadow-card transition-all duration-300 group"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-5">
+                      <div className="w-12 h-12 rounded-xl bg-brand-50 border border-brand-100/80 flex items-center justify-center text-brand-600 group-hover:bg-brand-600 group-hover:text-white group-hover:scale-105 transition-all duration-300 shadow-xs">
+                        <StepIcon className="w-6 h-6" />
+                      </div>
+                      <span className="text-xs font-bold font-mono tracking-wider px-2.5 py-1 rounded-full bg-brand-50 border border-brand-200/60 text-brand-700 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                        {isEn ? `Step ${step.step}` : `مرحلة ${step.step}`}
+                      </span>
+                    </div>
+
+                    <h3 className="text-lg font-bold text-content-heading mb-2.5 group-hover:text-brand-900 transition-colors leading-snug">
+                      {step.title}
+                    </h3>
+                    <p className="text-sm text-content-body leading-relaxed font-normal">
+                      {step.desc}
+                    </p>
+                  </div>
+
+                  <div className="h-1 w-10 group-hover:w-full bg-brand-100 group-hover:bg-brand-500 rounded-full transition-all duration-300 mt-6" />
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </Container>
       </Section>
@@ -239,22 +256,55 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
       {/* Equipment Covered */}
       <Section variant="white" className="border-b border-surface-border">
         <Container>
-          <div className="max-w-3xl">
+          <div className="max-w-5xl">
             <SectionHeading
               kicker={isEn ? 'Covered Systems' : 'الأنظمة المشمولة'}
               title={t('services.equipmentTitle')}
-              className="mb-8"
+              intro={
+                isEn
+                  ? 'Comprehensive engineering coverage tailored to every elevator system and architectural requirement across Jeddah.'
+                  : 'تغطية هندسية متخصصة لكافة أنواع المصاعد ومنظومات النقل العمودي في مختلف منشآت ومباني جدة.'
+              }
+              className="mb-10"
             />
-            <div className="space-y-3">
-              {serviceData.equipment.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center gap-3 p-4 bg-white rounded-control border border-surface-border text-sm font-medium text-content-heading"
-                >
-                  <Layers className="w-4 h-4 text-brand-600 flex-shrink-0" />
-                  <span>{item}</span>
-                </div>
-              ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {serviceData.equipment.map((rawItem, idx) => {
+                const item =
+                  typeof rawItem === 'string'
+                    ? { title: rawItem, desc: '', tag: undefined }
+                    : rawItem
+                const EquipIcon = getEquipmentIcon(serviceKey, idx)
+
+                return (
+                  <div
+                    key={idx}
+                    className="p-5 md:p-6 rounded-card border border-surface-border bg-white hover:border-brand-300 hover:shadow-card transition-all duration-300 flex flex-col justify-between group"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="w-11 h-11 rounded-xl bg-brand-50 border border-brand-100/80 flex items-center justify-center shrink-0 text-brand-600 group-hover:bg-brand-600 group-hover:text-white group-hover:scale-105 transition-all duration-300 shadow-xs">
+                          <EquipIcon className="w-5 h-5" />
+                        </div>
+                        {item.tag && (
+                          <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-brand-50/70 border border-brand-100 text-brand-700">
+                            {item.tag}
+                          </span>
+                        )}
+                      </div>
+
+                      <h3 className="text-base md:text-lg font-bold text-content-heading mb-2 group-hover:text-brand-900 transition-colors leading-snug">
+                        {item.title}
+                      </h3>
+
+                      {item.desc && (
+                        <p className="text-xs md:text-sm text-content-body leading-relaxed font-normal">
+                          {item.desc}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           </div>
         </Container>

@@ -9,14 +9,19 @@ import {
   CheckCircle2,
   Wrench,
   Sparkles,
-  Layers,
-  Cpu,
-  Workflow,
-  Clock,
-  Award,
-  Zap,
-  Users,
-  Compass,
+  Building2,
+  PackageCheck,
+  ArrowUpDown,
+  BadgeCheck,
+  Truck,
+  Siren,
+  Gauge,
+  HardHat,
+  Timer,
+  Cog,
+  FileText,
+  SlidersVertical,
+  DoorOpen,
 } from 'lucide-react'
 import {
   Button,
@@ -57,15 +62,15 @@ export const HomePage: React.FC = () => {
   const prefix = isEn ? '/en' : ''
 
 
-  // Why Us icon mapping for the 7 points from docs/02
+  // Why Us expressive icons representing each of the 7 value propositions
   const whyUsIcons = [
-    <Award key="0" className="w-6 h-6 text-brand-600" aria-hidden="true" />,
+    <BadgeCheck key="0" className="w-6 h-6 text-brand-600" aria-hidden="true" />,
     <ShieldCheck key="1" className="w-6 h-6 text-brand-600" aria-hidden="true" />,
-    <Workflow key="2" className="w-6 h-6 text-brand-600" aria-hidden="true" />,
-    <Zap key="3" className="w-6 h-6 text-brand-600" aria-hidden="true" />,
-    <Sparkles key="4" className="w-6 h-6 text-brand-600" aria-hidden="true" />,
-    <Users key="5" className="w-6 h-6 text-brand-600" aria-hidden="true" />,
-    <Clock key="6" className="w-6 h-6 text-brand-600" aria-hidden="true" />,
+    <Truck key="2" className="w-6 h-6 text-brand-600" aria-hidden="true" />,
+    <Siren key="3" className="w-6 h-6 text-brand-600" aria-hidden="true" />,
+    <Gauge key="4" className="w-6 h-6 text-brand-600" aria-hidden="true" />,
+    <HardHat key="5" className="w-6 h-6 text-brand-600" aria-hidden="true" />,
+    <Timer key="6" className="w-6 h-6 text-brand-600" aria-hidden="true" />,
   ]
 
   const servicesData = [
@@ -85,21 +90,21 @@ export const HomePage: React.FC = () => {
     },
     {
       key: 'installation',
-      icon: <Layers className="w-6 h-6 text-brand-600" aria-hidden="true" />,
+      icon: <Building2 className="w-6 h-6 text-brand-600" aria-hidden="true" />,
       title: t('services.installation.title'),
       desc: t('services.installation.shortDesc'),
       link: `${prefix}/services/elevator-installation`,
     },
     {
       key: 'spareParts',
-      icon: <Cpu className="w-6 h-6 text-brand-600" aria-hidden="true" />,
+      icon: <PackageCheck className="w-6 h-6 text-brand-600" aria-hidden="true" />,
       title: t('services.spareParts.title'),
       desc: t('services.spareParts.shortDesc'),
       link: `${prefix}/services/elevator-spare-parts`,
     },
     {
       key: 'escalators',
-      icon: <Compass className="w-6 h-6 text-brand-600" aria-hidden="true" />,
+      icon: <ArrowUpDown className="w-6 h-6 text-brand-600" aria-hidden="true" />,
       title: t('services.escalators.title'),
       desc: t('services.escalators.shortDesc'),
       link: `${prefix}/services/escalators-moving-walkways`,
@@ -114,6 +119,18 @@ export const HomePage: React.FC = () => {
   const maintenanceIncluded = (t('services.maintenance.included', {
     returnObjects: true,
   }) as string[]) || []
+
+  // Expressive icons mapping for the 8 maintenance items
+  const maintenanceIcons = [
+    <ShieldCheck key="0" className="w-4 h-4 text-brand-600 flex-shrink-0" aria-hidden="true" />,
+    <Timer key="1" className="w-4 h-4 text-brand-600 flex-shrink-0" aria-hidden="true" />,
+    <Wrench key="2" className="w-4 h-4 text-brand-600 flex-shrink-0" aria-hidden="true" />,
+    <FileText key="3" className="w-4 h-4 text-brand-600 flex-shrink-0" aria-hidden="true" />,
+    <SlidersVertical key="4" className="w-4 h-4 text-brand-600 flex-shrink-0" aria-hidden="true" />,
+    <Cog key="5" className="w-4 h-4 text-brand-600 flex-shrink-0" aria-hidden="true" />,
+    <DoorOpen key="6" className="w-4 h-4 text-brand-600 flex-shrink-0" aria-hidden="true" />,
+    <Gauge key="7" className="w-4 h-4 text-brand-600 flex-shrink-0" aria-hidden="true" />,
+  ]
 
   return (
     <>
@@ -157,12 +174,11 @@ export const HomePage: React.FC = () => {
               {t('home.heroSubtitle')}
             </p>
 
-            <div className="flex flex-wrap items-center justify-center gap-4 mb-10">
+            <div className="flex flex-wrap items-center justify-center gap-4">
               <Button
-                variant="primary"
+                variant="hero"
                 size="lg"
                 to={`${prefix}/contact`}
-                className="bg-brand-600 hover:bg-brand-500 shadow-md font-semibold"
                 rightIcon={
                   isRtl ? (
                     <ArrowLeft className="w-5 h-5" />
@@ -178,17 +194,10 @@ export const HomePage: React.FC = () => {
                 variant="inverse"
                 size="lg"
                 href={`tel:${settings.contact.unifiedNumber}`}
-                leftIcon={<Phone className="w-5 h-5 text-brand-400" />}
-                className="font-semibold"
+                leftIcon={<Phone className="w-5 h-5 text-brand-300" />}
               >
                 {t('actions.callNow')}
               </Button>
-            </div>
-
-            <div className="pt-6 border-t border-white/10 flex flex-wrap items-center justify-center gap-6 text-xs text-brand-200">
-              <span>{t('home.heroBadges')}</span>
-              <span>•</span>
-              <span>{t('common.cityJeddah')}</span>
             </div>
           </div>
         </Container>
@@ -334,11 +343,7 @@ export const HomePage: React.FC = () => {
           <SectionHeading
             kicker={t('home.whyUsEyebrow')}
             title={t('home.whyUsHeading')}
-            intro={
-              isEn
-                ? 'Engineering standards and operational practices designed to safeguard your equipment and building occupants.'
-                : 'معايير هندسية ومنهجية عمل تضمن أعلى مستويات الجودة والسلامة لتشغيل مصاعد مبناك.'
-            }
+            intro={t('home.whyUsIntro')}
             align="center"
             className="max-w-2xl mx-auto mb-16"
           />
@@ -348,12 +353,12 @@ export const HomePage: React.FC = () => {
             {whyUsPoints.map((point, index) => (
               <div
                 key={index}
-                className="p-6 rounded-card border border-surface-border bg-surface-subtle/50 flex flex-col"
+                className="p-6 rounded-card border border-surface-border bg-surface-subtle/50 hover:bg-white hover:border-brand-200 hover:shadow-card transition-all duration-200 flex flex-col group"
               >
-                <div className="w-10 h-10 rounded-control bg-white border border-surface-border flex items-center justify-center mb-4 shadow-sm">
+                <div className="w-10 h-10 rounded-control bg-white border border-surface-border flex items-center justify-center mb-4 shadow-sm group-hover:bg-brand-50 group-hover:border-brand-200 transition-colors">
                   {whyUsIcons[index % whyUsIcons.length]}
                 </div>
-                <h3 className="text-base font-bold text-content-heading mb-2">
+                <h3 className="text-base font-bold text-content-heading mb-2 group-hover:text-brand-600 transition-colors">
                   {point.title}
                 </h3>
                 <p className="text-sm text-content-body leading-relaxed">
@@ -368,44 +373,46 @@ export const HomePage: React.FC = () => {
       {/* 5. Maintenance & Modernization Details */}
       <Section variant="soft" className="border-b border-surface-border">
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
-            <div className="lg:col-span-7 flex flex-col justify-between">
-              <div>
-                <span className="text-xs md:text-sm font-semibold text-brand-600 tracking-wider uppercase mb-2 block">
-                  {t('home.maintenanceEyebrow')}
-                </span>
-                <h2 className="text-2xl sm:text-3xl font-bold text-content-heading mb-4">
-                  {t('home.maintenanceHeading')}
-                </h2>
-                <p className="text-content-body text-base leading-relaxed mb-8">
-                  {t('home.maintenanceSubtitle')}
-                </p>
-              </div>
+          <div className="max-w-3xl mb-8">
+            <span className="text-xs md:text-sm font-semibold text-brand-600 tracking-wider uppercase mb-2 block">
+              {t('home.maintenanceEyebrow')}
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-bold text-content-heading mb-4 leading-snug">
+              {t('home.maintenanceHeading')}
+            </h2>
+            <p className="text-content-body text-base leading-relaxed">
+              {t('home.maintenanceSubtitle')}
+            </p>
+          </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+            <div className="lg:col-span-7">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 h-full">
                 {maintenanceIncluded.map((item, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center gap-3 p-3.5 bg-white rounded-control border border-surface-border text-sm font-medium text-content-body shadow-xs"
+                    className="flex items-center gap-3 p-3.5 bg-white rounded-card border border-surface-border hover:border-brand-200 text-sm font-medium text-content-body shadow-xs transition-colors"
                   >
-                    <CheckCircle2 className="w-4 h-4 text-brand-600 flex-shrink-0" />
+                    <div className="w-8 h-8 rounded-lg bg-brand-50 border border-brand-100 flex items-center justify-center shrink-0">
+                      {maintenanceIcons[idx % maintenanceIcons.length]}
+                    </div>
                     <span>{item}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="lg:col-span-5 bg-brand-900 text-white p-8 rounded-card relative overflow-hidden shadow-card flex flex-col justify-between h-full">
+            <div className="lg:col-span-5 bg-brand-900 text-white p-6 sm:p-7 rounded-card relative overflow-hidden shadow-card flex flex-col justify-between h-full">
               <BrandPattern opacity={0.08} />
               <div className="relative z-10 flex flex-col h-full justify-between">
                 <div>
                   <span className="text-xs font-semibold text-brand-400 uppercase tracking-wider block mb-2">
                     {t('services.modernization.title')}
                   </span>
-                  <h3 className="text-2xl font-bold mb-4 text-white">
+                  <h3 className="text-xl sm:text-2xl font-bold mb-3 text-white">
                     {t('home.modernizationBoxTitle')}
                   </h3>
-                  <p className="text-sm text-brand-100 leading-relaxed mb-8">
+                  <p className="text-sm text-brand-100 leading-relaxed mb-6">
                     {t('home.modernizationBoxText')}
                   </p>
                 </div>

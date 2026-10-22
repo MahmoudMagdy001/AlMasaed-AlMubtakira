@@ -1,9 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
-import { Phone, MessageSquare, ArrowLeft, ArrowRight } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Calendar } from 'lucide-react'
 import { Button, Container, BrandPattern } from '@/components/ui'
-import { useSiteSettings } from '@/hooks/useSiteSettings'
 
 interface CtaBandProps {
   title?: string
@@ -17,7 +16,6 @@ export const CtaBand: React.FC<CtaBandProps> = ({
   className = '',
 }) => {
   const { t } = useTranslation()
-  const settings = useSiteSettings()
   const location = useLocation()
   const isEn = location.pathname.startsWith('/en')
   const isRtl = !isEn
@@ -43,10 +41,9 @@ export const CtaBand: React.FC<CtaBandProps> = ({
 
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
             <Button
-              variant="primary"
+              variant="hero"
               size="lg"
               to={contactPath}
-              className="bg-brand-600 hover:bg-brand-500 shadow-md font-semibold"
               rightIcon={
                 isRtl ? (
                   <ArrowLeft className="w-5 h-5" />
@@ -61,29 +58,12 @@ export const CtaBand: React.FC<CtaBandProps> = ({
             <Button
               variant="inverse"
               size="lg"
-              href={`tel:${settings.contact.unifiedNumber}`}
-              leftIcon={<Phone className="w-5 h-5 text-brand-400" />}
+              to={`${contactPath}?service=consultation`}
+              leftIcon={<Calendar className="w-5 h-5 text-brand-300" />}
               className="font-semibold"
             >
-              {t('actions.callNow')}
+              {t('actions.bookConsultation')}
             </Button>
-
-            <Button
-              variant="inverse"
-              size="lg"
-              href={`https://wa.me/${settings.contact.whatsapp}?text=${encodeURIComponent(
-                isEn
-                  ? 'Hello, I would like to inquire about elevator services in Jeddah.'
-                  : 'السلام عليكم، أود الاستفسار عن خدمات المصاعد في جدة.',
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              leftIcon={<MessageSquare className="w-5 h-5 text-feedback-success" />}
-              className="font-semibold"
-            >
-              {t('footer.mobilePhoneLabel')}
-            </Button>
-
           </div>
         </div>
       </Container>

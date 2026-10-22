@@ -28,13 +28,9 @@ export const WorksSection: React.FC<WorksSectionProps> = ({ works }) => {
       <Container>
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <SectionHeading
-            kicker={t('nav.works')}
-            title={isEn ? 'Selected Projects' : 'أعمال ومشاريع مختارة'}
-            intro={
-              isEn
-                ? 'A selection of our elevator installations, modernizations, and maintenance projects in Jeddah.'
-                : 'نماذج من مشاريعنا في تركيب وتحديث وصيانة المصاعد والسلالم الكهربائية في مدينة جدة.'
-            }
+            kicker={t('home.worksEyebrow')}
+            title={t('home.worksHeading')}
+            intro={t('home.worksSubtitle')}
           />
           <Link
             to={`${prefix}/works`}

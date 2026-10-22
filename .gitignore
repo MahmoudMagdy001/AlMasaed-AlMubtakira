@@ -17,6 +17,5 @@ dist/
 .windsurf/
 *.log
 
-# OS metadata
-.DS_Store
-Thumbs.db
+# Scratch & temporary testing files
+scratch/

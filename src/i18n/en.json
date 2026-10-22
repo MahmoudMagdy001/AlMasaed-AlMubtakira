@@ -25,6 +25,7 @@
   "actions": {
     "requestQuote": "Request a Quote",
     "callNow": "Call Now",
+    "bookConsultation": "Book Consultation",
     "readMore": "Read More",
     "contactUs": "Contact Us",
     "viewWorks": "View Works",
@@ -39,7 +40,7 @@
   },
   "footer": {
     "aboutTitle": "About the Company",
-    "aboutText": "A Saudi company established in Jeddah, operating in the supply, installation, maintenance, development, and modernization of elevators of all sizes and types, accredited by the Civil Defense.",
+    "aboutText": "Your premier engineering partner in Jeddah.. We deliver innovative, end-to-end solutions for elevator supply, installation, modernization, and maintenance, certified by Civil Defense to guarantee peak safety and reliability.",
     "quickLinks": "Quick Links",
     "servicesTitle": "Our Services",
     "contactTitle": "Contact Information",
@@ -65,83 +66,150 @@
     "breadcrumbServices": "Services"
   },
   "home": {
-    "heroTitle": "Al-Masaed Al-Mubtakirah: Elevator Maintenance, Modernization & Installation in Jeddah",
-    "heroSubtitle": "Innovation that elevates you",
+    "heroTitle": "Innovation That Elevates You.. Engineering That Rises With Your Safety",
+    "heroSubtitle": "Comprehensive engineering solutions for elevator installation, modernization, and maintenance in Jeddah with the highest safety standards.",
     "heroBadges": "Maintenance · Modernization · Installation · Spare Parts",
     "aboutEyebrow": "About Al-Masaed Al-Mubtakirah",
-    "aboutHeading": "Comprehensive engineering solutions for all elevator systems in Jeddah",
+    "aboutHeading": "Building Trust Floor by Floor.. Engineering That Elevates Your Space",
     "aboutText": "A Saudi company established in Jeddah operating in the field of supplying, installing, maintaining, developing, and modernizing elevators of all sizes and shapes, accredited by the Civil Defense to maintain the highest standards of operational safety.",
     "aboutLink": "Learn more about our journey and vision",
     "servicesEyebrow": "Specialized Services",
-    "servicesHeading": "Integrated Vertical Transportation Services",
-    "servicesSubtitle": "We pride ourselves on flexibility, designing our maintenance plans to fit your needs, not ours. We provide customizable service plans tailored to the client's requirements.",
-    "whyUsEyebrow": "Quality Standards",
-    "whyUsHeading": "Why choose Al-Masaed Al-Mubtakirah?",
+    "servicesHeading": "Engineering That Elevates Your Movement.. Solutions That Keep You at the Top",
+    "servicesSubtitle": "An integrated suite of elevator installation, modernization, and maintenance services, with flexible plans tailored precisely to your building's needs.",
+    "whyUsEyebrow": "Engineering Excellence",
+    "whyUsHeading": "Standards That Elevate You.. Trust Without Compromise",
+    "whyUsIntro": "Because passenger safety and building continuity allow no compromise; we deliver certified safety standards and rapid response in Jeddah.",
     "whyUsPoints": [
-      { "title": "High-quality repair services", "description": "Carrying out technical inspections and repairs with precision to ensure continuous operation." },
-      { "title": "Strong safety record and client satisfaction", "description": "Strict compliance with Civil Defense requirements and engineering passenger safety standards." },
-      { "title": "Wide supplier network for rapid turnaround", "description": "Sourcing original spare parts and mechanical components without unnecessary delays." },
-      { "title": "Emergency response teams for critical situations", "description": "Continuous readiness to manage sudden stoppages and critical breakdowns." },
-      { "title": "Prompt solutions for optimal equipment performance", "description": "Immediate fault diagnosis and restoration of operational efficiency with minimal downtime." },
-      { "title": "Trained and experienced technicians available", "description": "Specialized technical crews with extensive field experience across diverse models." },
-      { "title": "Same-day response time", "description": "Prompt dispatch and technical follow-up for notifications within Jeddah." }
+      {
+        "title": "High-quality repair services",
+        "description": "Carrying out technical inspections and repairs with precision to ensure continuous operation."
+      },
+      {
+        "title": "Strong safety record and client satisfaction",
+        "description": "Strict compliance with Civil Defense requirements and engineering passenger safety standards."
+      },
+      {
+        "title": "Wide supplier network for rapid turnaround",
+        "description": "Sourcing original spare parts and mechanical components without unnecessary delays."
+      },
+      {
+        "title": "Emergency response teams for critical situations",
+        "description": "Continuous readiness to manage sudden stoppages and critical breakdowns."
+      },
+      {
+        "title": "Prompt solutions for optimal equipment performance",
+        "description": "Immediate fault diagnosis and restoration of operational efficiency with minimal downtime."
+      },
+      {
+        "title": "Trained and experienced technicians available",
+        "description": "Specialized technical crews with extensive field experience across diverse models."
+      },
+      {
+        "title": "Same-day response time",
+        "description": "Prompt dispatch and technical follow-up for notifications within Jeddah."
+      }
     ],
-    "maintenanceEyebrow": "Preventive & Routine Care",
-    "maintenanceHeading": "Comprehensive Maintenance and Technical Upgrades",
-    "maintenanceSubtitle": "We cover all mechanical, hydraulic, and electrical requirements following regular inspection schedules.",
-    "modernizationBoxTitle": "Modernizing Older Systems",
-    "modernizationBoxText": "We provide modernization solutions for all models of elevators, escalators, moving walkways, and lifts. From a single hydraulic lift in high-grade buildings to commercial offices, we deliver a solution tailored to your budget.",
+    "whyUsBadges": {
+      "safety": "Civil Defense Accredited",
+      "safetyExtra1": "Saudi Building Code",
+      "safetyExtra2": "Periodic Safety Audits",
+      "emergency": "24/7 Emergency Dispatch",
+      "emergencyCall": "Direct Emergency Line",
+      "speed": "Fast Turnaround",
+      "speedExtra": "Full Jeddah Coverage",
+      "precision": "Engineering Precision",
+      "precisionExtra": "Advanced Digital Diagnostics",
+      "expertise": "Certified Crews",
+      "expertiseExtra": "Multi-brand Field Experience",
+      "performance": "Operational Efficiency",
+      "performanceExtra": "Smooth & Silent Motion",
+      "suppliers": "Original Spare Parts",
+      "suppliersExtra": "Trusted Global Supply Chains"
+    },
+    "maintenanceEyebrow": "Predictive Maintenance Engineering",
+    "maintenanceHeading": "Innovation That Safeguards Your Flow.. Engineering That Anticipates Every Need",
+    "maintenanceSubtitle": "From precision sensors to heavy-duty drive units; we oversee every mechanical and electrical detail with rigorous certified protocols to ensure continuous uptime and safety in Jeddah.",
+    "modernizationBoxTitle": "Transform Your Legacy Elevator into an Advanced Smart System",
+    "modernizationBoxText": "We grant your elevator a new lifecycle with state-of-the-art energy-efficient controllers and bespoke cabin upgrades that elevate property value and ride comfort.",
     "modernizationBoxCta": "Explore Modernization Solutions",
-    "ctaBandHeading": "Looking for dependable maintenance or a quote in Jeddah?",
-    "ctaBandSubtitle": "Our engineering team is prepared to inspect your premises and present a maintenance plan aligned with safety requirements."
+    "worksEyebrow": "Proven Track Record",
+    "worksHeading": "Our Mark on Every Floor.. Projects Elevating the Future of Movement in Jeddah",
+    "worksSubtitle": "From prestigious commercial towers to modern residential complexes; we take pride in delivering, modernizing, and maintaining state-of-the-art mobility systems that safely move thousands daily.",
+    "partnersEyebrow": "Alliances of Trust",
+    "partnersHeading": "Trust That Elevates with Us.. Partnerships That Drive Leadership",
+    "partnersSubtitle": "We take pride in our enduring partnerships with premier developers and commercial leaders across Jeddah, who rely on us for uncompromised safety and efficiency.",
+    "blogEyebrow": "Engineering Insights",
+    "blogHeading": "Knowledge That Elevates.. Your Guide to Peak Safety & Performance",
+    "blogSubtitle": "Practical guidelines and technical insights on preventive maintenance, civil defense codes, and modern elevator technology in Jeddah.",
+    "blogViewAll": "View all articles",
+    "ctaBandHeading": "Let Us Elevate Your Building.. Enduring Safety & Distinction on Every Floor",
+    "ctaBandSubtitle": "Whether you need certified periodic maintenance, comprehensive modernization, or technical consultation for your project in Jeddah; our engineering team is ready to inspect your site."
   },
   "about": {
     "pageTitle": "About Us | Al-Masaed Al-Mubtakirah in Jeddah",
     "pageDescription": "Learn about Al-Masaed Al-Mubtakirah in Jeddah, our vision in providing elevator maintenance, modernization and installation, and our commitment to user safety.",
-    "eyebrow": "About the Company",
-    "heading": "Your Certified Engineering Partner for Elevator Solutions in Jeddah",
+    "eyebrow": "About Innovative Elevators",
+    "heading": "Building Trust Floor by Floor.. Engineering That Elevates Your Premises",
     "lead": "A Saudi company established in Jeddah under Commercial Registration No. 4030227058, operating in supplying, installing, maintaining, developing, and modernizing elevators of all sizes and types.",
-    "visionEyebrow": "Our Vision & Goals",
-    "visionHeading": "Sustainability and Efficiency in Alignment with Saudi Vision 2030",
-    "visionText": "Providing continuous maintenance, testing, and repair services in a consistent and timely manner for all brands and models of elevators, escalators, moving walkways, and lifts for people with special needs — in alignment with Saudi Vision 2030.",
-    "approachEyebrow": "Our Approach",
-    "approachHeading": "Customized Service Focusing on Operational Safety",
-    "approachText": "Our customized approach focuses on maintaining high efficiency, safety, and smooth operation in all your passenger transportation systems.",
-    "missionEyebrow": "Safety Mission",
-    "missionHeading": "User Safety Above All",
-    "missionText": "At Al-Masaed Al-Mubtakirah, we place user safety as our top priority, and no matter the challenge, we strive to deliver innovative solutions that elevate the experience for everyone.",
-    "logoMeaningTitle": "Brand Identity & Symbolism",
-    "logoMeaningIntro": "Our brand identity reflects our core engineering values and technological commitment across every project:",
+    "visionEyebrow": "Future Ambition & Vision",
+    "visionHeading": "Sustainability & Efficiency Aligned with Saudi Vision 2030",
+    "visionText": "Pioneering smart, energy-efficient vertical mobility solutions that enhance building performance, providing continuous engineering support and maintenance across all elevator and escalator models in Jeddah.",
+    "approachEyebrow": "Precision Engineering Approach",
+    "approachHeading": "Tailored Engineering Solutions for Every Architectural Need",
+    "approachText": "Employing proactive diagnostics to prevent downtime before it occurs, backed by customized maintenance schedules that guarantee uninterrupted, whisper-quiet operation around the clock.",
+    "missionEyebrow": "Uncompromised Safety Protocol",
+    "missionHeading": "Passenger Safety Above All.. Zero-Compromise Standards",
+    "missionText": "Fully compliant with Saudi Building Code standards and Civil Defense requirements, conducting rigorous multi-point mechanical inspections so every single ride is safe, reliable, and smooth.",
+    "logoMeaningTitle": "Brand Identity & Philosophy.. Precision Engineering That Inspires Trust",
+    "logoMeaningIntro": "Our visual identity is far more than aesthetic curves — it is a living expression of our strict safety standards, rigorous mechanical precision, and relentless ascent toward engineering excellence:",
     "logoElements": [
       {
-        "title": "Rising Lines",
-        "description": "Symbolizing movement, progression, and continuous advancement in service quality."
+        "title": "Rising Dynamic Lines",
+        "description": "Symbolizing upward momentum and seamless vertical mobility, reflecting our continuous dedication to elevating passenger experience floor after floor."
       },
       {
-        "title": "Geometric Structure",
-        "description": "Representing engineering precision, modern technology, and mechanical safety in manufacturing and installation."
+        "title": "Cohesive Geometric Structure",
+        "description": "Representing uncompromised mechanical safety, structural rigidity, and exacting engineering standards that ensure absolute reliability in every installation."
       },
       {
-        "title": "Blue Gradients",
-        "description": "Embodying corporate trust, innovation, stability, and enduring sector expertise."
+        "title": "Harmonious Color Gradients",
+        "description": "Reflecting corporate integrity, deep technological expertise, and an innovative forward-looking vision aligned with Saudi Vision 2030."
       }
     ],
-    "factsTitle": "Corporate Facts",
+    "factsTitle": "Verified Credentials & Official Facts.. Engineering You Can Rely On",
     "facts": [
-      { "label": "Commercial Registration", "value": "4030227058" },
-      { "label": "Official Accreditation", "value": "Civil Defense Accredited" },
-      { "label": "Headquarters", "value": "Jeddah, Saudi Arabia" },
-      { "label": "Scope of Operations", "value": "Supply, installation, maintenance, and modernization" },
-      { "label": "Brands & Models Serviced", "value": "All elevator makes and models" },
-      { "label": "Service Territory", "value": "City of Jeddah" }
+      {
+        "label": "Commercial Registration",
+        "value": "4030227058 (Fully Verified & Active)"
+      },
+      {
+        "label": "Official Accreditation",
+        "value": "Accredited by General Directorate of Civil Defense"
+      },
+      {
+        "label": "Headquarters Location",
+        "value": "Jeddah, Kingdom of Saudi Arabia"
+      },
+      {
+        "label": "Engineering Service Scope",
+        "value": "Full supply, installation, maintenance & modernization"
+      },
+      {
+        "label": "Supported Brands & Models",
+        "value": "All international manufacturers & contemporary models"
+      },
+      {
+        "label": "Coverage & Field Reach",
+        "value": "Comprehensive rapid coverage across all Jeddah districts"
+      }
     ]
   },
   "services": {
     "pageTitle": "Elevator & Escalator Services in Jeddah | Al-Masaed Al-Mubtakirah",
     "pageDescription": "Comprehensive services including elevator maintenance, modernization, installation, spare parts, and escalator maintenance in Jeddah.",
-    "eyebrow": "Comprehensive Solutions",
-    "heading": "Elevator & Escalator Services in Jeddah",
-    "intro": "We pride ourselves on flexibility, designing our maintenance plans to fit your needs, not ours. We provide customizable service plans tailored to clients in residential, commercial, and administrative properties.",
+    "eyebrow": "Specialized Services",
+    "heading": "Engineering That Elevates Your Motion.. Solutions Keeping Your Elevator at Its Peak",
+    "intro": "Comprehensive systems for elevator installation, modernization, and maintenance, with flexible service plans tailored to the exact demands of your residential or commercial property in Jeddah.",
     "cardLearnMore": "Service Details & Process",
     "includedTitle": "What Is Included",
     "processTitle": "Execution Steps & Process",
@@ -151,31 +219,67 @@
     "ctaText": "Contact us directly to arrange a site inspection and receive the suitable engineering plan for your facility.",
     "maintenance": {
       "title": "Elevator Maintenance",
-      "h1": "Elevator Maintenance in Jeddah: Routine Care & Emergency Response",
-      "shortDesc": "Preventive and corrective maintenance programs across all elevator models to ensure uninterrupted safety and performance.",
-      "intro": "We provide scheduled and preventive maintenance services for all elevator types in Jeddah in accordance with Civil Defense standards. Our contracts include regular inspections of all mechanical, electrical, and hydraulic components, backed by same-day response to prevent unnecessary downtime and ensure passenger safety.",
+      "h1": "Elevator Maintenance in Jeddah: Certified Contracts & 24/7 Rapid Response",
+      "shortDesc": "Civil Defense-accredited periodic maintenance contracts and rapid emergency dispatch ensuring continuous uptime and absolute passenger safety.",
+      "intro": "We provide advanced scheduled and preventive elevator maintenance officially certified by Saudi Civil Defense across all brands and models in Jeddah. Our contracts are built around regular monthly inspections, proactive mechanical and electrical diagnostics, and 24/7 emergency response crews to guarantee continuous uptime, zero unexpected shutdowns, and passenger peace of mind.",
       "included": [
-        "Door lock monitoring",
-        "Hydraulic cylinder replacement",
-        "Power unit replacement",
-        "Door equipment replacement",
-        "Signal fixture upgrades",
-        "Main valve replacement",
-        "Customized cabin interiors",
-        "Elevator door replacement"
+        "Certified periodic maintenance contracts accredited by Civil Defense",
+        "24/7 rapid emergency response teams across all Jeddah districts",
+        "Comprehensive monthly mechanical, hydraulic, and electrical inspections",
+        "Automated digital service reports and proactive equipment health tracking",
+        "Door interlocks, safety light curtains, and landing sensor testing",
+        "Emergency brake calibration and overspeed governor compliance audits",
+        "Guide rail lubrication and mechanical component alignment check",
+        "Battery backup and automatic emergency rescue device verification"
       ],
       "process": [
-        { "step": "01", "title": "Comprehensive Engineering Inspection", "desc": "Detailed check of the cabin, traction machine, hoist cables or cylinders, and electrical control panels." },
-        { "step": "02", "title": "Operational Assessment Report", "desc": "Identifying component conditions requiring adjustment or proactive replacement prior to faults." },
-        { "step": "03", "title": "Routine Maintenance Execution", "desc": "Lubricating moving assemblies, adjusting door sensors, and testing emergency brakes and power backups." },
-        { "step": "04", "title": "Continuous Emergency Support", "desc": "Ready dispatch crews to attend to sudden stoppages and return the unit to active service promptly." }
+        {
+          "step": "01",
+          "title": "Comprehensive Engineering Inspection",
+          "desc": "Detailed check of the cabin, traction machine, hoist cables or cylinders, and electrical control panels."
+        },
+        {
+          "step": "02",
+          "title": "Operational Assessment Report",
+          "desc": "Identifying component conditions requiring adjustment or proactive replacement prior to faults."
+        },
+        {
+          "step": "03",
+          "title": "Routine Maintenance Execution",
+          "desc": "Lubricating moving assemblies, adjusting door sensors, and testing emergency brakes and power backups."
+        },
+        {
+          "step": "04",
+          "title": "Continuous Emergency Support",
+          "desc": "Ready dispatch crews to attend to sudden stoppages and return the unit to active service promptly."
+        }
       ],
       "equipment": [
-        "Residential and high-rise passenger elevators",
-        "Hydraulic elevators and villa lifts",
-        "Freight and cargo elevators",
-        "Hospital and stretcher elevators",
-        "Accessibility and panoramic glass lifts"
+        {
+          "title": "Residential and High-Rise Elevators",
+          "desc": "Comprehensive scheduled maintenance programs for tower and residential building elevators in Jeddah, ensuring continuous uptime.",
+          "tag": "Residential & Towers"
+        },
+        {
+          "title": "Hydraulic Elevators & Villa Lifts",
+          "desc": "Precision calibration of hydraulic pumping units, cylinders, and valves for whisper-quiet travel in private villas.",
+          "tag": "Villas & Homes"
+        },
+        {
+          "title": "Freight & Cargo Elevators",
+          "desc": "Proactive inspection of heavy-duty car flooring, traction drives, and safety gear for industrial warehouses and commercial centers.",
+          "tag": "Commercial & Cargo"
+        },
+        {
+          "title": "Hospital & Bed Elevators",
+          "desc": "Accurate millimeter leveling calibration and safety door sensors ensuring utmost patient and stretcher comfort.",
+          "tag": "Healthcare"
+        },
+        {
+          "title": "Accessibility & Panoramic Glass Lifts",
+          "desc": "Specialized engineering care for accessibility platform lifts and glass scenic shafts compliant with universal accessibility standards.",
+          "tag": "Accessibility & Scenic"
+        }
       ],
       "faqs": [
         {
@@ -198,28 +302,62 @@
     },
     "modernization": {
       "title": "Elevator Modernization",
-      "h1": "Elevator Modernization in Jeddah: Upgrading Safety & Performance",
-      "shortDesc": "Advanced solutions to renew aging elevators, upgrading control panels, motors, and interiors cost-effectively.",
-      "intro": "We provide modernization solutions for all models of elevators, escalators, moving walkways, and lifts in Jeddah. From a single hydraulic lift in high-grade buildings to commercial offices, we deliver a solution tailored to your budget. Modernization improves efficiency, reduces electrical consumption, and increases passenger reliability without replacing the entire shaft structure.",
+      "h1": "Elevator Modernization in Jeddah: Complete Performance & Aesthetic Upgrade",
+      "shortDesc": "Comprehensive elevator renewal improving ride smoothness and cutting energy consumption by 40% at economical rates.",
+      "intro": "Turnkey engineering solutions to renew and modernize aging elevators with state-of-the-art technologies without replacing the structural shaft. We enhance operating efficiency and reduce electrical power consumption by over 40% through intelligent microprocessor controllers, energy-efficient gearless machines, and luxury modern cabin interiors.",
       "included": [
-        "Upgrading to microprocessor-based intelligent control panels",
-        "Replacing high-efficiency power units and traction machines",
-        "Door drive upgrades with modern safety light curtains",
-        "Cabin interior refurbishment and energy-efficient lighting",
-        "Signal fixtures, car operating panels, and digital floor displays",
-        "Hydraulic control valve and piston renewals"
+        "Intelligent microprocessor-based control panel upgrades",
+        "Up to 40% power reduction using modern VVVF drive technology",
+        "Luxury cabin interior renovations with energy-efficient LED lighting",
+        "Modern door operator mechanisms with anti-entrapment sensors",
+        "European gearless traction machine upgrades for whisper-quiet rides",
+        "Interactive digital floor displays and contemporary landing fixtures",
+        "Precision hydraulic valve and cylinder overhauls",
+        "Comprehensive load testing and official safety certification"
       ],
       "process": [
-        { "step": "01", "title": "System Audit & Assessment", "desc": "Inspecting existing rails, wiring, machinery, and evaluating operating efficiency." },
-        { "step": "02", "title": "Modernization Scope & Proposal", "desc": "Formulating the upgrade package aligned with technical objectives and operational budgets." },
-        { "step": "03", "title": "Scheduled Replacement", "desc": "Installing modernized equipment systematically to keep building downtime minimal." },
-        { "step": "04", "title": "Calibration & Commissioning", "desc": "Testing load capacity, leveling accuracy, and safety gear before final handover." }
+        {
+          "step": "01",
+          "title": "System Audit & Assessment",
+          "desc": "Inspecting existing rails, wiring, machinery, and evaluating operating efficiency."
+        },
+        {
+          "step": "02",
+          "title": "Modernization Scope & Proposal",
+          "desc": "Formulating the upgrade package aligned with technical objectives and operational budgets."
+        },
+        {
+          "step": "03",
+          "title": "Scheduled Replacement",
+          "desc": "Installing modernized equipment systematically to keep building downtime minimal."
+        },
+        {
+          "step": "04",
+          "title": "Calibration & Commissioning",
+          "desc": "Testing load capacity, leveling accuracy, and safety gear before final handover."
+        }
       ],
       "equipment": [
-        "Elevators exceeding 10 to 15 years of operational service",
-        "Hydraulic elevators experiencing thermal oil or speed inconsistencies",
-        "Commercial tower elevators with heavy passenger demands",
-        "Residential units prone to recurring relay or controller faults"
+        {
+          "title": "Legacy Elevators Over 10-15 Years Old",
+          "desc": "Complete mechanical and electrical overhaul restoring aging elevators to factory-fresh efficiency and safety.",
+          "tag": "Comprehensive Upgrade"
+        },
+        {
+          "title": "Sluggish Hydraulic Elevators",
+          "desc": "Upgrading control valves, pumps, and thermal controls to accelerate travel times and cut electrical usage.",
+          "tag": "Hydraulic Systems"
+        },
+        {
+          "title": "Commercial Tower Elevators",
+          "desc": "Installing micro-processor destination dispatching to optimize rush-hour traffic and slash passenger wait times.",
+          "tag": "Commercial & Offices"
+        },
+        {
+          "title": "Troublesome Residential Elevators",
+          "desc": "Replacing outdated electromechanical panels with modern solid-state controllers that end frequent breakdowns.",
+          "tag": "Residential Buildings"
+        }
       ],
       "faqs": [
         {
@@ -238,29 +376,67 @@
     },
     "installation": {
       "title": "Elevator Installation",
-      "h1": "Elevator Installation in Jeddah: Trusted Engineering Delivery",
-      "shortDesc": "Supply and installation of residential, commercial, and hydraulic elevators adhering to Saudi building codes.",
-      "intro": "Al-Masaed Al-Mubtakirah undertakes the supply and installation of elevators of all sizes and configurations for residential properties, private villas, commercial complexes, and public facilities in Jeddah. We adhere to meticulous engineering standards during shaft preparation, rail alignment, and machine installation to ensure smooth motion and lasting reliability complying with Civil Defense licensing.",
+      "h1": "Elevator Installation in Jeddah: Trusted Engineering Delivery & Full Warranty",
+      "shortDesc": "Turnkey supply and installation of passenger, residential, and villa elevators with genuine European equipment.",
+      "intro": "Complete supply and turnkey installation of residential, villa, commercial, and tower elevators in Jeddah adhering to Saudi Building Code guidelines and Civil Defense approvals. We deploy genuine European machinery to deliver whisper-quiet travel, with specialized space-saving Machine-Room-Less (MRL) and luxury glass panoramic configurations.",
       "included": [
-        "Engineering drawing review and shaft dimension verification",
-        "Supplying certified original European and Italian equipment",
-        "Laser-aligned guide rail and door frame installation",
-        "Cabin assembly, suspension ropes, and mechanical safety gear",
-        "Wiring and programming of control panels and automatic rescue devices",
-        "Load testing, speed verification, and compliance certification"
+        "Certified original European and Italian equipment with full warranty",
+        "Advanced Machine-Room-Less (MRL) and compact villa lift solutions",
+        "Laser-aligned engineering execution strictly compliant with Saudi codes",
+        "Architectural luxury glass panoramic cabin designs",
+        "Comprehensive shaft drawings review and architectural verification",
+        "Precision laser-guided guide rail and door frame installation",
+        "Emergency automatic lowering devices and seismic sensor integrations",
+        "Certified load commissioning, speed testing, and included maintenance period"
       ],
       "process": [
-        { "step": "01", "title": "Site & Shaft Verification", "desc": "Checking pit depth, overhead clearances, and vertical tolerances against specifications." },
-        { "step": "02", "title": "Equipment Sourcing", "desc": "Procuring certified equipment packages and staging the installation program." },
-        { "step": "03", "title": "Mechanical & Electrical Erection", "desc": "Fixing guide rails, assembling cabin sling, mounting machine, and connecting power systems." },
-        { "step": "04", "title": "Commissioning & Handover", "desc": "Trial runs, safety testing, client operational briefing, and warranty documentation." }
+        {
+          "step": "01",
+          "title": "Site & Shaft Verification",
+          "desc": "Checking pit depth, overhead clearances, and vertical tolerances against specifications."
+        },
+        {
+          "step": "02",
+          "title": "Equipment Sourcing",
+          "desc": "Procuring certified equipment packages and staging the installation program."
+        },
+        {
+          "step": "03",
+          "title": "Mechanical & Electrical Erection",
+          "desc": "Fixing guide rails, assembling cabin sling, mounting machine, and connecting power systems."
+        },
+        {
+          "step": "04",
+          "title": "Commissioning & Handover",
+          "desc": "Trial runs, safety testing, client operational briefing, and warranty documentation."
+        }
       ],
       "equipment": [
-        "Machine-Room-Less (MRL) passenger elevators",
-        "Traditional overhead machine-room elevators",
-        "Hydraulic villa elevators for compact spaces",
-        "Panoramic glass elevators for commercial centers",
-        "Service and freight elevators for warehouses"
+        {
+          "title": "Machine-Room-Less (MRL) Elevators",
+          "desc": "Space-saving architectural layouts that eliminate the overhead penthouse machine room with ultra-quiet performance.",
+          "tag": "Space Saving"
+        },
+        {
+          "title": "Overhead Machine-Room Elevators",
+          "desc": "The trusted engineering choice for high-rise towers requiring high speeds, heavy duty cycles, and intense traffic capacity.",
+          "tag": "High-Rise Towers"
+        },
+        {
+          "title": "Compact Hydraulic Villa Lifts",
+          "desc": "Flexible configurations requiring minimal pit depth and low headroom, easily integrated into glass or steel enclosures.",
+          "tag": "Villas & Homes"
+        },
+        {
+          "title": "Panoramic Scenic Glass Lifts",
+          "desc": "Stunning architectural showcases for shopping centers, hotels, and luxury residences with circular or polygonal glass shafts.",
+          "tag": "Scenic & Luxury"
+        },
+        {
+          "title": "Heavy-Duty Cargo & Service Lifts",
+          "desc": "Impact-resistant structures engineered for commercial kitchens, warehouses, and logistics centers from 500kg up to 5 tons.",
+          "tag": "Heavy Freight"
+        }
       ],
       "faqs": [
         {
@@ -279,29 +455,62 @@
     },
     "spareParts": {
       "title": "Spare Parts",
-      "h1": "Original Elevator Spare Parts in Jeddah: Rapid & Verified Supply",
-      "shortDesc": "Provision of genuine mechanical, hydraulic, and electrical components across diverse elevator models.",
-      "intro": "Continuous elevator reliability depends on genuine spare parts conforming to manufacturer engineering specifications. Al-Masaed Al-Mubtakirah maintains an established supplier network allowing rapid procurement of mechanical, hydraulic, and electronic control items for all makes and models in Jeddah, minimizing unplanned operational disruptions.",
+      "h1": "Original Elevator Spare Parts in Jeddah: Rapid Supply & 100% Genuine Compatibility",
+      "shortDesc": "Direct supply of 100% genuine manufacturer parts and components for all elevator makes in Jeddah.",
+      "intro": "Uninterrupted elevator performance depends on 100% genuine components matching original manufacturer engineering specifications. Al-Masaed Al-Mubtakirah maintains extensive local inventory and an accredited supplier network across Jeddah to provide rapid dispatch of mechanical, hydraulic, and electrical parts, minimizing unplanned downtime.",
       "included": [
-        "Genuine hydraulic cylinders, plungers, and seal kits",
-        "Hydraulic power packs, pumps, and submersible motors",
-        "Main control valves, check valves, and pressure limiters",
-        "Door drive operators, mechanical interlocks, and pulleys",
-        "Microprocessor controller boards and leveling sensors",
-        "Pushbuttons, digital displays, and landing call stations",
-        "Certified hoist ropes, diverter sheaves, and hydraulic fluids"
+        "100% genuine factory-certified parts for all international elevator makes",
+        "Immediate local stock dispatch in Jeddah to eliminate prolonged downtime",
+        "Original hydraulic power units, pumps, and heavy-duty traction motors",
+        "Comprehensive parts quality warranties against defects and faults",
+        "Microprocessor controller boards, inverters, and leveling sensors",
+        "Door drive operators, mechanical interlocks, belts, and safety switches",
+        "Certified steel traction cables, diverter sheaves, and hydraulic oils",
+        "Photoelectric light curtains, overspeed governors, and safety contact switches"
       ],
       "process": [
-        { "step": "01", "title": "Part Identification & Inspection", "desc": "Technical check to record manufacturer part numbers and physical specifications." },
-        { "step": "02", "title": "Procurement & Matching", "desc": "Verifying stock or dispatching through our accredited vendor network." },
-        { "step": "03", "title": "Installation & Calibration", "desc": "Fitting by qualified technicians followed by factory adjustment procedures." },
-        { "step": "04", "title": "Functional Verification", "desc": "Testing operation under load and issuing standard parts quality warranty." }
+        {
+          "step": "01",
+          "title": "Part Identification & Inspection",
+          "desc": "Technical check to record manufacturer part numbers and physical specifications."
+        },
+        {
+          "step": "02",
+          "title": "Procurement & Matching",
+          "desc": "Verifying stock or dispatching through our accredited vendor network."
+        },
+        {
+          "step": "03",
+          "title": "Installation & Calibration",
+          "desc": "Fitting by qualified technicians followed by factory adjustment procedures."
+        },
+        {
+          "step": "04",
+          "title": "Functional Verification",
+          "desc": "Testing operation under load and issuing standard parts quality warranty."
+        }
       ],
       "equipment": [
-        "Hydraulic lift components of all capacities",
-        "Geared and gearless traction elevator parts",
-        "Automatic and semi-automatic door mechanisms",
-        "Photoelectric light curtains and emergency safety sensors"
+        {
+          "title": "Hydraulic Lift Components",
+          "desc": "Original oil pumps, cylinders, pressure relief valves, seal kits, and hydraulic power units for all load capacities.",
+          "tag": "Hydraulics"
+        },
+        {
+          "title": "Traction & High-Speed Gearless Parts",
+          "desc": "Certified steel hoist cables, deflection sheaves, European gearless traction motors, and emergency brake assemblies.",
+          "tag": "Traction Drives"
+        },
+        {
+          "title": "Automatic & Semi-Automatic Door Systems",
+          "desc": "Advanced door operators, toothed drive belts, smart controller cards, optical infrared curtains, and mechanical interlocks.",
+          "tag": "Door Systems"
+        },
+        {
+          "title": "Safety Devices & Digital Sensors",
+          "desc": "Overspeed governors, automatic rescue devices (ARD), laser landing sensors, and limit directional switches.",
+          "tag": "Safety Systems"
+        }
       ],
       "faqs": [
         {
@@ -320,28 +529,62 @@
     },
     "escalators": {
       "title": "Escalators & Moving Walkways",
-      "h1": "Escalator & Moving Walkway Services in Jeddah: Continuous Safety",
-      "shortDesc": "Ongoing maintenance, inspection, and repair services for escalators, moving walks, and accessibility platforms.",
-      "intro": "Escalators and moving walkways represent vital pedestrian arteries in shopping malls, administrative complexes, and public hubs. Al-Masaed Al-Mubtakirah in Jeddah provides consistent, timely maintenance, testing, and repair services across all makes and models of escalators, moving walkways, and accessibility lifts to ensure seamless movement and passenger security.",
+      "h1": "Escalator & Moving Walkway Services in Jeddah: Continuous Safety & Peak Efficiency",
+      "shortDesc": "Precision preventive maintenance and rigorous safety inspections for escalators and moving walkways.",
+      "intro": "Escalators and moving walkways form the critical pedestrian backbone of commercial centers, airports, and administrative complexes in Jeddah. We provide scheduled preventive maintenance, testing, and overhaul services across all makes and models of escalators, moving walkways, and accessibility platform lifts to guarantee seamless traffic flow and passenger safety.",
       "included": [
-        "Step chain, roller assembly, and track alignment servicing",
-        "Handrail drive synchronization and tension calibration",
-        "Comb-plate safety contacts and emergency stop testing",
-        "Main drive gearbox, motor, and auxiliary brake maintenance",
-        "Automated lubrication system replenishment and cleaning",
-        "Safety compliance checks conforming to Civil Defense guidelines"
+        "Thorough periodic inspection of step assemblies, comb plates, and chains",
+        "Moving handrail synchronization and emergency stop button audits",
+        "Automated lubrication systems servicing to eliminate noise and wear",
+        "Rigorous safety testing ensuring complete protection for families and children",
+        "Main drive gearbox, heavy-duty traction machine, and brake servicing",
+        "Comb impact safety switches and drive chain breakage sensors audit",
+        "Continuous dynamic motion testing under load for speed stability",
+        "Dedicated maintenance for accessibility platform and wheelchair lifts"
       ],
       "process": [
-        { "step": "01", "title": "Visual & Mechanical Inspection", "desc": "Examining steps, comb alignment, and handrail tension for smooth motion." },
-        { "step": "02", "title": "Safety Contact & Interlock Tests", "desc": "Verifying comb impact switches, drive chain breakage sensors, and emergency stops." },
-        { "step": "03", "title": "Lubrication & Running Adjustments", "desc": "Servicing chains and drive units with specified lubricants to reduce friction and noise." },
-        { "step": "04", "title": "Dynamic Testing Under Load", "desc": "Continuous trial running to verify speed consistency and smooth braking deceleration." }
+        {
+          "step": "01",
+          "title": "Visual & Mechanical Inspection",
+          "desc": "Examining steps, comb alignment, and handrail tension for smooth motion."
+        },
+        {
+          "step": "02",
+          "title": "Safety Contact & Interlock Tests",
+          "desc": "Verifying comb impact switches, drive chain breakage sensors, and emergency stops."
+        },
+        {
+          "step": "03",
+          "title": "Lubrication & Running Adjustments",
+          "desc": "Servicing chains and drive units with specified lubricants to reduce friction and noise."
+        },
+        {
+          "step": "04",
+          "title": "Dynamic Testing Under Load",
+          "desc": "Continuous trial running to verify speed consistency and smooth braking deceleration."
+        }
       ],
       "equipment": [
-        "Commercial indoor escalators for malls and retail stores",
-        "Heavy-duty escalators for civic and transport facilities",
-        "Horizontal and inclined moving walkways for hypermarkets",
-        "Wheelchair platform lifts and accessibility solutions"
+        {
+          "title": "Commercial Indoor Escalators",
+          "desc": "Scheduled servicing and alignment of steps, handrails, and safety devices across shopping malls and retail centers in Jeddah.",
+          "tag": "Malls & Retail"
+        },
+        {
+          "title": "Heavy-Duty Transit Escalators",
+          "desc": "Robust engineering servicing designed for continuous, high-volume passenger loads operating 24/7 in public facilities.",
+          "tag": "Intensive Transit"
+        },
+        {
+          "title": "Horizontal & Inclined Moving Walkways",
+          "desc": "Servicing passenger moving walks in airports and hypermarkets for seamless traveler and shopping cart transit.",
+          "tag": "Airports & Markets"
+        },
+        {
+          "title": "Accessibility Platform Lifts",
+          "desc": "Certified accessibility solutions ensuring absolute safety, independence, and smooth transit for wheelchair users.",
+          "tag": "Universal Access"
+        }
       ],
       "faqs": [
         {
@@ -362,9 +605,9 @@
   "contact": {
     "pageTitle": "Contact Us | Al-Masaed Al-Mubtakirah in Jeddah",
     "pageDescription": "Contact Al-Masaed Al-Mubtakirah in Jeddah for service quotes, elevator maintenance, or emergency response. Unified number 920016876.",
-    "eyebrow": "Direct Communication",
-    "heading": "Contact Us for Elevator Services in Jeddah",
-    "subtitle": "Our engineering team is ready to answer inquiries, provide technical support, and inspect your property in Jeddah.",
+    "eyebrow": "Rapid Response & Continuous Support",
+    "heading": "Your Building's Safety Starts Here.. Connect with Our Engineering Experts in Jeddah",
+    "subtitle": "Whether you require urgent emergency response, a tailored quotation for maintenance or modernization, or a comprehensive site survey; our dedicated engineering team is here to assist you 24/7.",
     "formTitle": "Send Your Request or Inquiry",
     "formSubtitle": "Please fill out the form below and our customer service representative will contact you shortly.",
     "nameLabel": "Full Name",
@@ -462,9 +705,9 @@
   "works": {
     "pageTitle": "Our Works & Projects | Al-Masaed Al-Mubtakirah in Jeddah",
     "pageDescription": "Browse our portfolio of elevator installation, modernization, and maintenance projects executed across Jeddah.",
-    "eyebrow": "Our Portfolio",
-    "heading": "Completed Works & Projects",
-    "intro": "Selected projects executed in Jeddah, spanning installations, modernizations, and preventive maintenance contracts for residential and commercial properties.",
+    "eyebrow": "Proven Track Record",
+    "heading": "Our Mark on Every Floor.. Projects Elevating the Future of Movement in Jeddah",
+    "intro": "From prestigious commercial towers to modern residential complexes; we take pride in delivering, modernizing, and maintaining state-of-the-art mobility systems that safely move thousands daily.",
     "filters": {
       "all": "All Projects",
       "maintenance": "Elevator Maintenance",
@@ -491,9 +734,9 @@
   "blog": {
     "pageTitle": "Engineering Blog & Technical Insights | Al-Masaed Al-Mubtakirah",
     "pageDescription": "Specialized articles and technical guidelines on elevator maintenance, installation, modernization, and Civil Defense standards in Jeddah.",
-    "eyebrow": "Engineering Blog",
-    "heading": "Technical Articles & Engineering Insights",
-    "intro": "Your comprehensive guide to elevator safety standards, preventive maintenance routines, and modernization solutions for residential and commercial properties.",
+    "eyebrow": "Engineering Insights",
+    "heading": "Knowledge That Elevates.. Your Guide to Peak Safety & Performance",
+    "intro": "Practical guidelines and technical insights on preventive maintenance, civil defense codes, and modern elevator technology in Jeddah.",
     "allCategories": "All Categories",
     "filterLabel": "Filter articles by category",
     "readTime": "{{count}} min read",
@@ -519,4 +762,3 @@
     "ctaButton": "Request a Free Consultation"
   }
 }
-

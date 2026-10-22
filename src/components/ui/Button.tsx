@@ -3,7 +3,12 @@ import { Link } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
 
 export type ButtonVariant =
-  'primary' | 'secondary' | 'ghost' | 'whatsapp' | 'inverse'
+  | 'primary'
+  | 'secondary'
+  | 'ghost'
+  | 'whatsapp'
+  | 'inverse'
+  | 'hero'
 export type ButtonSize = 'sm' | 'md' | 'lg'
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -44,9 +49,12 @@ export const Button: React.FC<ButtonProps> = ({
     lg: 'text-lg px-7 py-3.5 gap-2.5 min-h-[52px]',
   }[size]
 
+  const hasCustomBg = /\bbg-/.test(className)
+
   const variantClasses = {
-    primary:
-      'bg-brand-900 text-white hover:bg-brand-800 active:bg-brand-900 border border-transparent shadow-sm',
+    primary: hasCustomBg
+      ? 'text-white border border-transparent shadow-sm'
+      : 'bg-brand-900 text-white hover:bg-brand-800 active:bg-brand-900 border border-transparent shadow-sm',
     secondary:
       'bg-transparent text-brand-600 border border-brand-600 hover:bg-brand-50 active:bg-brand-100',
     ghost:
@@ -54,7 +62,9 @@ export const Button: React.FC<ButtonProps> = ({
     whatsapp:
       'bg-whatsapp text-white hover:bg-whatsapp-hover active:bg-whatsapp shadow-sm border border-transparent',
     inverse:
-      'bg-transparent text-brand-400 border border-brand-400 hover:bg-brand-400 hover:text-brand-900 active:bg-brand-300',
+      'bg-white/10 text-white border border-white/20 hover:bg-white/20 hover:border-white/35 active:bg-white/25 shadow-xs font-semibold',
+    hero:
+      'bg-brand-500 text-white hover:bg-brand-400 active:bg-brand-600 border border-brand-400/30 shadow-md font-semibold',
   }[variant]
 
   const widthClass = fullWidth ? 'w-full' : ''

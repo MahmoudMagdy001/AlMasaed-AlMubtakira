@@ -66,6 +66,15 @@ export default {
         elevated: '0 12px 32px rgba(19, 36, 84, 0.12)',
         header: '0 2px 12px rgba(19, 36, 84, 0.06)',
       },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+      },
+      animation: {
+        marquee: 'marquee 28s linear infinite',
+      },
     },
   },
   plugins: [],
