@@ -118,17 +118,17 @@ export async function getMediaById(id: string): Promise<MediaRow | null> {
 }
 
 /**
- * Checks if a duplicate file already exists by matching file name or path
+ * Checks if a duplicate file already exists by matching file name or storage path
  */
 export async function checkDuplicateMedia(
   fileName: string,
-  sizeBytes: number,
+  _sizeBytes?: number,
 ): Promise<{ isDuplicate: boolean; existingMedia?: MediaRow }> {
   const { data } = await supabase
     .from('media')
     .select('*')
     .eq('file_name', fileName)
-    .eq('size_bytes', sizeBytes)
+    .order('created_at', { ascending: false })
     .limit(1)
 
   if (data && data.length > 0) {
@@ -164,7 +164,14 @@ export async function uploadMedia(
     data: { user },
   } = await supabase.auth.getUser()
 
-  // 2. Upload all generated variant blobs to Supabase Storage
+  // 2. Check if a media record with this exact storage_path already exists in the database
+  const { data: existingRecord } = await supabase
+    .from('media')
+    .select('*')
+    .eq('storage_path', processed.storagePath)
+    .maybeSingle()
+
+  // 3. Upload all generated variant blobs to Supabase Storage (with upsert: true)
   const totalBlobs = processed.variantBlobs.length
   let uploadedCount = 0
 
@@ -185,7 +192,30 @@ export async function uploadMedia(
     onProgress?.(progressPercent)
   }
 
-  // 3. Insert record into public.media table
+  // 4. If record already exists in database, update metadata if provided and return it gracefully
+  if (existingRecord) {
+    if (altText !== undefined || title !== undefined || (folder && folder !== existingRecord.folder)) {
+      const updatePayload: MediaUpdate = {}
+      if (altText !== undefined) updatePayload.alt_text = altText.trim() || null
+      if (title !== undefined) updatePayload.title = title.trim() || processed.originalFileName.replace(/\.[^/.]+$/, '')
+      if (folder) updatePayload.folder = folder
+
+      const { data: updated } = await supabase
+        .from('media')
+        .update(updatePayload)
+        .eq('id', existingRecord.id)
+        .select('*')
+        .single()
+
+      onProgress?.(100)
+      return (updated as MediaRow) || (existingRecord as MediaRow)
+    }
+
+    onProgress?.(100)
+    return existingRecord as MediaRow
+  }
+
+  // 5. Insert record into public.media table
   const insertPayload: MediaInsert = {
     file_name: processed.originalFileName,
     storage_path: processed.storagePath,
@@ -207,7 +237,21 @@ export async function uploadMedia(
     .single()
 
   if (dbError) {
-    // Attempt cleanup of uploaded storage files on DB insert failure
+    // If unique constraint violation on storage_path, return the existing record instead of failing
+    if (dbError.code === '23505' || dbError.message.includes('unique constraint')) {
+      const { data: fallbackRecord } = await supabase
+        .from('media')
+        .select('*')
+        .eq('storage_path', processed.storagePath)
+        .maybeSingle()
+
+      if (fallbackRecord) {
+        onProgress?.(100)
+        return fallbackRecord as MediaRow
+      }
+    }
+
+    // Only cleanup storage if this was an entirely new file that failed DB insert
     const pathsToRemove = processed.variantBlobs.map((v) => v.storagePath)
     await supabase.storage.from('media').remove(pathsToRemove)
     throw new Error(`فشل تسجيل بيانات الوسائط في قاعدة البيانات: ${dbError.message}`)

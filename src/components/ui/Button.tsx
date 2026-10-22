@@ -41,7 +41,7 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseClasses =
-    'inline-flex items-center justify-center font-medium rounded-control transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100 select-none'
+    'inline-flex items-center justify-center font-medium rounded-control transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100 select-none whitespace-nowrap'
 
   const sizeClasses = {
     sm: 'text-sm px-3.5 py-1.5 gap-1.5 min-h-[36px]',
@@ -81,7 +81,7 @@ export const Button: React.FC<ButtonProps> = ({
       ) : (
         leftIcon
       )}
-      <span>{children}</span>
+      <span className="inline-flex items-center gap-1.5">{children}</span>
       {!isLoading && rightIcon}
     </>
   )

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {
-  Upload,
+  Plus,
   Trash2,
   FolderInput,
   CheckSquare,
@@ -26,7 +26,7 @@ import type {
   MediaFilterState,
   MediaFolder,
 } from '@/features/media/types'
-import { useToast } from '@/components/ui'
+import { useToast, Button } from '@/components/ui'
 
 export const MediaPage: React.FC = () => {
   const { success, error, info } = useToast()
@@ -152,14 +152,15 @@ export const MediaPage: React.FC = () => {
                 </button>
               </div>
             )}
-            <button
+            <Button
               type="button"
+              variant="primary"
               onClick={() => setIsUploadOpen(true)}
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-brand-primary hover:bg-brand-primary/95 rounded-lg transition-colors shadow-xs"
+              className="bg-brand-600 hover:bg-brand-700 text-white font-bold shadow-xs whitespace-nowrap inline-flex items-center gap-2 px-4 py-2"
+              leftIcon={<Plus className="w-4 h-4" aria-hidden="true" />}
             >
-              <Upload className="w-3.5 h-3.5" />
-              <span>رفع ملفات جديدة</span>
-            </button>
+              إضافة ملفات جديدة
+            </Button>
           </div>
         }
       />
@@ -182,7 +183,7 @@ export const MediaPage: React.FC = () => {
             className="inline-flex items-center gap-1.5 font-medium hover:text-sand-900 transition-colors"
           >
             {selectedIds.length === items.length ? (
-              <CheckSquare className="w-4 h-4 text-brand-primary" />
+              <CheckSquare className="w-4 h-4 text-brand-600" />
             ) : (
               <Square className="w-4 h-4 text-sand-400" />
             )}
@@ -193,7 +194,7 @@ export const MediaPage: React.FC = () => {
             </span>
           </button>
           {selectedIds.length > 0 && (
-            <span className="font-semibold text-brand-primary">
+            <span className="font-semibold text-brand-600">
               تم تحديد {selectedIds.length} من {items.length}
             </span>
           )}
@@ -207,6 +208,7 @@ export const MediaPage: React.FC = () => {
           selectedIds={selectedIds}
           onToggleSelect={handleToggleSelect}
           onItemClick={(item) => setActiveMedia(item)}
+          onUploadClick={() => setIsUploadOpen(true)}
           isLoading={isLoading}
         />
       ) : (
@@ -247,7 +249,7 @@ export const MediaPage: React.FC = () => {
                       onClick={() => setPage(p)}
                       className={`min-w-[28px] h-7 rounded-lg text-xs font-semibold transition-colors ${
                         page === p
-                          ? 'bg-brand-primary text-white'
+                          ? 'bg-brand-600 text-white shadow-xs'
                           : 'bg-white border border-sand-300 text-sand-700 hover:bg-sand-50'
                       }`}
                     >
@@ -327,7 +329,7 @@ export const MediaPage: React.FC = () => {
             <select
               value={targetMoveFolder}
               onChange={(e) => setTargetMoveFolder(e.target.value as MediaFolder)}
-              className="w-full bg-white border border-sand-300 rounded-lg py-2 px-3 text-xs text-sand-900 focus:outline-none focus:ring-2 focus:ring-brand-primary/30"
+              className="w-full bg-white border border-sand-300 rounded-lg py-2 px-3 text-xs text-sand-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
             >
               <option value="general">عام (General)</option>
               <option value="blog">المدونة (Blog)</option>
@@ -335,22 +337,27 @@ export const MediaPage: React.FC = () => {
               <option value="partners">الشركاء (Partners)</option>
               <option value="branding">الهوية والعلامة التجارية (Branding)</option>
             </select>
-            <div className="flex items-center justify-end gap-2 pt-2">
-              <button
+            <div className="flex items-center justify-end gap-2.5 pt-2">
+              <Button
                 type="button"
+                variant="secondary"
+                size="sm"
                 onClick={() => setIsBulkMoveOpen(false)}
-                className="px-3.5 py-1.5 text-xs font-medium text-sand-700 hover:bg-sand-100 rounded-lg"
+                className="border-sand-300 text-sand-700 hover:bg-sand-100 font-medium px-4 py-1.5"
               >
                 إلغاء
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
+                variant="primary"
+                size="sm"
                 onClick={handleBulkMoveConfirm}
                 disabled={bulkMoveMutation.isPending}
-                className="px-4 py-1.5 text-xs font-semibold text-white bg-brand-primary hover:bg-brand-primary/95 rounded-lg disabled:opacity-50"
+                isLoading={bulkMoveMutation.isPending}
+                className="bg-brand-600 hover:bg-brand-700 text-white font-bold shadow-xs px-5 py-1.5"
               >
-                {bulkMoveMutation.isPending ? 'جاري النقل...' : 'تأكيد النقل'}
-              </button>
+                تأكيد النقل
+              </Button>
             </div>
           </div>
         </div>

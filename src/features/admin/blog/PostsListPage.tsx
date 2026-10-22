@@ -159,21 +159,23 @@ export const PostsListPage: React.FC = () => {
         title="المقالات والأخبار"
         description="إدارة وتحرير مقالات المدونة، الأخبار، والتوعية التقنية بمصاعد جدة مع دعم الترجمة الفورية والـ SEO."
         actions={
-          <Link to="/admin/posts/new">
-            <Button className="gap-2">
-              <Plus className="w-4 h-4" />
-              <span>مقال جديد</span>
-            </Button>
-          </Link>
+          <Button
+            to="/admin/posts/new"
+            variant="primary"
+            className="bg-brand-600 hover:bg-brand-700 text-white font-bold shadow-xs whitespace-nowrap inline-flex items-center gap-2 px-4 py-2"
+            leftIcon={<Plus className="w-4 h-4" aria-hidden="true" />}
+          >
+            مقال جديد
+          </Button>
         }
       />
 
       {/* Filter and Search Bar */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 space-y-3">
+      <div className="bg-white border border-surface-border rounded-card p-4 space-y-3 shadow-2xs">
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
           {/* Search */}
           <div className="relative flex-1 max-w-md">
-            <Search className="w-4 h-4 absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search className="w-4 h-4 absolute start-3 top-1/2 -translate-y-1/2 text-content-muted" />
             <input
               type="text"
               value={search}
@@ -182,7 +184,7 @@ export const PostsListPage: React.FC = () => {
                 setPage(1)
               }}
               placeholder="بحث بالعنوان، الرابط، أو المقتطف..."
-              className="w-full ps-9 pe-4 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500"
+              className="w-full ps-9 pe-4 py-2 text-xs rounded-control border border-surface-border bg-white text-content-heading focus:outline-none focus:border-brand-600"
             />
           </div>
 
@@ -195,7 +197,7 @@ export const PostsListPage: React.FC = () => {
                 setStatusFilter(e.target.value as PostStatus | 'all')
                 setPage(1)
               }}
-              className="px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="px-3 py-2 text-xs rounded-control border border-surface-border bg-white text-content-heading focus:outline-none focus:border-brand-600"
             >
               <option value="all">كل الحالات</option>
               <option value="published">منشور</option>
@@ -210,7 +212,7 @@ export const PostsListPage: React.FC = () => {
                 setLangFilter(e.target.value as PostLang | 'all')
                 setPage(1)
               }}
-              className="px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="px-3 py-2 text-xs rounded-control border border-surface-border bg-white text-content-heading focus:outline-none focus:border-brand-600"
             >
               <option value="all">كل اللغات</option>
               <option value="ar">العربية (AR)</option>
@@ -224,7 +226,7 @@ export const PostsListPage: React.FC = () => {
                 setCategoryFilter(e.target.value)
                 setPage(1)
               }}
-              className="px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="px-3 py-2 text-xs rounded-control border border-surface-border bg-white text-content-heading focus:outline-none focus:border-brand-600"
             >
               <option value="all">كل التصنيفات</option>
               {categories.map((c) => (
@@ -238,8 +240,8 @@ export const PostsListPage: React.FC = () => {
 
         {/* Bulk Action Controls */}
         {selectedIds.length > 0 && (
-          <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3 bg-primary-50/60 dark:bg-primary-950/20 p-2.5 rounded-lg">
-            <div className="text-xs font-semibold text-primary-900 dark:text-primary-300">
+          <div className="pt-3 border-t border-surface-border-subtle flex items-center justify-between gap-3 bg-brand-50/70 p-2.5 rounded-control">
+            <div className="text-xs font-semibold text-brand-900">
               تم تحديد <span className="font-bold">{selectedIds.length}</span> مقالاً
             </div>
             <div className="flex items-center gap-2">
@@ -247,7 +249,7 @@ export const PostsListPage: React.FC = () => {
                 variant="secondary"
                 size="sm"
                 onClick={() => handleBulkStatus('published')}
-                className="text-xs h-8"
+                className="text-xs h-8 bg-white"
               >
                 <CheckCircle className="w-3.5 h-3.5 me-1 text-emerald-600" />
                 <span>نشر المحدد</span>
@@ -256,7 +258,7 @@ export const PostsListPage: React.FC = () => {
                 variant="secondary"
                 size="sm"
                 onClick={() => handleBulkStatus('draft')}
-                className="text-xs h-8"
+                className="text-xs h-8 bg-white"
               >
                 <EyeOff className="w-3.5 h-3.5 me-1 text-amber-600" />
                 <span>تحويل لمسودة</span>
@@ -265,7 +267,7 @@ export const PostsListPage: React.FC = () => {
                 variant="secondary"
                 size="sm"
                 onClick={() => setIsBulkDeleteOpen(true)}
-                className="text-xs h-8 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30"
+                className="text-xs h-8 text-feedback-error hover:bg-feedback-error/10 bg-white"
               >
                 <Trash2 className="w-3.5 h-3.5 me-1" />
                 <span>حذف المحدد</span>
@@ -276,37 +278,44 @@ export const PostsListPage: React.FC = () => {
       </div>
 
       {/* Posts Table */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+      <div className="bg-white border border-surface-border rounded-card overflow-hidden shadow-xs">
         {isLoading ? (
-          <div className="p-12 text-center text-slate-500">جاري تحميل المقالات...</div>
+          <div className="p-12 text-center text-content-muted text-sm">جاري تحميل المقالات...</div>
         ) : posts.length === 0 ? (
-          <div className="p-12 text-center">
-            <FileText className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
-            <h3 className="text-base font-bold text-slate-800 dark:text-slate-200">
+          <div className="p-12 text-center space-y-3">
+            <FileText className="w-10 h-10 text-content-muted mx-auto" />
+            <h3 className="text-sm font-bold text-content-heading">
               لا توجد مقالات تطابق هذا المعيار
             </h3>
-            <p className="text-sm text-slate-500 mt-1">
+            <p className="text-xs text-content-muted max-w-sm mx-auto">
               {search || statusFilter !== 'all' || langFilter !== 'all' || categoryFilter !== 'all'
                 ? 'جرّب تغيير خيارات البحث أو التصفية.'
                 : 'ابدأ بكتابة مقالك الأول في المدونة.'}
             </p>
             {!search && statusFilter === 'all' && (
-              <Link to="/admin/posts/new" className="inline-block mt-4">
-                <Button size="sm">كتابة مقال جديد</Button>
-              </Link>
+              <div className="pt-2">
+                <Button
+                  to="/admin/posts/new"
+                  size="sm"
+                  className="bg-brand-600 hover:bg-brand-700 text-white font-bold"
+                  leftIcon={<Plus className="w-4 h-4" />}
+                >
+                  كتابة مقال جديد
+                </Button>
+              </div>
             )}
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-start text-sm">
-              <thead className="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 font-medium">
+            <table className="w-full text-start text-xs border-collapse">
+              <thead className="bg-surface-soft border-b border-surface-border text-content-muted font-bold">
                 <tr>
                   <th className="py-3 px-4 w-10 text-center">
                     <input
                       type="checkbox"
                       checked={selectedIds.length === posts.length && posts.length > 0}
                       onChange={handleSelectAll}
-                      className="rounded border-slate-300 text-primary-600 focus:ring-primary-500"
+                      className="rounded border-surface-border text-brand-600 focus:ring-brand-500"
                     />
                   </th>
                   <th className="py-3 px-4 text-start">المقال</th>
@@ -319,7 +328,7 @@ export const PostsListPage: React.FC = () => {
                   <th className="py-3 px-4 text-end">الإجراءات</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+              <tbody className="divide-y divide-surface-border">
                 {posts.map((post) => {
                   const isSelected = selectedIds.includes(post.id)
                   const imageUrl = post.featured_image?.storage_path
@@ -331,8 +340,8 @@ export const PostsListPage: React.FC = () => {
                   return (
                     <tr
                       key={post.id}
-                      className={`hover:bg-slate-50/60 dark:hover:bg-slate-800/30 transition-colors ${
-                        isSelected ? 'bg-primary-50/40 dark:bg-primary-950/20' : ''
+                      className={`hover:bg-surface-soft/50 transition-colors ${
+                        isSelected ? 'bg-brand-50/50' : ''
                       }`}
                     >
                       {/* Checkbox */}
@@ -341,14 +350,14 @@ export const PostsListPage: React.FC = () => {
                           type="checkbox"
                           checked={isSelected}
                           onChange={() => handleSelectRow(post.id)}
-                          className="rounded border-slate-300 text-primary-600 focus:ring-primary-500"
+                          className="rounded border-surface-border text-brand-600 focus:ring-brand-500"
                         />
                       </td>
 
                       {/* Post Thumbnail & Info */}
                       <td className="py-3 px-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-800 overflow-hidden shrink-0 flex items-center justify-center border border-slate-200 dark:border-slate-700">
+                          <div className="w-11 h-11 rounded-control bg-surface-soft overflow-hidden shrink-0 flex items-center justify-center border border-surface-border">
                             {imageUrl ? (
                               <img
                                 src={imageUrl}
@@ -356,17 +365,17 @@ export const PostsListPage: React.FC = () => {
                                 className="w-full h-full object-cover"
                               />
                             ) : (
-                              <ImageIcon className="w-5 h-5 text-slate-400" />
+                              <ImageIcon className="w-5 h-5 text-content-muted" />
                             )}
                           </div>
                           <div className="min-w-0 max-w-sm">
                             <Link
                               to={`/admin/posts/${post.id}`}
-                              className="font-medium text-slate-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 line-clamp-1 block transition-colors"
+                              className="font-bold text-content-heading hover:text-brand-600 line-clamp-1 block transition-colors"
                             >
                               {post.title}
                             </Link>
-                            <span className="text-xs text-slate-400 font-mono block truncate">
+                            <span className="text-[11px] text-content-muted font-mono block truncate mt-0.5">
                               /{post.lang}/blog/{post.slug}
                             </span>
                           </div>
@@ -374,23 +383,23 @@ export const PostsListPage: React.FC = () => {
                       </td>
 
                       {/* Category */}
-                      <td className="py-3 px-4 text-slate-600 dark:text-slate-300">
+                      <td className="py-3 px-4 text-content-body">
                         {post.category ? (
-                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-control text-xs bg-surface-soft text-content-body border border-surface-border font-medium">
                             {post.category.name_ar}
                           </span>
                         ) : (
-                          <span className="text-xs text-slate-400">—</span>
+                          <span className="text-xs text-content-muted">—</span>
                         )}
                       </td>
 
                       {/* Language */}
                       <td className="py-3 px-4 text-center">
                         <span
-                          className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-bold ${
+                          className={`inline-flex items-center px-2 py-0.5 rounded-control text-[11px] font-mono font-bold border ${
                             post.lang === 'ar'
-                              ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300'
-                              : 'bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300'
+                              ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                              : 'bg-brand-50 text-brand-700 border-brand-200'
                           }`}
                         >
                           {post.lang.toUpperCase()}
@@ -406,38 +415,38 @@ export const PostsListPage: React.FC = () => {
                       <td className="py-3 px-4 text-center">
                         {typeof post.seo_score === 'number' ? (
                           <span
-                            className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-bold border ${
+                            className={`inline-flex items-center px-2 py-0.5 rounded-control text-xs font-mono font-bold border ${
                               post.seo_score >= 80
-                                ? 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800'
+                                ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                                 : post.seo_score >= 50
-                                  ? 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800'
-                                  : 'bg-red-50 text-red-700 border-red-200 dark:bg-red-950/60 dark:text-red-300 dark:border-red-800'
+                                  ? 'bg-amber-50 text-amber-700 border-amber-200'
+                                  : 'bg-red-50 text-red-700 border-red-200'
                             }`}
                             title={`نتيجة السيو: ${post.seo_score}/100`}
                           >
                             {post.seo_score}
                           </span>
                         ) : (
-                          <span className="text-xs text-slate-400 font-mono">—</span>
+                          <span className="text-xs text-content-muted font-mono">—</span>
                         )}
                       </td>
 
                       {/* Reading Time */}
-                      <td className="py-3 px-4 text-center text-xs text-slate-500 font-mono">
+                      <td className="py-3 px-4 text-center text-xs text-content-muted font-mono">
                         <span className="inline-flex items-center gap-1">
-                          <Clock className="w-3.5 h-3.5 text-slate-400" />
+                          <Clock className="w-3.5 h-3.5 text-content-muted" />
                           <span>{post.reading_time_min || 1} د</span>
                         </span>
                       </td>
 
                       {/* Date */}
-                      <td className="py-3 px-4 text-xs text-slate-500">
-                        <div>
+                      <td className="py-3 px-4 text-xs text-content-muted">
+                        <div className="font-medium text-content-body">
                           {post.published_at
                             ? new Date(post.published_at).toLocaleDateString('ar-SA')
                             : new Date(post.updated_at).toLocaleDateString('ar-SA')}
                         </div>
-                        <span className="text-[10px] text-slate-400">
+                        <span className="text-[10px] text-content-muted">
                           {post.published_at ? 'تاريخ النشر' : 'آخر تعديل'}
                         </span>
                       </td>
@@ -450,7 +459,7 @@ export const PostsListPage: React.FC = () => {
                               href={publicUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="p-1.5 text-slate-500 hover:text-primary-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                              className="p-1.5 text-content-muted hover:text-brand-600 hover:bg-surface-soft rounded-control transition-colors"
                               title="معاينة المقال المباشر"
                             >
                               <ExternalLink className="w-4 h-4" />
@@ -458,7 +467,7 @@ export const PostsListPage: React.FC = () => {
                           )}
                           <Link
                             to={`/admin/posts/${post.id}`}
-                            className="p-1.5 text-slate-500 hover:text-primary-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                            className="p-1.5 text-content-muted hover:text-brand-600 hover:bg-surface-soft rounded-control transition-colors"
                             title="تعديل المقال"
                           >
                             <Edit2 className="w-4 h-4" />
@@ -467,7 +476,7 @@ export const PostsListPage: React.FC = () => {
                             type="button"
                             onClick={() => handleDuplicate(post)}
                             disabled={duplicateMutation.isPending}
-                            className="p-1.5 text-slate-500 hover:text-primary-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                            className="p-1.5 text-content-muted hover:text-brand-600 hover:bg-surface-soft rounded-control transition-colors"
                             title="استنساخ المقال"
                           >
                             <Copy className="w-4 h-4" />
@@ -476,7 +485,7 @@ export const PostsListPage: React.FC = () => {
                             type="button"
                             onClick={() => handleCreateTwin(post)}
                             disabled={createTwinMutation.isPending}
-                            className="p-1.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/30 rounded-lg transition-colors"
+                            className="p-1.5 text-content-muted hover:text-brand-600 hover:bg-surface-soft rounded-control transition-colors"
                             title={
                               post.lang === 'ar'
                                 ? 'إنشاء نسخة مترجمة بالإنجليزية'
@@ -488,7 +497,7 @@ export const PostsListPage: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => setDeletingPost(post)}
-                            className="p-1.5 text-slate-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg transition-colors"
+                            className="p-1.5 text-content-muted hover:text-feedback-error hover:bg-feedback-error/10 rounded-control transition-colors"
                             title="حذف المقال"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -505,8 +514,8 @@ export const PostsListPage: React.FC = () => {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="p-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-            <div className="text-xs text-slate-500">
+          <div className="p-4 border-t border-surface-border flex items-center justify-between">
+            <div className="text-xs text-content-muted">
               عرض {(page - 1) * 15 + 1} - {Math.min(page * 15, total)} من أصل {total} مقال
             </div>
             <div className="flex items-center gap-1">
@@ -519,7 +528,7 @@ export const PostsListPage: React.FC = () => {
               >
                 <ChevronRight className="w-4 h-4" />
               </Button>
-              <span className="px-3 text-xs font-semibold text-slate-700 dark:text-slate-300">
+              <span className="px-3 text-xs font-semibold text-content-body">
                 صفحة {page} من {totalPages}
               </span>
               <Button

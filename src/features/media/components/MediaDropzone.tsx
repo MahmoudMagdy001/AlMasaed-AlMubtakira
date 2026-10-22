@@ -1,10 +1,12 @@
 import React, { useRef, useState, useCallback } from 'react'
 import { UploadCloud, FileImage, FileText } from 'lucide-react'
+import { Button } from '@/components/ui'
 
 export interface MediaDropzoneProps {
   onFilesSelected: (files: File[]) => void
   disabled?: boolean
   compact?: boolean
+  inputRef?: React.RefObject<HTMLInputElement>
 }
 
 const ACCEPTED_TYPES =
@@ -14,9 +16,11 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
   onFilesSelected,
   disabled = false,
   compact = false,
+  inputRef: externalInputRef,
 }) => {
   const [isDragOver, setIsDragOver] = useState(false)
-  const fileInputRef = useRef<HTMLInputElement>(null)
+  const internalInputRef = useRef<HTMLInputElement>(null)
+  const fileInputRef = externalInputRef || internalInputRef
 
   const handleDragOver = useCallback(
     (e: React.DragEvent) => {
@@ -77,8 +81,8 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
         compact ? 'p-6' : 'p-10'
       } ${
         isDragOver
-          ? 'border-brand-primary bg-brand-primary/5 scale-[1.01]'
-          : 'border-sand-300 hover:border-sand-400 bg-sand-50/50 hover:bg-sand-50'
+          ? 'border-brand-600 bg-brand-50/70 scale-[1.01]'
+          : 'border-sand-300 hover:border-brand-400 bg-sand-50/50 hover:bg-brand-50/20'
       } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
       role="button"
       tabIndex={0}
@@ -101,30 +105,44 @@ export const MediaDropzone: React.FC<MediaDropzoneProps> = ({
       />
 
       <div className="flex flex-col items-center justify-center space-y-3">
-        <div className="w-12 h-12 rounded-full bg-sand-100 flex items-center justify-center text-brand-primary">
+        <div className="w-13 h-13 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 shadow-2xs">
           <UploadCloud className="w-6 h-6" />
         </div>
 
-        <div>
-          <p className="text-sm font-semibold text-sand-900">
-            اسحب الملفات وأفلتها هنا، أو{' '}
-            <span className="text-brand-primary underline underline-offset-2">
-              تصفح من جهازك
-            </span>
+        <div className="space-y-1">
+          <p className="text-sm font-bold text-sand-900">
+            اسحب الملفات وأفلتها هنا، أو اضغط للاختيار من جهازك
           </p>
-          <p className="text-xs text-sand-500 mt-1">
+          <p className="text-xs text-sand-500 max-w-md mx-auto">
             ندعم صور JPG، PNG، WebP، AVIF، SVG ومستندات PDF حتى 10 ميجابايت كحد أقصى
           </p>
         </div>
 
-        <div className="flex items-center gap-3 text-xs text-sand-500 pt-1">
-          <span className="inline-flex items-center gap-1">
-            <FileImage className="w-3.5 h-3.5 text-sand-400" />
+        <div className="pt-1">
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={(e) => {
+              e.stopPropagation()
+              handleClick()
+            }}
+            disabled={disabled}
+            leftIcon={<UploadCloud className="w-4 h-4" />}
+            className="border-sand-300 bg-white hover:bg-brand-50 hover:border-brand-400 text-brand-700 shadow-xs font-semibold px-4 py-2"
+          >
+            تصفح واختيار الملفات من جهازك
+          </Button>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-sand-500 pt-2 border-t border-sand-200/60 w-full max-w-lg">
+          <span className="inline-flex items-center gap-1.5">
+            <FileImage className="w-3.5 h-3.5 text-brand-600" />
             تحويل ذكي وتوليد تلقائي لأبعاد WebP
           </span>
-          <span>•</span>
-          <span className="inline-flex items-center gap-1">
-            <FileText className="w-3.5 h-3.5 text-sand-400" />
+          <span className="text-sand-300">•</span>
+          <span className="inline-flex items-center gap-1.5">
+            <FileText className="w-3.5 h-3.5 text-brand-600" />
             فحص أمان الحجم والامتداد
           </span>
         </div>

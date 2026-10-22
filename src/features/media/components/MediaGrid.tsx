@@ -4,6 +4,7 @@ import {
   AlertTriangle,
   Folder,
   Check,
+  Plus,
   Image as ImageIcon,
 } from 'lucide-react'
 import type { MediaRow } from '../types'
@@ -14,6 +15,7 @@ export interface MediaGridProps {
   selectedIds: string[]
   onToggleSelect: (id: string) => void
   onItemClick: (item: MediaRow) => void
+  onUploadClick?: () => void
   isLoading?: boolean
 }
 
@@ -22,6 +24,7 @@ export const MediaGrid: React.FC<MediaGridProps> = ({
   selectedIds,
   onToggleSelect,
   onItemClick,
+  onUploadClick,
   isLoading = false,
 }) => {
   if (isLoading) {
@@ -53,6 +56,18 @@ export const MediaGrid: React.FC<MediaGridProps> = ({
         <p className="text-xs text-sand-500 mt-1 max-w-sm mx-auto">
           لم يتم العثور على أي ملفات تناسب الفلاتر المحددة، أو لم يتم رفع أي ملفات وسائط حتى الآن.
         </p>
+        {onUploadClick && (
+          <div className="pt-4">
+            <button
+              type="button"
+              onClick={onUploadClick}
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-control transition-colors shadow-xs"
+            >
+              <Plus className="w-4 h-4" />
+              <span>إضافة ملفات جديدة</span>
+            </button>
+          </div>
+        )}
       </div>
     )
   }
@@ -71,7 +86,7 @@ export const MediaGrid: React.FC<MediaGridProps> = ({
             onClick={() => onItemClick(item)}
             className={`group relative rounded-xl border bg-white overflow-hidden transition-all duration-150 cursor-pointer flex flex-col ${
               isSelected
-                ? 'border-brand-primary ring-2 ring-brand-primary/20 shadow-sm'
+                ? 'border-brand-600 ring-2 ring-brand-500/20 shadow-sm'
                 : 'border-sand-200 hover:border-sand-300 hover:shadow-subtle'
             }`}
           >
@@ -102,7 +117,7 @@ export const MediaGrid: React.FC<MediaGridProps> = ({
                 }}
                 className={`absolute top-2 start-2 w-6 h-6 rounded-md flex items-center justify-center transition-colors ${
                   isSelected
-                    ? 'bg-brand-primary text-white shadow-sm'
+                    ? 'bg-brand-600 text-white shadow-sm'
                     : 'bg-white/80 hover:bg-white text-sand-400 border border-sand-300 opacity-0 group-hover:opacity-100 focus:opacity-100'
                 }`}
                 aria-label={`تحديد ${item.file_name}`}

@@ -4,13 +4,11 @@ import { useTranslation } from 'react-i18next'
 import {
   Calendar,
   Clock,
-  User,
   Tag,
   ArrowLeft,
   ArrowRight,
   HelpCircle,
   Languages,
-  CheckCircle2,
 } from 'lucide-react'
 import {
   Container,
@@ -19,10 +17,10 @@ import {
   Badge,
   ResponsiveImage,
   Accordion,
+  BrandPattern,
   Button,
   getStoragePublicUrl,
 } from '@/components/ui'
-import { CtaBand } from '@/components/layout/CtaBand'
 import { Seo, getBlogPostingSchema, getFaqSchema } from '@/components/seo'
 import { processArticleHtml } from '@/lib/blogContent'
 import {
@@ -31,9 +29,9 @@ import {
   usePrevNextPosts,
   usePostTranslation,
 } from '@/hooks/useBlog'
-import { TableOfContents } from './components/TableOfContents'
 import { ShareButtons } from './components/ShareButtons'
 import { PostCard } from './components/PostCard'
+import logoDarkSquare from '@/assets/brand/logo-dark-square.webp'
 
 export const BlogPostPage: React.FC = () => {
   const { t } = useTranslation()
@@ -66,8 +64,8 @@ export const BlogPostPage: React.FC = () => {
     limit: 3,
   })
 
-  // Sanitize content and generate TOC anchors
-  const { sanitizedHtml, toc } = useMemo(() => {
+  // Sanitize content and generate anchors
+  const { sanitizedHtml } = useMemo(() => {
     if (!post?.content_html) {
       return { sanitizedHtml: '', toc: [] }
     }
@@ -100,21 +98,31 @@ export const BlogPostPage: React.FC = () => {
 
   if (isLoading || !post) {
     return (
-      <Section variant="white" className="py-16">
-        <Container>
-          <div className="max-w-4xl mx-auto space-y-6 animate-pulse">
-            <div className="h-6 bg-surface-border rounded w-1/4" />
-            <div className="h-10 bg-surface-border rounded w-3/4" />
-            <div className="h-4 bg-surface-border rounded w-1/2" />
-            <div className="aspect-[16/9] bg-surface-border rounded-card" />
-            <div className="space-y-4 pt-6">
-              <div className="h-4 bg-surface-border rounded w-full" />
-              <div className="h-4 bg-surface-border rounded w-5/6" />
-              <div className="h-4 bg-surface-border rounded w-4/6" />
+      <>
+        {/* Skeleton Header Banner */}
+        <section className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden">
+          <BrandPattern opacity={0.07} />
+          <Container className="relative z-10">
+            <div className="max-w-4xl space-y-4 animate-pulse">
+              <div className="h-4 bg-white/20 rounded w-1/4" />
+              <div className="h-10 bg-white/20 rounded w-3/4" />
+              <div className="h-4 bg-white/20 rounded w-1/2" />
             </div>
-          </div>
-        </Container>
-      </Section>
+          </Container>
+        </section>
+        <Section variant="white" className="py-12">
+          <Container>
+            <div className="max-w-4xl mx-auto space-y-6 animate-pulse">
+              <div className="aspect-[16/9] bg-surface-border rounded-card" />
+              <div className="space-y-4 pt-6">
+                <div className="h-4 bg-surface-border rounded w-full" />
+                <div className="h-4 bg-surface-border rounded w-5/6" />
+                <div className="h-4 bg-surface-border rounded w-4/6" />
+              </div>
+            </div>
+          </Container>
+        </Section>
+      </>
     )
   }
 
@@ -128,20 +136,6 @@ export const BlogPostPage: React.FC = () => {
     ? `${prefix}/blog/category/${post.category.slug}`
     : null
 
-  const publishedDateFormatted = post.published_at
-    ? new Date(post.published_at).toLocaleDateString(
-        isEn ? 'en-US' : 'ar-SA',
-        { year: 'numeric', month: 'long', day: 'numeric' },
-      )
-    : null
-
-  const updatedDateFormatted =
-    post.updated_at && post.published_at && post.updated_at !== post.published_at
-      ? new Date(post.updated_at).toLocaleDateString(
-          isEn ? 'en-US' : 'ar-SA',
-          { year: 'numeric', month: 'long', day: 'numeric' },
-        )
-      : null
 
   const breadcrumbs = [
     { label: t('nav.home'), href: isEn ? '/en' : '/' },
@@ -225,93 +219,66 @@ export const BlogPostPage: React.FC = () => {
       />
 
 
-      <article className="pt-6 pb-16">
-        <Container>
-          <Breadcrumbs items={breadcrumbs} className="mb-8" />
+      <article>
+        {/* Header Banner */}
+        <header className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden">
+          <BrandPattern opacity={0.07} />
+          <Container className="relative z-10">
+            <Breadcrumbs items={breadcrumbs} className="mb-6 text-white/80" />
+            <div className="max-w-4xl">
+              {/* Category Badge & Reading Time */}
+              <div className="flex flex-wrap items-center gap-3 mb-4">
+                {categoryName && categoryUrl && (
+                  <Link to={categoryUrl}>
+                    <Badge
+                      variant="brand"
+                      size="md"
+                      className="bg-brand-800 text-brand-100 border-brand-700 hover:bg-brand-700 transition-colors"
+                    >
+                      {categoryName}
+                    </Badge>
+                  </Link>
+                )}
+                <span className="text-xs text-brand-200 flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-brand-300" aria-hidden="true" />
+                  <span>{t('blog.readTime', { count: post.reading_time_min || 5 })}</span>
+                </span>
+              </div>
 
-          {/* Article Header */}
-          <header className="max-w-4xl mx-auto mb-8 text-start">
-            {/* Category Badge & Reading Time */}
-            <div className="flex flex-wrap items-center gap-3 mb-4">
-              {categoryName && categoryUrl && (
-                <Link to={categoryUrl}>
-                  <Badge variant="brand" size="md">
-                    {categoryName}
-                  </Badge>
-                </Link>
+              {/* H1 Heading */}
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-4 leading-tight">
+                {post.title}
+              </h1>
+
+              {/* Excerpt if present */}
+              {post.excerpt && (
+                <p className="text-base sm:text-lg text-brand-100 leading-relaxed font-normal max-w-3xl mb-4">
+                  {post.excerpt}
+                </p>
               )}
-              <span className="text-xs text-content-muted flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-brand-600" aria-hidden="true" />
-                <span>{t('blog.readTime', { count: post.reading_time_min || 5 })}</span>
-              </span>
-            </div>
 
-            {/* H1 Heading */}
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-content-heading mb-6 leading-tight">
-              {post.title}
-            </h1>
-
-            {/* Byline & Dates */}
-            <div className="flex flex-wrap items-center justify-between gap-4 py-4 border-y border-surface-border text-xs sm:text-sm text-content-muted">
-              <div className="flex items-center gap-4">
-                {/* Author */}
-                <div className="flex items-center gap-2">
-                  {post.author?.avatar_url ? (
-                    <img
-                      src={post.author.avatar_url}
-                      alt={post.author.full_name || ''}
-                      className="w-7 h-7 rounded-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-7 h-7 rounded-full bg-brand-50 text-brand-700 flex items-center justify-center font-bold text-xs">
-                      <User className="w-4 h-4" aria-hidden="true" />
-                    </div>
-                  )}
-                  <span className="font-semibold text-content-heading">
-                    {post.author?.full_name || t('brand.name')}
-                  </span>
+              {/* Bilingual Twin Alert (if translation twin exists) */}
+              {translationTwin && (
+                <div className="mt-6 p-4 rounded-card bg-brand-800/80 border border-brand-700/80 flex items-center justify-between gap-4 text-xs sm:text-sm text-white">
+                  <div className="flex items-center gap-2 font-medium text-brand-100">
+                    <Languages className="w-4 h-4 text-brand-300 shrink-0" aria-hidden="true" />
+                    <span>{t('blog.translationTwinNotice')}</span>
+                  </div>
+                  <Link
+                    to={`${targetPrefix}/blog/${translationTwin.slug}`}
+                    className="font-bold text-accent-400 hover:text-accent-300 underline shrink-0 transition-colors"
+                  >
+                    {t('blog.readInOtherLang')}
+                  </Link>
                 </div>
-
-                {/* Published Date */}
-                {publishedDateFormatted && (
-                  <span className="flex items-center gap-1.5">
-                    <Calendar className="w-3.5 h-3.5 text-brand-600" aria-hidden="true" />
-                    <time dateTime={post.published_at || undefined}>
-                      {publishedDateFormatted}
-                    </time>
-                  </span>
-                )}
-
-                {/* Updated Date (if distinct) */}
-                {updatedDateFormatted && (
-                  <span className="hidden sm:inline-flex items-center gap-1 text-content-muted">
-                    <span>({t('blog.updatedAt')}</span>
-                    <time dateTime={post.updated_at}>{updatedDateFormatted}</time>
-                    <span>)</span>
-                  </span>
-                )}
-              </div>
-
-              {/* Share Header Buttons */}
-              <ShareButtons url={currentUrl} title={post.title} />
+              )}
             </div>
+          </Container>
+        </header>
 
-            {/* Bilingual Twin Alert (if translation twin exists) */}
-            {translationTwin && (
-              <div className="mt-4 p-4 rounded-card bg-brand-50 border border-brand-200 flex items-center justify-between gap-4 text-xs sm:text-sm">
-                <div className="flex items-center gap-2 text-brand-900 font-medium">
-                  <Languages className="w-4 h-4 text-brand-600 shrink-0" aria-hidden="true" />
-                  <span>{t('blog.translationTwinNotice')}</span>
-                </div>
-                <Link
-                  to={`${targetPrefix}/blog/${translationTwin.slug}`}
-                  className="font-bold text-brand-600 hover:text-brand-700 hover:underline shrink-0"
-                >
-                  {t('blog.readInOtherLang')}
-                </Link>
-              </div>
-            )}
-          </header>
+        {/* Article Body Section */}
+        <div className="py-12 sm:py-16">
+          <Container>
 
           {/* Featured Image (LCP with fetchpriority="high") */}
           {post.featured_image && (
@@ -333,176 +300,191 @@ export const BlogPostPage: React.FC = () => {
             </figure>
           )}
 
-          {/* Main Layout: Content and Sticky TOC Sidebar */}
-          <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            {/* Post Body & Extras Column */}
-            <div className="lg:col-span-8 space-y-10">
-              {/* Sanitized Article Body */}
-              <div
-                className="prose-article"
-                dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
-              />
+          {/* Main Layout: Centered Content */}
+          <div className="max-w-4xl mx-auto space-y-10">
+            {/* Sanitized Article Body */}
+            <div
+              className="prose-article"
+              dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+            />
 
-              {/* FAQ Section (if present) */}
-              {faqAccordionItems.length > 0 && (
-                <section
-                  className="pt-8 border-t border-surface-border"
-                  aria-labelledby="post-faq-heading"
-                >
-                  <div className="flex items-center gap-2 mb-6">
-                    <HelpCircle className="w-5 h-5 text-brand-600" aria-hidden="true" />
-                    <h2
-                      id="post-faq-heading"
-                      className="text-xl font-bold text-content-heading"
-                    >
-                      {t('blog.faqTitle')}
-                    </h2>
-                  </div>
-                  <Accordion items={faqAccordionItems} />
-                </section>
-              )}
-
-              {/* Tags */}
-              {post.tags && post.tags.length > 0 && (
-                <div className="pt-6 border-t border-surface-border flex flex-wrap items-center gap-2">
-                  <span className="text-xs font-semibold text-content-muted flex items-center gap-1 me-2">
-                    <Tag className="w-3.5 h-3.5" aria-hidden="true" />
-                    <span>{t('blog.tags')}</span>
-                  </span>
-                  {post.tags.map((tag) => {
-                    const tagName = isEn && tag.name_en ? tag.name_en : tag.name_ar
-                    return (
-                      <span
-                        key={tag.id}
-                        className="px-3 py-1 bg-surface-soft border border-surface-border rounded-full text-xs text-content-body font-medium"
-                      >
-                        #{tagName}
-                      </span>
-                    )
-                  })}
-                </div>
-              )}
-
-              {/* Bottom Share Row */}
-              <div className="pt-6 border-t border-surface-border">
-                <ShareButtons url={currentUrl} title={post.title} />
-              </div>
-
-              {/* In-article CTA Card */}
-              <div className="p-8 rounded-card bg-gradient-brand-dark text-white shadow-elevated">
-                <span className="text-xs font-bold text-brand-300 uppercase tracking-wider block mb-2">
-                  {t('brand.slogan')}
-                </span>
-                <h3 className="text-2xl font-bold mb-3 text-white">
-                  {t('blog.ctaTitle')}
-                </h3>
-                <p className="text-brand-100 text-sm leading-relaxed mb-6 max-w-lg">
-                  {t('blog.ctaText')}
-                </p>
-                <div className="flex flex-wrap items-center gap-4">
-                  <Button
-                    variant="primary"
-                    to={`${prefix}/contact`}
-                    className="bg-brand-400 hover:bg-brand-300 text-brand-900 font-bold"
+            {/* FAQ Section (if present) */}
+            {faqAccordionItems.length > 0 && (
+              <section
+                className="pt-8 border-t border-surface-border"
+                aria-labelledby="post-faq-heading"
+              >
+                <div className="flex items-center gap-2 mb-6">
+                  <HelpCircle className="w-5 h-5 text-brand-600" aria-hidden="true" />
+                  <h2
+                    id="post-faq-heading"
+                    className="text-xl font-bold text-content-heading"
                   >
-                    {t('blog.ctaButton')}
-                  </Button>
-                  <span className="text-xs text-brand-200 flex items-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4 text-brand-400" aria-hidden="true" />
-                    <span>{t('brand.accreditation')}</span>
-                  </span>
+                    {t('blog.faqTitle')}
+                  </h2>
                 </div>
+                <Accordion items={faqAccordionItems} />
+              </section>
+            )}
+
+            {/* Tags */}
+            {post.tags && post.tags.length > 0 && (
+              <div className="pt-6 border-t border-surface-border flex flex-wrap items-center gap-2">
+                <span className="text-xs font-semibold text-content-muted flex items-center gap-1 me-2">
+                  <Tag className="w-3.5 h-3.5" aria-hidden="true" />
+                  <span>{t('blog.tags')}</span>
+                </span>
+                {post.tags.map((tag) => {
+                  const tagName = isEn && tag.name_en ? tag.name_en : tag.name_ar
+                  return (
+                    <span
+                      key={tag.id}
+                      className="px-3 py-1 bg-surface-soft border border-surface-border rounded-full text-xs text-content-body font-medium"
+                    >
+                      #{tagName}
+                    </span>
+                  )
+                })}
               </div>
+            )}
 
-              {/* Prev / Next Post Navigation */}
-              {(prevNext?.prev || prevNext?.next) && (
-                <nav
-                  aria-label="Article navigation"
-                  className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-8 border-t border-surface-border"
-                >
-                  {prevNext.prev ? (
-                    <Link
-                      to={`${prefix}/blog/${prevNext.prev.slug}`}
-                      className="group p-4 rounded-card border border-surface-border bg-white hover:border-brand-400 hover:shadow-xs transition-all flex flex-col justify-between"
-                    >
-                      <span className="text-xs font-semibold text-content-muted flex items-center gap-1 mb-2">
-                        {isRtl ? (
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        ) : (
-                          <ArrowLeft className="w-3.5 h-3.5" />
-                        )}
-                        <span>{t('blog.prevPost')}</span>
-                      </span>
-                      <span className="text-sm font-bold text-content-heading group-hover:text-brand-600 transition-colors line-clamp-2">
-                        {prevNext.prev.title}
-                      </span>
-                    </Link>
-                  ) : (
-                    <div />
-                  )}
-
-                  {prevNext.next ? (
-                    <Link
-                      to={`${prefix}/blog/${prevNext.next.slug}`}
-                      className="group p-4 rounded-card border border-surface-border bg-white hover:border-brand-400 hover:shadow-xs transition-all flex flex-col justify-between text-end"
-                    >
-                      <span className="text-xs font-semibold text-content-muted flex items-center justify-end gap-1 mb-2">
-                        <span>{t('blog.nextPost')}</span>
-                        {isRtl ? (
-                          <ArrowLeft className="w-3.5 h-3.5" />
-                        ) : (
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        )}
-                      </span>
-                      <span className="text-sm font-bold text-content-heading group-hover:text-brand-600 transition-colors line-clamp-2">
-                        {prevNext.next.title}
-                      </span>
-                    </Link>
-                  ) : (
-                    <div />
-                  )}
-                </nav>
-              )}
+            {/* Bottom Share Row */}
+            <div className="pt-6 border-t border-surface-border">
+              <ShareButtons url={currentUrl} title={post.title} />
             </div>
 
-            {/* Sidebar Column: Sticky Table of Contents */}
-            <aside className="lg:col-span-4 w-full space-y-6">
-              {toc.length > 0 && <TableOfContents items={toc} />}
-
-              {/* Author / Company Info Box */}
-              <div className="bg-white border border-surface-border rounded-card p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-brand-900 text-white flex items-center justify-center font-bold text-sm">
-                    {isEn ? 'AM' : 'م'}
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-content-heading text-sm">
-                      {t('brand.name')}
-                    </h4>
-                    <p className="text-xs text-content-muted">
-                      {t('brand.accreditation')}
-                    </p>
-                  </div>
-                </div>
-                <p className="text-xs text-content-body leading-relaxed mb-4">
+            {/* Author / Company Info Box */}
+            <div className="bg-white border border-surface-border rounded-card p-6 shadow-xs flex flex-col sm:flex-row items-center gap-6">
+              <Link
+                to={`${prefix}/about`}
+                className="w-14 h-14 rounded-full overflow-hidden bg-brand-900 flex items-center justify-center p-1 shrink-0 shadow-xs border border-brand-800 hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-600"
+                aria-label={t('brand.name')}
+              >
+                <img
+                  src={logoDarkSquare}
+                  alt={t('brand.name')}
+                  className="w-full h-full object-contain"
+                  width={56}
+                  height={56}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </Link>
+              <div className="flex-1 text-center sm:text-start space-y-1">
+                <h4 className="font-bold text-content-heading text-sm">
+                  {t('brand.name')}
+                </h4>
+                <p className="text-xs text-brand-600 font-medium">
+                  {t('brand.accreditation')}
+                </p>
+                <p className="text-xs text-content-body leading-relaxed">
                   {isEn
                     ? 'Expert elevator engineering, maintenance, and modernization certified by Civil Defense in Jeddah.'
                     : 'شركة سعودية متخصصة في توريد وتركيب وتحديث وصيانة المصاعد والسلالم الكهربائية في جدة، معتمدين في الدفاع المدني.'}
                 </p>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  to={`${prefix}/about`}
-                  className="w-full text-xs"
-                >
-                  {t('nav.about')}
-                </Button>
-
               </div>
-            </aside>
+              <Button
+                variant="secondary"
+                size="sm"
+                to={`${prefix}/about`}
+                className="text-xs shrink-0 whitespace-nowrap"
+              >
+                {t('nav.about')}
+              </Button>
+            </div>
+
+            {/* CTA Card (matching Home Screen CtaBand design) */}
+            <div className="relative overflow-hidden rounded-card bg-brand-900 text-white p-8 sm:p-12 text-center shadow-card border border-brand-800">
+              <BrandPattern opacity={0.07} />
+              <div className="relative z-10 max-w-2xl mx-auto">
+                <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-4">
+                  {t('home.ctaBandHeading')}
+                </h3>
+                <p className="text-base text-brand-100 max-w-xl mx-auto mb-8 font-normal leading-relaxed">
+                  {t('home.ctaBandSubtitle')}
+                </p>
+                <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+                  <Button
+                    variant="hero"
+                    size="lg"
+                    to={`${prefix}/contact`}
+                    rightIcon={
+                      isRtl ? (
+                        <ArrowLeft className="w-5 h-5" />
+                      ) : (
+                        <ArrowRight className="w-5 h-5" />
+                      )
+                    }
+                  >
+                    {t('actions.requestQuote')}
+                  </Button>
+
+                  <Button
+                    variant="inverse"
+                    size="lg"
+                    to={`${prefix}/contact?service=consultation`}
+                    leftIcon={<Calendar className="w-5 h-5 text-brand-300" />}
+                    className="font-semibold"
+                  >
+                    {t('actions.bookConsultation')}
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Prev / Next Post Navigation */}
+            {(prevNext?.prev || prevNext?.next) && (
+              <nav
+                aria-label="Article navigation"
+                className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-8 border-t border-surface-border"
+              >
+                {prevNext.prev ? (
+                  <Link
+                    to={`${prefix}/blog/${prevNext.prev.slug}`}
+                    className="group p-4 rounded-card border border-surface-border bg-white hover:border-brand-400 hover:shadow-xs transition-all flex flex-col justify-between"
+                  >
+                    <span className="text-xs font-semibold text-content-muted flex items-center gap-1 mb-2">
+                      {isRtl ? (
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      ) : (
+                        <ArrowLeft className="w-3.5 h-3.5" />
+                      )}
+                      <span>{t('blog.prevPost')}</span>
+                    </span>
+                    <span className="text-sm font-bold text-content-heading group-hover:text-brand-600 transition-colors line-clamp-2">
+                      {prevNext.prev.title}
+                    </span>
+                  </Link>
+                ) : (
+                  <div />
+                )}
+
+                {prevNext.next ? (
+                  <Link
+                    to={`${prefix}/blog/${prevNext.next.slug}`}
+                    className="group p-4 rounded-card border border-surface-border bg-white hover:border-brand-400 hover:shadow-xs transition-all flex flex-col justify-between text-end"
+                  >
+                    <span className="text-xs font-semibold text-content-muted flex items-center justify-end gap-1 mb-2">
+                      <span>{t('blog.nextPost')}</span>
+                      {isRtl ? (
+                        <ArrowLeft className="w-3.5 h-3.5" />
+                      ) : (
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      )}
+                    </span>
+                    <span className="text-sm font-bold text-content-heading group-hover:text-brand-600 transition-colors line-clamp-2">
+                      {prevNext.next.title}
+                    </span>
+                  </Link>
+                ) : (
+                  <div />
+                )}
+              </nav>
+            )}
           </div>
         </Container>
-      </article>
+      </div>
+    </article>
 
       {/* Related Posts Section */}
       {relatedPosts && relatedPosts.length > 0 && (
@@ -534,8 +516,7 @@ export const BlogPostPage: React.FC = () => {
         </Section>
       )}
 
-      {/* Global CTA Band */}
-      <CtaBand />
+
     </>
   )
 }

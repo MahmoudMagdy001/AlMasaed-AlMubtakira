@@ -19,7 +19,7 @@ import type { MediaRow, MediaFolder } from '../types'
 import { useMediaUsage, useUpdateMedia, useDeleteMedia } from '../useMedia'
 import { replaceMediaFile } from '../mediaService'
 import { getStoragePublicUrl } from '@/lib/media'
-import { useToast } from '@/components/ui'
+import { useToast, Button } from '@/components/ui'
 import { ConfirmDialog } from '@/components/admin'
 
 export interface MediaDetailPanelProps {
@@ -276,7 +276,7 @@ export const MediaDetailPanel: React.FC<MediaDetailPanelProps> = ({
                 className={`w-full px-3 py-2 text-xs rounded-lg border bg-white focus:outline-none focus:ring-2 ${
                   hasMissingAlt
                     ? 'border-amber-300 focus:ring-amber-400/30'
-                    : 'border-sand-300 focus:ring-brand-primary/30 focus:border-brand-primary'
+                    : 'border-sand-300 focus:ring-brand-500/20 focus:border-brand-500'
                 }`}
               />
             </div>
@@ -291,7 +291,7 @@ export const MediaDetailPanel: React.FC<MediaDetailPanelProps> = ({
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="عنوان تعريفي للملف..."
-                className="w-full px-3 py-2 text-xs rounded-lg border border-sand-300 bg-white focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary"
+                className="w-full px-3 py-2 text-xs rounded-lg border border-sand-300 bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
               />
             </div>
 
@@ -303,7 +303,7 @@ export const MediaDetailPanel: React.FC<MediaDetailPanelProps> = ({
               <select
                 value={folder}
                 onChange={(e) => setFolder(e.target.value as MediaFolder)}
-                className="w-full px-3 py-2 text-xs rounded-lg border border-sand-300 bg-white focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary"
+                className="w-full px-3 py-2 text-xs rounded-lg border border-sand-300 bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
               >
                 <option value="general">عام (General)</option>
                 <option value="blog">المدونة (Blog)</option>
@@ -313,14 +313,18 @@ export const MediaDetailPanel: React.FC<MediaDetailPanelProps> = ({
               </select>
             </div>
 
-            <button
+            <Button
               type="submit"
+              variant="primary"
+              size="sm"
+              fullWidth
               disabled={updateMutation.isPending}
-              className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-brand-primary hover:bg-brand-primary/95 rounded-lg transition-colors disabled:opacity-50"
+              isLoading={updateMutation.isPending}
+              leftIcon={<Save className="w-4 h-4" />}
+              className="bg-brand-600 hover:bg-brand-700 text-white font-bold shadow-xs py-2"
             >
-              <Save className="w-3.5 h-3.5" />
-              <span>{updateMutation.isPending ? 'جاري الحفظ...' : 'حفظ التعديلات'}</span>
-            </button>
+              حفظ التعديلات
+            </Button>
           </form>
 
           {/* Usage Detection Section */}
@@ -351,7 +355,7 @@ export const MediaDetailPanel: React.FC<MediaDetailPanelProps> = ({
                             href={u.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-brand-primary hover:underline text-[11px] shrink-0"
+                            className="text-brand-600 hover:underline text-[11px] font-semibold shrink-0"
                           >
                             عرض
                           </a>

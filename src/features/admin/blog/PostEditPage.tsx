@@ -549,48 +549,18 @@ export const PostEditPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6 pb-16">
+    <div className="max-w-4xl mx-auto space-y-6 pb-20">
       {/* Page Header */}
       <PageHeader
         title={isNew ? 'كتابة مقال جديد' : `تحرير: ${title || 'مقال'}`}
         description="محرر مقالات متقدم يدعم تنسيقات المصاعد الخاصة وبلوكات الأسئلة التفاعلية والتحسين لمحركات البحث."
         backTo="/admin/posts"
         backLabel="العودة لقائمة المقالات"
-        actions={
-          <div className="flex items-center gap-2">
-            {!isNew && status === 'published' && (
-              <a
-                href={publicUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors"
-              >
-                <ExternalLink className="w-3.5 h-3.5" />
-                <span>معاينة المقال المباشر</span>
-              </a>
-            )}
-            <Button
-              variant="secondary"
-              onClick={() => handleSave('draft')}
-              disabled={createPostMutation.isPending || updatePostMutation.isPending}
-            >
-              حفظ كمسودة
-            </Button>
-            <Button
-              onClick={() => handleSave('published')}
-              disabled={createPostMutation.isPending || updatePostMutation.isPending}
-              className="gap-2"
-            >
-              <Save className="w-4 h-4" />
-              <span>{status === 'published' ? 'تحديث ونشر' : 'نشر الآن'}</span>
-            </Button>
-          </div>
-        }
       />
 
       {/* Local Storage Backup Alert */}
       {hasLocalBackup && (
-        <div className="p-4 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300 text-sm flex items-center justify-between gap-4">
+        <div className="p-4 rounded-card bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <RotateCcw className="w-5 h-5 shrink-0 text-amber-600" />
             <span>
@@ -601,213 +571,251 @@ export const PostEditPage: React.FC = () => {
             <Button size="sm" variant="secondary" onClick={handleDismissBackup}>
               تجاهل
             </Button>
-            <Button size="sm" onClick={handleRestoreBackup}>
+            <Button size="sm" className="bg-brand-600 hover:bg-brand-700 text-white font-bold" onClick={handleRestoreBackup}>
               استعادة المسودة
             </Button>
           </div>
         </div>
       )}
 
-      {/* Main Two-Column Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* =========================================
-            MAIN COLUMN (≈ 70% -> lg:col-span-8)
-            ========================================= */}
-        <div className="lg:col-span-8 space-y-6">
-          {/* Title & Slug Box */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 space-y-4 shadow-sm">
-            {/* Title (H1) */}
-            <FormField
-              label="عنوان المقال (H1 الرئيسي للصفحة)"
-              required
-              error={errors.title}
-            >
+      {/* Unified Centered Layout Stream */}
+      <div className="space-y-6">
+        {/* Section 1: Title & Slug Box */}
+        <div className="bg-white border border-surface-border rounded-card p-6 space-y-4 shadow-xs">
+          {/* Title (H1) */}
+          <FormField
+            label="عنوان المقال (H1 الرئيسي للصفحة)"
+            required
+            error={errors.title}
+          >
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => {
+                setTitle(e.target.value)
+                setIsDirty(true)
+                if (!slug) {
+                  setSlug(generateSlug(e.target.value))
+                }
+              }}
+              placeholder="اكتب عنواناً جذاباً ومحدداً للمقال..."
+              className="w-full px-4 py-3 text-lg font-bold rounded-control border border-surface-border bg-white text-content-heading focus:outline-none focus:border-brand-600"
+            />
+            {isTitleDuplicate && (
+              <div className="flex items-center gap-1.5 text-xs text-amber-700 mt-1.5 bg-amber-50 p-2 rounded-control border border-amber-200">
+                <AlertCircle className="w-4 h-4 shrink-0 text-amber-600" />
+                <span>
+                  تنبيه: يوجد مقال آخر بنفس العنوان في قاعدة البيانات ({lang === 'ar' ? 'العربية' : 'الإنجليزية'}). يوصى باختيار عنوان فريد لتجنب التنافس في نتائج البحث.
+                </span>
+              </div>
+            )}
+          </FormField>
+
+          {/* Slug Field */}
+          <FormField label="الرابط اللطيف (Slug)" required error={errors.slug}>
+            <div className="flex gap-2">
               <input
                 type="text"
-                value={title}
+                dir="ltr"
+                value={slug}
                 onChange={(e) => {
-                  setTitle(e.target.value)
+                  setSlug(e.target.value.toLowerCase().replace(/\s+/g, '-'))
                   setIsDirty(true)
-                  if (!slug) {
-                    setSlug(generateSlug(e.target.value))
-                  }
                 }}
-                placeholder="اكتب عنواناً جذاباً ومحدداً للمقال..."
-                className="w-full px-4 py-3 text-lg font-bold rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                placeholder="e.g. elevator-maintenance-cost-jeddah"
+                className="flex-1 px-3 py-2 text-xs font-mono rounded-control border border-surface-border bg-white text-content-heading focus:outline-none focus:border-brand-600 text-start"
               />
-              {isTitleDuplicate && (
-                <div className="flex items-center gap-1.5 text-xs text-amber-600 dark:text-amber-400 mt-1.5 bg-amber-50 dark:bg-amber-950/30 p-2 rounded border border-amber-200 dark:border-amber-800">
-                  <AlertCircle className="w-4 h-4 shrink-0" />
-                  <span>
-                    تنبيه: يوجد مقال آخر بنفس العنوان في قاعدة البيانات ({lang === 'ar' ? 'العربية' : 'الإنجليزية'}). يوصى باختيار عنوان فريد لتجنب التنافس في نتائج البحث.
-                  </span>
-                </div>
-              )}
-            </FormField>
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={handleAutoSlug}
+                title="توليد الرابط تلقائياً من العنوان"
+                className="shrink-0 px-3 text-xs"
+              >
+                <Wand2 className="w-4 h-4 me-1" />
+                <span>توليد</span>
+              </Button>
+            </div>
 
-            {/* Slug Field */}
-            <FormField label="الرابط اللطيف (Slug)" required error={errors.slug}>
-              <div className="flex gap-2">
+            {/* Slug Helpers & Validation */}
+            <div className="flex items-center justify-between text-xs mt-1.5">
+              <span className="text-content-muted font-mono" dir="ltr">
+                almubtakirah.com/{lang}/blog/{slug || '...'}
+              </span>
+              <div>
+                {isSlugChecking && (
+                  <span className="text-content-muted">جاري التحقق من الرابط...</span>
+                )}
+                {!isSlugChecking && isSlugAvailable === true && (
+                  <span className="text-emerald-600 flex items-center gap-1 font-medium">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    الرابط متاح
+                  </span>
+                )}
+                {!isSlugChecking && isSlugAvailable === false && (
+                  <span className="text-feedback-error flex items-center gap-1 font-medium">
+                    <AlertCircle className="w-3.5 h-3.5" />
+                    الرابط مستخدم بالفعل
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {slug.length > 75 && (
+              <p className="text-xs text-amber-600 mt-1 flex items-center gap-1">
+                <AlertCircle className="w-3.5 h-3.5" />
+                تنبيه: يُفضل ألا يتجاوز طول الرابط 75 حرفاً لأفضل توافق مع محركات البحث.
+              </p>
+            )}
+          </FormField>
+
+          {/* Excerpt */}
+          <FormField
+            label="المقتطف التعريفي (Excerpt)"
+            required
+            error={errors.excerpt}
+          >
+            <textarea
+              rows={3}
+              value={excerpt}
+              onChange={(e) => {
+                setExcerpt(e.target.value)
+                setIsDirty(true)
+              }}
+              maxLength={350}
+              placeholder="موجز جذاب للمقال يظهر في بطاقات المدونة ونتائج البحث (حد أقصى 350 حرفاً)..."
+              className="w-full px-3 py-2 text-xs rounded-control border border-surface-border bg-white text-content-heading focus:outline-none focus:border-brand-600"
+            />
+            <div className="flex justify-between text-xs text-content-muted mt-1">
+              <span>يستخدم كوصف تلقائي في بطاقات المشاركة وبحث Google</span>
+              <span className={excerpt.length > 320 ? 'text-amber-500 font-bold' : ''}>
+                {excerpt.length} / 350 حرفاً
+              </span>
+            </div>
+          </FormField>
+        </div>
+
+        {/* Section 2: Featured Image */}
+        <div className="bg-white border border-surface-border rounded-card p-6 space-y-5 shadow-xs">
+          <h3 className="font-bold text-sm text-content-heading pb-3 border-b border-surface-border">
+            الصورة البارزة للمقال
+          </h3>
+
+          {featuredImageUrl ? (
+            <div className="space-y-4">
+              <div className="aspect-[21/9] sm:aspect-[2.4/1] w-full rounded-control bg-surface-soft overflow-hidden border border-surface-border relative group max-h-72">
+                <img
+                  src={featuredImageUrl}
+                  alt={featuredImageAlt || 'الصورة البارزة'}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    className="bg-white text-content-heading border-white hover:bg-surface-soft font-bold"
+                    onClick={() => setIsFeaturedPickerOpen(true)}
+                  >
+                    تغيير الصورة
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    className="bg-white text-feedback-error border-white hover:bg-red-50 font-bold"
+                    onClick={() => {
+                      setFeaturedImageId(null)
+                      setFeaturedImageUrl(null)
+                      setIsDirty(true)
+                    }}
+                  >
+                    إزالة
+                  </Button>
+                </div>
+              </div>
+
+              <FormField
+                label="النص البديل للصورة (Alt Text)"
+                required
+                error={errors.featured_image_alt}
+              >
                 <input
                   type="text"
-                  dir="ltr"
-                  value={slug}
+                  value={featuredImageAlt}
                   onChange={(e) => {
-                    setSlug(e.target.value.toLowerCase().replace(/\s+/g, '-'))
+                    setFeaturedImageAlt(e.target.value)
                     setIsDirty(true)
                   }}
-                  placeholder="e.g. elevator-maintenance-cost-jeddah"
-                  className="flex-1 px-3 py-2 text-sm font-mono rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-start"
+                  placeholder="وصف دقيق للصورة لمحركات البحث وضعاف البصر..."
+                  className="w-full px-3 py-2 text-xs rounded-control border border-surface-border bg-white text-content-heading focus:outline-none focus:border-brand-600"
                 />
-                <Button
-                  type="button"
-                  variant="secondary"
-                  onClick={handleAutoSlug}
-                  title="توليد الرابط تلقائياً من العنوان"
-                  className="shrink-0 px-3"
-                >
-                  <Wand2 className="w-4 h-4 me-1" />
-                  <span>توليد</span>
-                </Button>
-              </div>
-
-              {/* Slug Helpers & Validation */}
-              <div className="flex items-center justify-between text-xs mt-1.5">
-                <span className="text-slate-500 font-mono" dir="ltr">
-                  almubtakirah.com/{lang}/blog/{slug || '...'}
-                </span>
-                <div>
-                  {isSlugChecking && (
-                    <span className="text-slate-400">جاري التحقق من الرابط...</span>
-                  )}
-                  {!isSlugChecking && isSlugAvailable === true && (
-                    <span className="text-emerald-600 flex items-center gap-1 font-medium">
-                      <CheckCircle2 className="w-3.5 h-3.5" />
-                      الرابط متاح
-                    </span>
-                  )}
-                  {!isSlugChecking && isSlugAvailable === false && (
-                    <span className="text-red-500 flex items-center gap-1 font-medium">
-                      <AlertCircle className="w-3.5 h-3.5" />
-                      الرابط مستخدم بالفعل
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              {slug.length > 75 && (
-                <p className="text-xs text-amber-600 mt-1 flex items-center gap-1">
-                  <AlertCircle className="w-3.5 h-3.5" />
-                  تنبيه: يُفضل ألا يتجاوز طول الرابط 75 حرفاً لأفضل توافق مع محركات البحث.
+                <p className="text-[11px] text-content-muted mt-1">
+                  إلزامي لنشر المقال وتحسين محركات البحث.
                 </p>
-              )}
-            </FormField>
-
-            {/* Excerpt */}
-            <FormField
-              label="المقتطف التعريفي (Excerpt)"
-              required
-              error={errors.excerpt}
-            >
-              <textarea
-                rows={3}
-                value={excerpt}
-                onChange={(e) => {
-                  setExcerpt(e.target.value)
-                  setIsDirty(true)
-                }}
-                maxLength={350}
-                placeholder="موجز جذاب للمقال يظهر في بطاقات المدونة ونتائج البحث (حد أقصى 350 حرفاً)..."
-                className="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
-              />
-              <div className="flex justify-between text-xs text-slate-400 mt-1">
-                <span>يستخدم كوصف تلقائي في بطاقات المشاركة وبحث Google</span>
-                <span className={excerpt.length > 320 ? 'text-amber-500 font-bold' : ''}>
-                  {excerpt.length} / 350 حرفاً
-                </span>
-              </div>
-            </FormField>
-          </div>
-
-          {/* TipTap Rich Text Editor Container */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
-            <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/30">
-              <div className="flex items-center gap-2">
-                <FileText className="w-4 h-4 text-primary-500" />
-                <span className="font-bold text-sm text-slate-800 dark:text-slate-200">
-                  محتوى المقال الكامل
-                </span>
-              </div>
-              <div className="flex items-center gap-3 text-xs text-slate-500">
-                <span>{wordCount} كلمة</span>
-                <span>•</span>
-                <span>{readingTime} دقيقة قراءة</span>
-              </div>
+              </FormField>
             </div>
-
-            <div className="p-2 sm:p-4">
-              <React.Suspense
-                fallback={
-                  <div className="h-64 flex items-center justify-center text-sm text-content-muted">
-                    جارٍ تحميل المحرر...
-                  </div>
-                }
+          ) : (
+            <div className="space-y-3 text-center p-8 border-2 border-dashed border-surface-border rounded-control bg-surface-soft">
+              <ImageIcon className="w-12 h-12 text-content-muted mx-auto" />
+              <div className="text-xs text-content-muted max-w-sm mx-auto">
+                اختر صورة عالية الجودة لتمثيل المقال في رأس الصفحة وقوائم المدونة وبطاقات المشاركة الاجتماعية.
+              </div>
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                onClick={() => setIsFeaturedPickerOpen(true)}
+                className="gap-1.5 font-bold"
               >
-                <TipTapEditor
-                  contentHtml={contentHtml}
-                  contentJson={contentJson}
-                  onChange={handleEditorChange}
-                  lang={lang}
-                  placeholder="ابدأ بكتابة المقال هنا... يمكنك إدراج صور، جداول، فيديوهات يوتيوب، وبلوكات الأسئلة المخصصة للمصاعد عبر القائمة."
-                />
-              </React.Suspense>
-            </div>
-          </div>
-
-          {/* Derived FAQ Section Preview */}
-          {derivedFaqs.length > 0 && (
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 space-y-3 shadow-sm">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <HelpCircle className="w-4 h-4 text-emerald-600" />
-                  <h3 className="font-bold text-sm text-slate-900 dark:text-white">
-                    الأسئلة الشائعة المستخرجة تلقائياً ({derivedFaqs.length})
-                  </h3>
-                </div>
-                <span className="text-xs text-slate-400">
-                  تُدرج تلقائياً في بيانات الـ FAQPage المنسقة للـ Rich Snippets
-                </span>
-              </div>
-
-              <div className="space-y-2">
-                {derivedFaqs.map((faq, idx) => (
-                  <div
-                    key={idx}
-                    className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700 text-xs space-y-1"
-                  >
-                    <div className="font-bold text-slate-800 dark:text-slate-200">
-                      س: {faq.q}
-                    </div>
-                    <div className="text-slate-600 dark:text-slate-400">
-                      ج: {faq.a}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                <Plus className="w-3.5 h-3.5" />
+                <span>اختيار من مكتبة الوسائط</span>
+              </Button>
             </div>
           )}
         </div>
 
-        {/* =========================================
-            SIDEBAR (≈ 30% -> lg:col-span-4)
-            ========================================= */}
-        <div className="lg:col-span-4 space-y-6">
-          {/* Panel 1: Publish & Status */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 space-y-4 shadow-sm">
-            <h3 className="font-bold text-sm text-slate-900 dark:text-white pb-3 border-b border-slate-100 dark:border-slate-800">
-              إعدادات النشر واللغة
-            </h3>
+        {/* Section 3: TipTap Rich Text Editor Container */}
+        <div className="bg-white border border-surface-border rounded-card overflow-hidden shadow-xs">
+          <div className="p-4 border-b border-surface-border flex items-center justify-between bg-surface-soft">
+            <div className="flex items-center gap-2">
+              <FileText className="w-4 h-4 text-brand-600" />
+              <span className="font-bold text-sm text-content-heading">
+                محتوى المقال الكامل
+              </span>
+            </div>
+            <div className="flex items-center gap-3 text-xs text-content-muted">
+              <span>{wordCount} كلمة</span>
+              <span>•</span>
+              <span>{readingTime} دقيقة قراءة</span>
+            </div>
+          </div>
 
+          <div className="p-2 sm:p-4">
+            <React.Suspense
+              fallback={
+                <div className="h-64 flex items-center justify-center text-sm text-content-muted">
+                  جارٍ تحميل المحرر...
+                </div>
+              }
+            >
+              <TipTapEditor
+                contentHtml={contentHtml}
+                contentJson={contentJson}
+                onChange={handleEditorChange}
+                lang={lang}
+                placeholder="ابدأ بكتابة المقال هنا... يمكنك إدراج صور، جداول، فيديوهات يوتيوب، وبلوكات الأسئلة المخصصة للمصاعد عبر القائمة."
+              />
+            </React.Suspense>
+          </div>
+        </div>
+
+        {/* Section 4: Publishing & Taxonomy Settings */}
+        <div className="bg-white border border-surface-border rounded-card p-6 space-y-5 shadow-xs">
+          <h3 className="font-bold text-sm text-content-heading pb-3 border-b border-surface-border">
+            إعدادات النشر والتصنيف واللغة
+          </h3>
+
+          {/* Grid of 3 Selects */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {/* Status Select */}
             <FormField label="حالة المقال">
               <select
@@ -816,7 +824,7 @@ export const PostEditPage: React.FC = () => {
                   setStatus(e.target.value as PostStatus)
                   setIsDirty(true)
                 }}
-                className="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-3 py-2 text-xs rounded-control border border-surface-border bg-white text-content-heading focus:outline-none focus:border-brand-600"
               >
                 <option value="draft">مسودة (غير ظاهر للعامة)</option>
                 <option value="published">منشور للجمهور</option>
@@ -832,97 +840,12 @@ export const PostEditPage: React.FC = () => {
                   setLang(e.target.value as PostLang)
                   setIsDirty(true)
                 }}
-                className="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-3 py-2 text-xs rounded-control border border-surface-border bg-white text-content-heading focus:outline-none focus:border-brand-600"
               >
                 <option value="ar">العربية (RTL)</option>
                 <option value="en">English (LTR)</option>
               </select>
             </FormField>
-
-            {/* Translation Twin Pairing */}
-            <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700 text-xs space-y-2">
-              <div className="flex items-center justify-between font-medium text-slate-700 dark:text-slate-300">
-                <span className="flex items-center gap-1.5">
-                  <Languages className="w-3.5 h-3.5 text-primary-500" />
-                  <span>النسخة المترجمة المزدوجة</span>
-                </span>
-                <span className="font-mono text-[10px] text-slate-400">
-                  {lang === 'ar' ? 'EN Twin' : 'AR Twin'}
-                </span>
-              </div>
-
-              {existingPost?.twin_post ? (
-                <div className="flex items-center justify-between pt-1">
-                  <span className="text-slate-600 dark:text-slate-300 line-clamp-1">
-                    {existingPost.twin_post.title}
-                  </span>
-                  <Link
-                    to={`/admin/posts/${existingPost.twin_post.id}`}
-                    className="text-primary-600 hover:underline shrink-0 ms-2 font-medium"
-                  >
-                    فتح النسخة
-                  </Link>
-                </div>
-              ) : !isNew ? (
-                <div className="pt-1">
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    size="sm"
-                    onClick={handleCreateTwin}
-                    disabled={createTwinMutation.isPending}
-                    className="w-full text-xs h-7 gap-1"
-                  >
-                    <Plus className="w-3 h-3" />
-                    <span>
-                      {lang === 'ar'
-                        ? 'إنشاء نسخة مترجمة بالإنجليزية'
-                        : 'إنشاء نسخة مترجمة بالعربية'}
-                    </span>
-                  </Button>
-                </div>
-              ) : (
-                <span className="text-slate-400 block pt-1">
-                  احفظ المقال أولاً لربطه بنسخة مترجمة.
-                </span>
-              )}
-            </div>
-
-            {/* Autosave status indicator */}
-            <div className="text-[11px] text-slate-400 flex items-center justify-between pt-1">
-              <span>الحفظ التلقائي: مفعّل (كل 30ث)</span>
-              {lastSavedAt && <span>حُفظ في {lastSavedAt}</span>}
-            </div>
-
-            {/* Main Action Buttons */}
-            <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
-              <Button
-                type="button"
-                className="w-full justify-center gap-2"
-                onClick={() => handleSave('published')}
-                disabled={createPostMutation.isPending || updatePostMutation.isPending}
-              >
-                <Save className="w-4 h-4" />
-                <span>{status === 'published' ? 'تحديث ونشر المقال' : 'نشر المقال الآن'}</span>
-              </Button>
-
-              <Button
-                type="button"
-                variant="secondary"
-                className="w-full justify-center"
-                onClick={() => handleSave('draft')}
-                disabled={createPostMutation.isPending || updatePostMutation.isPending}
-              >
-                حفظ كمسودة
-              </Button>
-            </div>
-          </div>
-
-          {/* Panel 2: Categories and Tags */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 space-y-4 shadow-sm">
-            <h3 className="font-bold text-sm text-slate-900 dark:text-white pb-3 border-b border-slate-100 dark:border-slate-800">
-              التصنيف والوسوم
-            </h3>
 
             {/* Category Select */}
             <FormField label="تصنيف المقال">
@@ -932,7 +855,7 @@ export const PostEditPage: React.FC = () => {
                   setCategoryId(e.target.value)
                   setIsDirty(true)
                 }}
-                className="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-3 py-2 text-xs rounded-control border border-surface-border bg-white text-content-heading focus:outline-none focus:border-brand-600"
               >
                 <option value="">بدون تصنيف</option>
                 {categories.map((c) => (
@@ -942,180 +865,155 @@ export const PostEditPage: React.FC = () => {
                 ))}
               </select>
             </FormField>
-
-            {/* Tags with Inline Creator */}
-            <FormField label="الوسوم المرتبطة">
-              <div className="space-y-2">
-                {/* Selected Tags list */}
-                <div className="flex flex-wrap gap-1.5 min-h-[32px] p-2 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700">
-                  {selectedTagIds.length === 0 ? (
-                    <span className="text-xs text-slate-400">لا توجد وسوم محددة</span>
-                  ) : (
-                    selectedTagIds.map((tagId) => {
-                      const tag = allTags.find((t) => t.id === tagId)
-                      if (!tag) return null
-                      return (
-                        <span
-                          key={tag.id}
-                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-primary-100 text-primary-800 dark:bg-primary-950/70 dark:text-primary-300 font-medium"
-                        >
-                          #{tag.name_ar}
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setSelectedTagIds(selectedTagIds.filter((id) => id !== tag.id))
-                              setIsDirty(true)
-                            }}
-                            className="hover:text-red-500 ms-1"
-                          >
-                            ×
-                          </button>
-                        </span>
-                      )
-                    })
-                  )}
-                </div>
-
-                {/* Inline New Tag Input */}
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={newTagInput}
-                    onChange={(e) => setNewTagInput(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault()
-                        handleCreateNewTag()
-                      }
-                    }}
-                    placeholder="إضافة وسم جديد..."
-                    className="flex-1 px-2.5 py-1.5 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  />
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    size="sm"
-                    onClick={handleCreateNewTag}
-                    disabled={!newTagInput.trim() || createTagMutation.isPending}
-                    className="h-8 text-xs px-2"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                  </Button>
-                </div>
-
-                {/* Available tags to click */}
-                {allTags.length > 0 && (
-                  <div className="pt-2">
-                    <span className="text-[11px] text-slate-400 block mb-1">
-                      الوسوم المتوفرة (انقر للإضافة):
-                    </span>
-                    <div className="flex flex-wrap gap-1 max-h-24 overflow-y-auto">
-                      {allTags
-                        .filter((t) => !selectedTagIds.includes(t.id))
-                        .map((tag) => (
-                          <button
-                            key={tag.id}
-                            type="button"
-                            onClick={() => {
-                              setSelectedTagIds([...selectedTagIds, tag.id])
-                              setIsDirty(true)
-                            }}
-                            className="text-[11px] px-2 py-0.5 rounded bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-colors"
-                          >
-                            +{tag.name_ar}
-                          </button>
-                        ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </FormField>
           </div>
 
-          {/* Panel 3: Featured Image */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 space-y-4 shadow-sm">
-            <h3 className="font-bold text-sm text-slate-900 dark:text-white pb-3 border-b border-slate-100 dark:border-slate-800">
-              الصورة البارزة للمقال
-            </h3>
+          {/* Translation Twin Pairing */}
+          <div className="p-3.5 rounded-control bg-surface-soft border border-surface-border text-xs space-y-2">
+            <div className="flex items-center justify-between font-medium text-content-heading">
+              <span className="flex items-center gap-1.5">
+                <Languages className="w-3.5 h-3.5 text-brand-600" />
+                <span>النسخة المترجمة المزدوجة</span>
+              </span>
+              <span className="font-mono text-[10px] text-content-muted">
+                {lang === 'ar' ? 'EN Twin' : 'AR Twin'}
+              </span>
+            </div>
 
-            {featuredImageUrl ? (
-              <div className="space-y-3">
-                <div className="aspect-video w-full rounded-lg bg-slate-100 dark:bg-slate-800 overflow-hidden border border-slate-200 dark:border-slate-700 relative group">
-                  <img
-                    src={featuredImageUrl}
-                    alt={featuredImageAlt || 'الصورة البارزة'}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      onClick={() => setIsFeaturedPickerOpen(true)}
-                    >
-                      تغيير
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      className="text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40"
-                      onClick={() => {
-                        setFeaturedImageId(null)
-                        setFeaturedImageUrl(null)
-                        setIsDirty(true)
-                      }}
-                    >
-                      إزالة
-                    </Button>
-                  </div>
-                </div>
-
-                <FormField
-                  label="النص البديل للصورة (Alt Text)"
-                  required
-                  error={errors.featured_image_alt}
+            {existingPost?.twin_post ? (
+              <div className="flex items-center justify-between pt-1">
+                <span className="text-content-body line-clamp-1">
+                  {existingPost.twin_post.title}
+                </span>
+                <Link
+                  to={`/admin/posts/${existingPost.twin_post.id}`}
+                  className="text-brand-600 hover:underline shrink-0 ms-2 font-medium"
                 >
-                  <input
-                    type="text"
-                    value={featuredImageAlt}
-                    onChange={(e) => {
-                      setFeaturedImageAlt(e.target.value)
-                      setIsDirty(true)
-                    }}
-                    placeholder="وصف دقيق للصورة لمحركات البحث وضعاف البصر..."
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  />
-                  <p className="text-[11px] text-slate-400 mt-1">
-                    إلزامي لنشر المقال وتحسين محركات البحث.
-                  </p>
-                </FormField>
+                  فتح النسخة
+                </Link>
               </div>
-            ) : (
-              <div className="space-y-3 text-center p-6 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg">
-                <ImageIcon className="w-10 h-10 text-slate-300 dark:text-slate-600 mx-auto" />
-                <div className="text-xs text-slate-500">
-                  اختر صورة عالية الجودة لتمثيل المقال في رأس الصفحة وبطاقات المشاركة.
-                </div>
+            ) : !isNew ? (
+              <div className="pt-1">
                 <Button
                   type="button"
                   variant="secondary"
                   size="sm"
-                  onClick={() => setIsFeaturedPickerOpen(true)}
-                  className="gap-1.5"
+                  onClick={handleCreateTwin}
+                  disabled={createTwinMutation.isPending}
+                  className="text-xs h-8 gap-1 font-semibold"
                 >
-                  <Plus className="w-3.5 h-3.5" />
-                  <span>اختيار من المكتبة</span>
+                  <Plus className="w-3 h-3" />
+                  <span>
+                    {lang === 'ar'
+                      ? 'إنشاء نسخة مترجمة بالإنجليزية'
+                      : 'إنشاء نسخة مترجمة بالعربية'}
+                  </span>
                 </Button>
               </div>
+            ) : (
+              <span className="text-content-muted block pt-1">
+                احفظ المقال أولاً لربطه بنسخة مترجمة.
+              </span>
             )}
           </div>
 
-          {/* Panel 4: SEO Settings & SERP Preview */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 space-y-4 shadow-sm">
-            <h3 className="font-bold text-sm text-slate-900 dark:text-white pb-3 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
-              <span>إعدادات تحسين محركات البحث (SEO)</span>
-              <Globe className="w-4 h-4 text-primary-500" />
-            </h3>
+          {/* Tags with Inline Creator */}
+          <FormField label="الوسوم المرتبطة">
+            <div className="space-y-2">
+              {/* Selected Tags list */}
+              <div className="flex flex-wrap gap-1.5 min-h-[36px] p-2 bg-surface-soft rounded-control border border-surface-border">
+                {selectedTagIds.length === 0 ? (
+                  <span className="text-xs text-content-muted self-center">لا توجد وسوم محددة</span>
+                ) : (
+                  selectedTagIds.map((tagId) => {
+                    const tag = allTags.find((t) => t.id === tagId)
+                    if (!tag) return null
+                    return (
+                      <span
+                        key={tag.id}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs bg-brand-50 text-brand-700 border border-brand-200 font-medium"
+                      >
+                        #{tag.name_ar}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedTagIds(selectedTagIds.filter((id) => id !== tag.id))
+                            setIsDirty(true)
+                          }}
+                          className="hover:text-feedback-error ms-1"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    )
+                  })
+                )}
+              </div>
 
+              {/* Inline New Tag Input */}
+              <div className="flex gap-2 max-w-md">
+                <input
+                  type="text"
+                  value={newTagInput}
+                  onChange={(e) => setNewTagInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault()
+                      handleCreateNewTag()
+                    }
+                  }}
+                  placeholder="إضافة وسم جديد..."
+                  className="flex-1 px-3 py-2 text-xs rounded-control border border-surface-border bg-white text-content-heading focus:outline-none focus:border-brand-600"
+                />
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  onClick={handleCreateNewTag}
+                  disabled={!newTagInput.trim() || createTagMutation.isPending}
+                  className="h-9 text-xs px-3 font-semibold"
+                >
+                  <Plus className="w-3.5 h-3.5 me-1" />
+                  <span>إضافة</span>
+                </Button>
+              </div>
+
+              {/* Available tags to click */}
+              {allTags.length > 0 && (
+                <div className="pt-2">
+                  <span className="text-[11px] text-content-muted block mb-1.5">
+                    الوسوم المتوفرة (انقر للإضافة):
+                  </span>
+                  <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
+                    {allTags
+                      .filter((t) => !selectedTagIds.includes(t.id))
+                      .map((tag) => (
+                        <button
+                          key={tag.id}
+                          type="button"
+                          onClick={() => {
+                            setSelectedTagIds([...selectedTagIds, tag.id])
+                            setIsDirty(true)
+                          }}
+                          className="text-[11px] px-2.5 py-1 rounded bg-surface-soft hover:bg-brand-50 hover:text-brand-700 border border-surface-border text-content-body transition-colors"
+                        >
+                          +{tag.name_ar}
+                        </button>
+                      ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </FormField>
+        </div>
+
+        {/* Section 5: SEO Settings & SERP Preview */}
+        <div className="bg-white border border-surface-border rounded-card p-6 space-y-5 shadow-xs">
+          <h3 className="font-bold text-sm text-content-heading pb-3 border-b border-surface-border flex items-center justify-between">
+            <span>إعدادات تحسين محركات البحث (SEO)</span>
+            <Globe className="w-4 h-4 text-brand-600" />
+          </h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* SEO Title */}
             <FormField label="عنوان الـ SEO">
               <input
@@ -1126,45 +1024,18 @@ export const PostEditPage: React.FC = () => {
                   setIsDirty(true)
                 }}
                 placeholder={title || 'العنوان لمحركات البحث...'}
-                className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-3 py-2 text-xs rounded-control border border-surface-border bg-white text-content-heading focus:outline-none focus:border-brand-600"
               />
               <div className="flex justify-between text-[11px] mt-1">
-                <span className="text-slate-400">المثالي: 30 إلى 60 حرفاً</span>
+                <span className="text-content-muted">المثالي: 30 إلى 60 حرفاً</span>
                 <span
                   className={
                     (seoTitle || title).length >= 30 && (seoTitle || title).length <= 60
                       ? 'text-emerald-600 font-bold'
-                      : 'text-amber-500'
+                      : 'text-amber-600'
                   }
                 >
                   {(seoTitle || title).length} حرفاً
-                </span>
-              </div>
-            </FormField>
-
-            {/* Meta Description */}
-            <FormField label="الوصف التعريفي (Meta Description)">
-              <textarea
-                rows={3}
-                value={seoDescription}
-                onChange={(e) => {
-                  setSeoDescription(e.target.value)
-                  setIsDirty(true)
-                }}
-                placeholder={excerpt || 'الوصف المختصر في نتائج البحث...'}
-                className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
-              />
-              <div className="flex justify-between text-[11px] mt-1">
-                <span className="text-slate-400">المثالي: 120 إلى 160 حرفاً</span>
-                <span
-                  className={
-                    (seoDescription || excerpt).length >= 120 &&
-                    (seoDescription || excerpt).length <= 160
-                      ? 'text-emerald-600 font-bold'
-                      : 'text-amber-500'
-                  }
-                >
-                  {(seoDescription || excerpt).length} حرفاً
                 </span>
               </div>
             </FormField>
@@ -1179,43 +1050,73 @@ export const PostEditPage: React.FC = () => {
                   setIsDirty(true)
                 }}
                 placeholder="مثال: صيانة مصاعد جدة"
-                className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-3 py-2 text-xs rounded-control border border-surface-border bg-white text-content-heading focus:outline-none focus:border-brand-600"
               />
             </FormField>
+          </div>
 
-            {/* Secondary Keywords */}
-            <FormField label="الكلمات المفتاحية الثانوية (حد أقصى 5)">
-              <div className="space-y-2">
-                <div className="flex flex-wrap gap-1">
-                  {secondaryKeywords.map((kw) => (
-                    <span
-                      key={kw}
-                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+          {/* Meta Description */}
+          <FormField label="الوصف التعريفي (Meta Description)">
+            <textarea
+              rows={3}
+              value={seoDescription}
+              onChange={(e) => {
+                setSeoDescription(e.target.value)
+                setIsDirty(true)
+              }}
+              placeholder={excerpt || 'الوصف المختصر في نتائج البحث...'}
+              className="w-full px-3 py-2 text-xs rounded-control border border-surface-border bg-white text-content-heading focus:outline-none focus:border-brand-600"
+            />
+            <div className="flex justify-between text-[11px] mt-1">
+              <span className="text-content-muted">المثالي: 120 إلى 160 حرفاً</span>
+              <span
+                className={
+                  (seoDescription || excerpt).length >= 120 &&
+                  (seoDescription || excerpt).length <= 160
+                    ? 'text-emerald-600 font-bold'
+                    : 'text-amber-600'
+                }
+              >
+                {(seoDescription || excerpt).length} حرفاً
+              </span>
+            </div>
+          </FormField>
+
+          {/* Secondary Keywords */}
+          <FormField label="الكلمات المفتاحية الثانوية (حد أقصى 5)">
+            <div className="space-y-2">
+              <div className="flex flex-wrap gap-1.5">
+                {secondaryKeywords.map((kw) => (
+                  <span
+                    key={kw}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs bg-surface-soft border border-surface-border text-content-heading font-medium"
+                  >
+                    {kw}
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveSecondaryKeyword(kw)}
+                      className="hover:text-feedback-error ms-1"
                     >
-                      {kw}
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveSecondaryKeyword(kw)}
-                        className="hover:text-red-500"
-                      >
-                        ×
-                      </button>
-                    </span>
-                  ))}
-                </div>
-                {secondaryKeywords.length < 5 && (
-                  <input
-                    type="text"
-                    value={secondaryInput}
-                    onChange={(e) => setSecondaryInput(e.target.value)}
-                    onKeyDown={handleAddSecondaryKeyword}
-                    placeholder="اكتب كلمة واضغط Enter..."
-                    className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  />
-                )}
+                      ×
+                    </button>
+                  </span>
+                ))}
               </div>
-            </FormField>
+              {secondaryKeywords.length < 5 && (
+                <input
+                  type="text"
+                  value={secondaryInput}
+                  onChange={(e) => setSecondaryInput(e.target.value)}
+                  onKeyDown={handleAddSecondaryKeyword}
+                  placeholder="اكتب كلمة مفتاحية ثانوية واضغط Enter..."
+                  className="w-full max-w-md px-3 py-2 text-xs rounded-control border border-surface-border bg-white text-content-heading focus:outline-none focus:border-brand-600"
+                />
+              )}
+            </div>
+          </FormField>
 
+          {/* Canonical URL & Schema in 2 cols */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-surface-border">
             {/* Canonical URL */}
             <FormField label="الرابط القانوني المخصص (Canonical URL - اختياري)">
               <input
@@ -1226,112 +1127,113 @@ export const PostEditPage: React.FC = () => {
                   setIsDirty(true)
                 }}
                 placeholder="https://almubtakirah.com/ar/blog/..."
-                className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-start"
+                className="w-full px-3 py-2 text-xs rounded-control border border-surface-border bg-white text-content-heading focus:outline-none focus:border-brand-600 text-start"
                 dir="ltr"
               />
-              <p className="text-[11px] text-slate-400 mt-1">
+              <p className="text-[11px] text-content-muted mt-1">
                 اتركه فارغاً ليتم استخدام رابط المقال الافتراضي كـ Canonical تلقائياً.
               </p>
             </FormField>
 
-            {/* Robots & Schema */}
-            <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-3">
-              <FormField label="نوع البيانات المنظمة (Schema)">
-                <select
-                  value={schemaType}
-                  onChange={(e) => {
-                    setSchemaType(e.target.value as SchemaType)
-                    setIsDirty(true)
-                  }}
-                  className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
-                >
-                  <option value="BlogPosting">BlogPosting (مقال مدونة - موصى به)</option>
-                  <option value="Article">Article (مقال عام)</option>
-                  <option value="NewsArticle">NewsArticle (خبر صحفي)</option>
-                </select>
-              </FormField>
+            {/* Schema Type */}
+            <FormField label="نوع البيانات المنظمة (Schema)">
+              <select
+                value={schemaType}
+                onChange={(e) => {
+                  setSchemaType(e.target.value as SchemaType)
+                  setIsDirty(true)
+                }}
+                className="w-full px-3 py-2 text-xs rounded-control border border-surface-border bg-white text-content-heading focus:outline-none focus:border-brand-600"
+              >
+                <option value="BlogPosting">BlogPosting (مقال مدونة - موصى به)</option>
+                <option value="Article">Article (مقال عام)</option>
+                <option value="NewsArticle">NewsArticle (خبر صحفي)</option>
+              </select>
+            </FormField>
+          </div>
 
-              <div className="flex items-center justify-between text-xs pt-1">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={robotsNoindex}
-                    onChange={(e) => {
-                      setRobotsNoindex(e.target.checked)
-                      setIsDirty(true)
-                    }}
-                    className="rounded border-slate-300 text-primary-600 focus:ring-primary-500"
-                  />
-                  <span>منع الفهرسة (noindex)</span>
-                </label>
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={robotsNofollow}
-                    onChange={(e) => {
-                      setRobotsNofollow(e.target.checked)
-                      setIsDirty(true)
-                    }}
-                    className="rounded border-slate-300 text-primary-600 focus:ring-primary-500"
-                  />
-                  <span>منع تتبع الروابط (nofollow)</span>
-                </label>
+          {/* Robots Checkboxes */}
+          <div className="flex items-center gap-6 text-xs pt-2">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={robotsNoindex}
+                onChange={(e) => {
+                  setRobotsNoindex(e.target.checked)
+                  setIsDirty(true)
+                }}
+                className="rounded border-surface-border text-brand-600 focus:ring-brand-500"
+              />
+              <span className="text-content-heading font-medium">منع الفهرسة (noindex)</span>
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={robotsNofollow}
+                onChange={(e) => {
+                  setRobotsNofollow(e.target.checked)
+                  setIsDirty(true)
+                }}
+                className="rounded border-surface-border text-brand-600 focus:ring-brand-500"
+              />
+              <span className="text-content-heading font-medium">منع تتبع الروابط (nofollow)</span>
+            </label>
+          </div>
+
+          {/* SERP Preview (Google Snippet) */}
+          <div className="pt-3 border-t border-surface-border space-y-2">
+            <div className="flex items-center justify-between text-xs font-semibold text-content-heading">
+              <span>معاينة نتيجة بحث Google</span>
+              <div className="flex items-center gap-1 bg-surface-soft p-0.5 rounded-control border border-surface-border text-[10px]">
+                <button
+                  type="button"
+                  onClick={() => setSerpDevice('desktop')}
+                  className={`px-2 py-0.5 rounded ${
+                    serpDevice === 'desktop' ? 'bg-white font-bold shadow-xs text-brand-600' : 'text-content-muted'
+                  }`}
+                >
+                  كمبيوتر
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSerpDevice('mobile')}
+                  className={`px-2 py-0.5 rounded ${
+                    serpDevice === 'mobile' ? 'bg-white font-bold shadow-xs text-brand-600' : 'text-content-muted'
+                  }`}
+                >
+                  هاتف
+                </button>
               </div>
             </div>
 
-            {/* SERP Preview (Google Snippet) */}
-            <div className="pt-3 border-t border-slate-100 dark:border-slate-800 space-y-2">
-              <div className="flex items-center justify-between text-xs font-semibold text-slate-700 dark:text-slate-300">
-                <span>معاينة نتيجة بحث Google</span>
-                <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-0.5 rounded text-[10px]">
-                  <button
-                    type="button"
-                    onClick={() => setSerpDevice('desktop')}
-                    className={`px-2 py-0.5 rounded ${
-                      serpDevice === 'desktop' ? 'bg-white dark:bg-slate-700 font-bold shadow-xs' : ''
-                    }`}
-                  >
-                    كمبيوتر
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setSerpDevice('mobile')}
-                    className={`px-2 py-0.5 rounded ${
-                      serpDevice === 'mobile' ? 'bg-white dark:bg-slate-700 font-bold shadow-xs' : ''
-                    }`}
-                  >
-                    هاتف
-                  </button>
-                </div>
+            {/* SERP Card */}
+            <div
+              dir={lang === 'ar' ? 'rtl' : 'ltr'}
+              className="p-3.5 bg-surface-soft border border-surface-border rounded-control text-start space-y-1.5"
+            >
+              <div className="text-[11px] text-content-muted truncate" dir="ltr">
+                https://almubtakirah.com › {lang} › blog › {slug || 'article'}
               </div>
-
-              {/* SERP Card */}
-              <div
-                dir={lang === 'ar' ? 'rtl' : 'ltr'}
-                className="p-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-start space-y-1"
-              >
-                <div className="text-[11px] text-slate-500 truncate" dir="ltr">
-                  https://almubtakirah.com › {lang} › blog › {slug || 'article'}
-                </div>
-                <div className="text-sm font-medium text-blue-700 dark:text-blue-400 hover:underline line-clamp-1 cursor-pointer">
-                  {seoTitle || title || 'عنوان المقال التجريبي في محرك البحث'}
-                </div>
-                <div className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2">
-                  {seoDescription ||
-                    excerpt ||
-                    'هنا سيظهر وصف المقال المعروض للزوار في محرك بحث جوجل ومواقع التواصل الاجتماعي...'}
-                </div>
+              <div className="text-sm font-medium text-blue-700 hover:underline line-clamp-1 cursor-pointer">
+                {seoTitle || title || 'عنوان المقال التجريبي في محرك البحث'}
+              </div>
+              <div className="text-xs text-content-body line-clamp-2">
+                {seoDescription ||
+                  excerpt ||
+                  'هنا سيظهر وصف المقال المعروض للزوار في محرك بحث جوجل ومواقع التواصل الاجتماعي...'}
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Panel 5: Social Sharing (OG Card) */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 space-y-4 shadow-sm">
-            <h3 className="font-bold text-sm text-slate-900 dark:text-white pb-3 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
-              <span>بطاقة التواصل الاجتماعي (Open Graph)</span>
-              <Share2 className="w-4 h-4 text-primary-500" />
-            </h3>
+        {/* Section 6: Social Sharing (OG Card) */}
+        <div className="bg-white border border-surface-border rounded-card p-6 space-y-5 shadow-xs">
+          <h3 className="font-bold text-sm text-content-heading pb-3 border-b border-surface-border flex items-center justify-between">
+            <span>بطاقة التواصل الاجتماعي (Open Graph)</span>
+            <Share2 className="w-4 h-4 text-brand-600" />
+          </h3>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField label="عنوان المشاركة (OG Title)">
               <input
                 type="text"
@@ -1341,7 +1243,7 @@ export const PostEditPage: React.FC = () => {
                   setIsDirty(true)
                 }}
                 placeholder={seoTitle || title || 'عنوان البطاقة...'}
-                className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-3 py-2 text-xs rounded-control border border-surface-border bg-white text-content-heading focus:outline-none focus:border-brand-600"
               />
             </FormField>
 
@@ -1354,78 +1256,152 @@ export const PostEditPage: React.FC = () => {
                   setIsDirty(true)
                 }}
                 placeholder={seoDescription || excerpt || 'وصف البطاقة...'}
-                className="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-3 py-2 text-xs rounded-control border border-surface-border bg-white text-content-heading focus:outline-none focus:border-brand-600"
               />
             </FormField>
+          </div>
 
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                صورة المشاركة (تستخدم الصورة البارزة افتراضياً)
-              </label>
-              <div className="flex gap-2">
+          <div className="space-y-2">
+            <label className="text-xs font-semibold text-content-heading">
+              صورة المشاركة (تستخدم الصورة البارزة افتراضياً)
+            </label>
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                onClick={() => setIsOgPickerOpen(true)}
+                className="text-xs font-semibold"
+              >
+                اختيار صورة مخصصة
+              </Button>
+              {ogImageUrl && (
                 <Button
                   type="button"
                   variant="secondary"
                   size="sm"
-                  onClick={() => setIsOgPickerOpen(true)}
-                  className="text-xs"
-                >
-                  اختيار صورة مخصصة
-                </Button>
-                {ogImageUrl && (
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    size="sm"
-                    onClick={() => {
-                      setOgImageId(null)
-                      setOgImageUrl(null)
-                      setIsDirty(true)
-                    }}
-                    className="text-xs text-red-500"
-                  >
-                    إعادة للافتراضي
-                  </Button>
-                )}
-              </div>
-            </div>
-
-            {/* Social Card Preview */}
-            <div
-              dir={lang === 'ar' ? 'rtl' : 'ltr'}
-              className="rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden bg-slate-50 dark:bg-slate-950 text-start"
-            >
-              <div className="aspect-[1.91/1] w-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
-                <img
-                  src={ogImageUrl || featuredImageUrl || '/brand/og-default.png'}
-                  alt="OG Preview"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    // Fallback to placeholder if asset not ready
-                    e.currentTarget.style.display = 'none'
+                  onClick={() => {
+                    setOgImageId(null)
+                    setOgImageUrl(null)
+                    setIsDirty(true)
                   }}
-                />
-              </div>
-              <div className="p-3 space-y-1">
-                <div className="text-[10px] text-slate-400 uppercase font-mono">
-                  almubtakirah.com
-                </div>
-                <div className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1">
-                  {ogTitle || seoTitle || title || 'عنوان المقال'}
-                </div>
-                <div className="text-[11px] text-slate-500 line-clamp-2">
-                  {ogDescription || seoDescription || excerpt || 'وصف المقال لمواقع التواصل...'}
-                </div>
-              </div>
+                  className="text-xs text-feedback-error font-semibold"
+                >
+                  إعادة للافتراضي
+                </Button>
+              )}
             </div>
           </div>
 
-          {/* Panel 6: Live SEO Analyzer */}
-          <SeoAnalyzerPanel
-            seoData={seoResult}
-            isAnalyzing={isSeoAnalyzing}
-            focusKeyword={focusKeyword}
-          />
+          {/* Social Card Preview */}
+          <div
+            dir={lang === 'ar' ? 'rtl' : 'ltr'}
+            className="rounded-control border border-surface-border overflow-hidden bg-surface-soft text-start max-w-lg"
+          >
+            <div className="aspect-[1.91/1] w-full bg-slate-100 overflow-hidden">
+              <img
+                src={ogImageUrl || featuredImageUrl || '/brand/og-default.png'}
+                alt="OG Preview"
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none'
+                }}
+              />
+            </div>
+            <div className="p-3.5 space-y-1">
+              <div className="text-[10px] text-content-muted uppercase font-mono">
+                almubtakirah.com
+              </div>
+              <div className="text-xs font-bold text-content-heading line-clamp-1">
+                {ogTitle || seoTitle || title || 'عنوان المقال'}
+              </div>
+              <div className="text-[11px] text-content-muted line-clamp-2">
+                {ogDescription || seoDescription || excerpt || 'وصف المقال لمواقع التواصل...'}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Section 7: Live SEO Analyzer */}
+        <SeoAnalyzerPanel
+          seoData={seoResult}
+          isAnalyzing={isSeoAnalyzing}
+          focusKeyword={focusKeyword}
+        />
+
+        {/* Section 8: Derived FAQ Section Preview */}
+        {derivedFaqs.length > 0 && (
+          <div className="bg-white border border-surface-border rounded-card p-6 space-y-4 shadow-xs">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <HelpCircle className="w-4 h-4 text-emerald-600" />
+                <h3 className="font-bold text-sm text-content-heading">
+                  الأسئلة الشائعة المستخرجة تلقائياً ({derivedFaqs.length})
+                </h3>
+              </div>
+              <span className="text-xs text-content-muted">
+                تُدرج تلقائياً في بيانات الـ FAQPage المنسقة للـ Rich Snippets
+              </span>
+            </div>
+
+            <div className="space-y-2">
+              {derivedFaqs.map((faq, idx) => (
+                <div
+                  key={idx}
+                  className="p-3.5 rounded-control bg-surface-soft border border-surface-border text-xs space-y-1"
+                >
+                  <div className="font-bold text-content-heading">
+                    س: {faq.q}
+                  </div>
+                  <div className="text-content-body">
+                    ج: {faq.a}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Section 9: Bottom Actions Bar */}
+        <div className="bg-white border border-surface-border rounded-card p-5 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-xs text-content-muted flex items-center gap-2">
+            <span>الحفظ التلقائي: مفعّل (كل 30ث)</span>
+            {lastSavedAt && <span>• آخر حفظ: {lastSavedAt}</span>}
+          </div>
+          <div className="flex items-center gap-2.5 w-full sm:w-auto">
+            {!isNew && status === 'published' && (
+              <a
+                href={publicUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-control border border-surface-border hover:bg-surface-soft text-content-body transition-colors"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                <span>معاينة المقال المباشر</span>
+              </a>
+            )}
+            <Button
+              type="button"
+              size="sm"
+              variant="secondary"
+              onClick={() => handleSave('draft')}
+              disabled={createPostMutation.isPending || updatePostMutation.isPending}
+              className="flex-1 sm:flex-none px-5 font-bold border-surface-border text-content-body hover:bg-surface-soft hover:border-brand-600 hover:text-brand-600"
+            >
+              حفظ كمسودة
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant="primary"
+              onClick={() => handleSave('published')}
+              disabled={createPostMutation.isPending || updatePostMutation.isPending}
+              className="flex-1 sm:flex-none px-6 bg-brand-600 hover:bg-brand-700 text-white font-bold shadow-xs whitespace-nowrap"
+              leftIcon={<Save className="w-4 h-4" aria-hidden="true" />}
+            >
+              {status === 'published' ? 'تحديث ونشر المقال' : 'نشر المقال الآن'}
+            </Button>
+          </div>
         </div>
       </div>
 

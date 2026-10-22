@@ -58,7 +58,7 @@ export const MediaList: React.FC<MediaListProps> = ({
                   type="checkbox"
                   checked={isAllSelected}
                   onChange={onSelectAll}
-                  className="rounded border-sand-300 text-brand-primary focus:ring-brand-primary/30"
+                  className="rounded border-sand-300 text-brand-600 focus:ring-brand-500/30"
                   aria-label="تحديد الكل"
                 />
               </th>
@@ -83,7 +83,7 @@ export const MediaList: React.FC<MediaListProps> = ({
                   key={item.id}
                   onClick={() => onItemClick(item)}
                   className={`hover:bg-sand-50/70 transition-colors cursor-pointer ${
-                    isSelected ? 'bg-brand-primary/5' : ''
+                    isSelected ? 'bg-brand-50/70' : ''
                   }`}
                 >
                   {/* Select */}
@@ -95,7 +95,7 @@ export const MediaList: React.FC<MediaListProps> = ({
                       type="checkbox"
                       checked={isSelected}
                       onChange={() => onToggleSelect(item.id)}
-                      className="rounded border-sand-300 text-brand-primary focus:ring-brand-primary/30"
+                      className="rounded border-sand-300 text-brand-600 focus:ring-brand-500/30"
                       aria-label={`تحديد ${item.file_name}`}
                     />
                   </td>
@@ -175,7 +175,7 @@ export const MediaList: React.FC<MediaListProps> = ({
                         e.stopPropagation()
                         onItemClick(item)
                       }}
-                      className="p-1 rounded-md text-sand-400 hover:text-brand-primary hover:bg-sand-100 transition-colors"
+                      className="p-1 rounded-md text-sand-400 hover:text-brand-600 hover:bg-brand-50 transition-colors"
                       title="عرض التفاصيل"
                       aria-label="عرض التفاصيل"
                     >

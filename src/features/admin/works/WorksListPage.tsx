@@ -119,12 +119,14 @@ export const WorksListPage: React.FC = () => {
         backTo="/admin"
         backLabel="الرئيسية"
         actions={
-          <Link to="/admin/works/new">
-            <Button variant="primary" size="sm" className="gap-2">
-              <Plus className="w-4 h-4" />
-              <span>مشروع جديد</span>
-            </Button>
-          </Link>
+          <Button
+            to="/admin/works/new"
+            variant="primary"
+            className="bg-brand-600 hover:bg-brand-700 text-white font-bold shadow-xs whitespace-nowrap inline-flex items-center gap-2 px-4 py-2"
+            leftIcon={<Plus className="w-4 h-4" aria-hidden="true" />}
+          >
+            مشروع جديد
+          </Button>
         }
       />
 
@@ -194,12 +196,14 @@ export const WorksListPage: React.FC = () => {
               لم يتم العثور على أي مشروع مطابق لمعايير البحث الحالية. يمكنك إضافة مشروع جديد للبدء.
             </p>
             <div className="pt-2">
-              <Link to="/admin/works/new">
-                <Button variant="primary" size="sm" className="gap-2">
-                  <Plus className="w-4 h-4" />
-                  <span>إضافة أول مشروع</span>
-                </Button>
-              </Link>
+              <Button
+                to="/admin/works/new"
+                variant="primary"
+                className="bg-brand-600 hover:bg-brand-700 text-white font-bold shadow-xs whitespace-nowrap inline-flex items-center gap-2 px-4 py-2"
+                leftIcon={<Plus className="w-4 h-4" aria-hidden="true" />}
+              >
+                إضافة أول مشروع
+              </Button>
             </div>
           </div>
         ) : (

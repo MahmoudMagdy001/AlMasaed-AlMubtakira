@@ -16,7 +16,6 @@ import {
   Menu,
   X,
   User,
-  Shield,
 } from 'lucide-react'
 import { Logo } from '@/components/ui'
 
@@ -233,27 +232,7 @@ const AdminLayoutInner: React.FC = () => {
 
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-          {/* Top Bar for Desktop */}
-          <header className="hidden lg:flex items-center justify-between bg-white border-b border-surface-border px-8 py-4 sticky top-0 z-30 shadow-2xs">
-            <div className="flex items-center gap-4">
-              <span className="text-xs font-bold text-content-muted flex items-center gap-1.5">
-                <Shield className="w-4 h-4 text-brand-600" aria-hidden="true" />
-                <span>جلسة عمل مؤمنة بنظام صلاحيات Supabase RLS</span>
-              </span>
-            </div>
 
-            <div className="flex items-center gap-4">
-              <Link
-                to="/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-600 hover:text-brand-700 bg-brand-50 px-3 py-1.5 rounded-control transition-colors"
-              >
-                <span>زيارة الموقع الإلكتروني</span>
-                <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
-              </Link>
-            </div>
-          </header>
 
           {/* Page Content View */}
           <main className="flex-1 p-6 sm:p-8 max-w-7xl w-full mx-auto">

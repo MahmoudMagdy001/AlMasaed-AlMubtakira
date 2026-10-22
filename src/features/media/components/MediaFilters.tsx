@@ -53,7 +53,7 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
             value={filter.search}
             onChange={(e) => onChange({ ...filter, search: e.target.value })}
             placeholder="بحث بالاسم، العنوان، أو النص البديل..."
-            className="w-full ps-9 pe-4 py-2 border border-sand-300 rounded-lg text-sm bg-sand-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary transition-colors"
+            className="w-full ps-9 pe-4 py-2 border border-sand-300 rounded-lg text-sm bg-sand-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-colors"
           />
         </div>
 
@@ -103,7 +103,7 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
             onChange={(e) =>
               onChange({ ...filter, folder: e.target.value as MediaFolder | 'all' })
             }
-            className="w-full bg-white border border-sand-300 rounded-md py-1.5 px-2 text-xs text-sand-700 focus:outline-none focus:ring-2 focus:ring-brand-primary/30"
+            className="w-full bg-white border border-sand-300 rounded-md py-1.5 px-2 text-xs text-sand-700 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
           >
             {FOLDER_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -121,7 +121,7 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
             onChange={(e) =>
               onChange({ ...filter, type: e.target.value as MediaTypeFilter })
             }
-            className="w-full bg-white border border-sand-300 rounded-md py-1.5 px-2 text-xs text-sand-700 focus:outline-none focus:ring-2 focus:ring-brand-primary/30"
+            className="w-full bg-white border border-sand-300 rounded-md py-1.5 px-2 text-xs text-sand-700 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
           >
             {TYPE_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -139,7 +139,7 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
             onChange={(e) =>
               onChange({ ...filter, sort: e.target.value as MediaSortOption })
             }
-            className="w-full bg-white border border-sand-300 rounded-md py-1.5 px-2 text-xs text-sand-700 focus:outline-none focus:ring-2 focus:ring-brand-primary/30"
+            className="w-full bg-white border border-sand-300 rounded-md py-1.5 px-2 text-xs text-sand-700 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
           >
             {SORT_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -161,7 +161,7 @@ export const MediaFilters: React.FC<MediaFiltersProps> = ({
                 sort: 'newest',
               })
             }
-            className="ms-auto text-brand-primary hover:underline font-medium text-xs py-1"
+            className="ms-auto text-brand-600 hover:text-brand-700 hover:underline font-medium text-xs py-1"
           >
             إعادة تعيين الفلاتر
           </button>

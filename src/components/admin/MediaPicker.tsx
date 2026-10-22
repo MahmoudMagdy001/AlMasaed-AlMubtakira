@@ -12,6 +12,7 @@ import { useMediaList } from '@/features/media/useMedia'
 import { MediaUploadModal } from '@/features/media/components/MediaUploadModal'
 import type { MediaRow, MediaFolder, MediaTypeFilter } from '@/features/media/types'
 import { getStoragePublicUrl } from '@/lib/media'
+import { Button } from '@/components/ui'
 
 export interface MediaPickerProps {
   open: boolean
@@ -168,7 +169,7 @@ export const MediaPicker: React.FC<MediaPickerProps> = ({
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="بحث في الوسائط..."
-                  className="w-full ps-9 pe-4 py-1.5 border border-sand-300 rounded-lg text-xs bg-sand-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-primary/30"
+                  className="w-full ps-9 pe-4 py-1.5 border border-sand-300 rounded-lg text-xs bg-sand-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
                 />
               </div>
 
@@ -176,7 +177,7 @@ export const MediaPicker: React.FC<MediaPickerProps> = ({
               <select
                 value={folder}
                 onChange={(e) => setFolder(e.target.value as MediaFolder | 'all')}
-                className="bg-sand-50 border border-sand-300 rounded-lg py-1.5 px-2.5 text-xs text-sand-800 focus:outline-none focus:ring-2 focus:ring-brand-primary/30"
+                className="bg-sand-50 border border-sand-300 rounded-lg py-1.5 px-2.5 text-xs text-sand-800 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
               >
                 <option value="all">كل المجلدات</option>
                 <option value="general">عام (General)</option>
@@ -188,14 +189,16 @@ export const MediaPicker: React.FC<MediaPickerProps> = ({
             </div>
 
             {/* Upload Button inside dialog */}
-            <button
+            <Button
               type="button"
+              variant="secondary"
+              size="sm"
               onClick={() => setIsUploadModalOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-brand-primary/10 hover:bg-brand-primary/20 text-brand-primary transition-colors shrink-0"
+              leftIcon={<Upload className="w-3.5 h-3.5" />}
+              className="border-brand-200 bg-brand-50 hover:bg-brand-100 text-brand-700 font-semibold px-3 py-1.5 text-xs shadow-2xs shrink-0"
             >
-              <Upload className="w-3.5 h-3.5" />
-              <span>رفع ملف جديد</span>
-            </button>
+              رفع ملف جديد
+            </Button>
           </div>
 
           {/* Items Grid */}
@@ -228,7 +231,7 @@ export const MediaPicker: React.FC<MediaPickerProps> = ({
                       onClick={() => handleToggleSelect(item)}
                       className={`group relative rounded-xl border overflow-hidden aspect-square flex flex-col items-center justify-center p-1 transition-all ${
                         isSelected
-                          ? 'border-brand-primary ring-2 ring-brand-primary bg-brand-primary/5'
+                          ? 'border-brand-600 ring-2 ring-brand-500/30 bg-brand-50/50'
                           : 'border-sand-200 hover:border-sand-300 bg-sand-50/50'
                       }`}
                       aria-pressed={isSelected}
@@ -247,7 +250,7 @@ export const MediaPicker: React.FC<MediaPickerProps> = ({
 
                       {/* Selected Badge */}
                       {isSelected && (
-                        <div className="absolute top-1.5 start-1.5 w-5 h-5 rounded-full bg-brand-primary text-white flex items-center justify-center shadow-xs">
+                        <div className="absolute top-1.5 start-1.5 w-5 h-5 rounded-full bg-brand-600 text-white flex items-center justify-center shadow-xs">
                           <Check className="w-3.5 h-3.5 stroke-[3]" />
                         </div>
                       )}
@@ -278,22 +281,27 @@ export const MediaPicker: React.FC<MediaPickerProps> = ({
             <span className="text-xs text-sand-600 font-medium">
               تم تحديد: {selectedCount} {selectedCount === 1 ? 'عنصر' : 'عناصر'}
             </span>
-            <div className="flex items-center gap-2">
-              <button
+            <div className="flex items-center gap-2.5">
+              <Button
                 type="button"
+                variant="secondary"
+                size="sm"
                 onClick={onClose}
-                className="px-4 py-2 text-xs font-medium text-sand-700 hover:bg-sand-100 rounded-lg transition-colors"
+                className="border-sand-300 text-sand-700 hover:bg-sand-100 font-medium px-4 py-2"
               >
                 إلغاء
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
+                variant="primary"
+                size="sm"
                 onClick={handleConfirm}
                 disabled={selectedCount === 0}
-                className="px-5 py-2 text-xs font-semibold text-white bg-brand-primary hover:bg-brand-primary/95 rounded-lg transition-colors disabled:opacity-50"
+                leftIcon={<Check className="w-4 h-4" />}
+                className="bg-brand-600 hover:bg-brand-700 text-white font-bold shadow-xs px-5 py-2"
               >
-                تأكيد الاختيار
-              </button>
+                تأكيد الاختيار {selectedCount > 0 ? `(${selectedCount})` : ''}
+              </Button>
             </div>
           </div>
         </div>

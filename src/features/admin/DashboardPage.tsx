@@ -7,15 +7,12 @@ import {
   Briefcase,
   Handshake,
   Inbox,
-  Plus,
-  Image,
   AlertTriangle,
   ArrowLeft,
   Calendar,
   Phone,
 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
-import { Button } from '@/components/ui'
 import { PageHeader, StatusBadge } from '@/components/admin'
 import { useAuth } from '@/features/auth'
 
@@ -161,26 +158,6 @@ export const DashboardPage: React.FC = () => {
       <PageHeader
         title={`مرحباً بك، ${profile?.full_name || 'مسؤول النظام'}`}
         description="نظرة عامة على حالة الموقع والمحتوى والرسائل الواردة."
-        actions={
-          <div className="flex items-center gap-2.5">
-            <Button
-              variant="secondary"
-              size="sm"
-              to="/admin/media"
-              leftIcon={<Image className="w-4 h-4" />}
-            >
-              مكتبة الوسائط
-            </Button>
-            <Button
-              variant="primary"
-              size="sm"
-              to="/admin/posts/new"
-              leftIcon={<Plus className="w-4 h-4" />}
-            >
-              مقال جديد
-            </Button>
-          </div>
-        }
       />
 
       {/* KPI Stats Grid */}

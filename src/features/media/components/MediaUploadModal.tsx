@@ -8,12 +8,13 @@ import {
   FileText,
   Loader2,
   Save,
-  ArrowRight,
+  Plus,
+  UploadCloud,
 } from 'lucide-react'
 import { MediaDropzone } from './MediaDropzone'
 import { uploadMedia, checkDuplicateMedia, updateMedia } from '../mediaService'
 import type { MediaFolder, UploadQueueItem, MediaRow } from '../types'
-import { useToast } from '@/components/ui'
+import { Button, useToast } from '@/components/ui'
 
 export interface MediaUploadModalProps {
   open: boolean
@@ -33,6 +34,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
   const [queue, setQueue] = useState<UploadQueueItem[]>([])
   const [isProcessing, setIsProcessing] = useState(false)
   const abortControllersRef = useRef<Map<string, boolean>>(new Map())
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (open) {
@@ -229,7 +231,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
             <select
               value={targetFolder}
               onChange={(e) => setTargetFolder(e.target.value as MediaFolder)}
-              className="bg-white border border-sand-300 rounded-lg py-1.5 px-3 text-xs text-sand-900 font-medium focus:outline-none focus:ring-2 focus:ring-brand-primary/30"
+              className="bg-white border border-sand-300 rounded-lg py-1.5 px-3 text-xs text-sand-900 font-medium focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
             >
               <option value="general">عام (General)</option>
               <option value="blog">المدونة (Blog)</option>
@@ -240,7 +242,12 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
           </div>
 
           {/* Dropzone */}
-          <MediaDropzone onFilesSelected={handleFilesSelected} disabled={isProcessing} compact />
+          <MediaDropzone
+            onFilesSelected={handleFilesSelected}
+            disabled={isProcessing}
+            inputRef={fileInputRef}
+            compact
+          />
 
           {/* Upload Queue */}
           {queue.length > 0 && (
@@ -263,7 +270,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                       {/* Top: File info & status */}
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-2.5 min-w-0">
-                          <div className="w-8 h-8 rounded-lg bg-sand-100 flex items-center justify-center shrink-0 text-brand-primary">
+                          <div className="w-8 h-8 rounded-lg bg-sand-100 flex items-center justify-center shrink-0 text-brand-600">
                             {isPdf ? (
                               <FileText className="w-4 h-4" />
                             ) : (
@@ -297,14 +304,14 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                           )}
                           {(item.status === 'processing' || item.status === 'uploading') && (
                             <div className="flex items-center gap-2">
-                              <span className="inline-flex items-center gap-1 text-xs font-medium text-brand-primary">
+                              <span className="inline-flex items-center gap-1 text-xs font-medium text-brand-600">
                                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
                                 {item.status === 'processing' ? 'معالجة...' : 'جاري الرفع...'}
                               </span>
                               <button
                                 type="button"
                                 onClick={() => handleCancel(item.id)}
-                                className="text-xs text-sand-400 hover:text-red-500"
+                                className="px-2 py-0.5 text-[11px] font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded border border-red-200 transition-colors"
                               >
                                 إلغاء
                               </button>
@@ -317,7 +324,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                       {item.isDuplicate && (
                         <div className="flex items-center gap-2 p-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-xs">
                           <AlertTriangle className="w-3.5 h-3.5 shrink-0 text-amber-600" />
-                          <span>تنبيه: يوجد ملف سابق بنفس الاسم والحجم في مكتبة الوسائط.</span>
+                          <span>ملاحظة: هذا الملف مسجل مسبقاً في مكتبة الوسائط؛ تم اعتماده وتحديث نسخته بنجاح.</span>
                         </div>
                       )}
 
@@ -332,7 +339,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                       {(item.status === 'uploading' || item.status === 'processing') && (
                         <div className="w-full bg-sand-200 rounded-full h-1.5 overflow-hidden">
                           <div
-                            className="bg-brand-primary h-1.5 transition-all duration-300 rounded-full"
+                            className="bg-brand-600 h-1.5 transition-all duration-300 rounded-full"
                             style={{ width: `${item.progress}%` }}
                           />
                         </div>
@@ -363,10 +370,10 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                                 )
                               }
                               placeholder="وصف دقيق لمحتوى الصورة..."
-                              className={`w-full px-2.5 py-1.5 text-xs rounded-lg border bg-white focus:outline-none focus:ring-1 ${
+                              className={`w-full px-2.5 py-1.5 text-xs rounded-lg border bg-white focus:outline-none focus:ring-2 ${
                                 !item.altText.trim()
-                                  ? 'border-amber-300 focus:ring-amber-400'
-                                  : 'border-sand-300 focus:ring-brand-primary'
+                                  ? 'border-amber-300 focus:ring-amber-400/30'
+                                  : 'border-sand-300 focus:ring-brand-500/20 focus:border-brand-500'
                               }`}
                             />
                           </div>
@@ -379,7 +386,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                               <button
                                 type="button"
                                 onClick={() => handleSaveMetadata(item)}
-                                className="inline-flex items-center gap-1 text-[11px] text-brand-primary hover:underline font-medium"
+                                className="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-semibold text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200 rounded-md transition-colors shadow-2xs"
                               >
                                 <Save className="w-3 h-3" />
                                 حفظ التعديل
@@ -396,7 +403,7 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
                                 )
                               }
                               placeholder="عنوان الملف..."
-                              className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-sand-300 bg-white focus:outline-none focus:ring-1 focus:ring-brand-primary"
+                              className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-sand-300 bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
                             />
                           </div>
                         </div>
@@ -411,26 +418,98 @@ export const MediaUploadModal: React.FC<MediaUploadModalProps> = ({
 
         {/* Footer */}
         <div className="flex items-center justify-between px-6 py-4 border-t border-sand-100 bg-sand-50/50">
-          <span className="text-xs text-sand-500">
-            {isProcessing ? 'جاري معالجة ورفع الملفات...' : 'جاهز'}
-          </span>
-          <div className="flex items-center gap-3">
-            <button
+          {queue.length === 0 ? (
+            <div className="flex items-center gap-2 text-xs text-sand-500 font-medium">
+              <span className="w-2 h-2 rounded-full bg-sand-400" />
+              <span>جاهز لاختيار الملفات للبدء</span>
+            </div>
+          ) : isProcessing ? (
+            <div className="flex items-center gap-2 text-xs text-brand-600 font-medium">
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-brand-600" />
+              <span>جاري معالجة ورفع الملفات...</span>
+            </div>
+          ) : hasDoneItems ? (
+            <div className="flex items-center gap-2 text-xs text-emerald-600 font-semibold">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <span>
+                تم رفع {queue.filter((i) => i.status === 'done').length} من {queue.length} ملفات بنجاح
+              </span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 text-xs text-red-600 font-medium">
+              <AlertCircle className="w-4 h-4 text-red-600" />
+              <span>تعذر إتمام رفع الملفات المحددة</span>
+            </div>
+          )}
+
+          <div className="flex items-center gap-2.5">
+            <Button
               type="button"
+              variant="secondary"
+              size="sm"
               onClick={onClose}
-              className="px-4 py-2 text-xs font-medium text-sand-700 hover:bg-sand-100 rounded-lg transition-colors"
+              className="border-sand-300 text-sand-700 hover:bg-sand-100 font-medium px-4 py-2"
             >
               إلغاء
-            </button>
-            <button
-              type="button"
-              onClick={handleFinish}
-              disabled={isProcessing && !hasDoneItems}
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-brand-primary hover:bg-brand-primary/95 rounded-lg transition-colors disabled:opacity-50"
-            >
-              <span>{hasDoneItems ? 'إتمام وإضافة' : 'إغلاق'}</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+            </Button>
+
+            {queue.length === 0 ? (
+              <Button
+                type="button"
+                variant="primary"
+                size="sm"
+                onClick={() => fileInputRef.current?.click()}
+                leftIcon={<UploadCloud className="w-4 h-4" />}
+                className="bg-brand-600 hover:bg-brand-700 text-white font-bold shadow-xs px-5 py-2"
+              >
+                تصفح واختيار الملفات
+              </Button>
+            ) : isProcessing ? (
+              <Button
+                type="button"
+                variant="primary"
+                size="sm"
+                disabled
+                isLoading
+                className="bg-brand-600 text-white font-bold shadow-xs px-5 py-2 opacity-80 cursor-wait"
+              >
+                جاري الرفع...
+              </Button>
+            ) : hasDoneItems ? (
+              <>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => fileInputRef.current?.click()}
+                  leftIcon={<Plus className="w-4 h-4" />}
+                  className="border-sand-300 text-sand-700 hover:bg-sand-100 font-medium px-4 py-2"
+                >
+                  إضافة المزيد
+                </Button>
+                <Button
+                  type="button"
+                  variant="primary"
+                  size="sm"
+                  onClick={handleFinish}
+                  leftIcon={<CheckCircle2 className="w-4 h-4" />}
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-xs px-5 py-2"
+                >
+                  إتمام وإضافة ({queue.filter((i) => i.status === 'done').length})
+                </Button>
+              </>
+            ) : (
+              <Button
+                type="button"
+                variant="primary"
+                size="sm"
+                onClick={() => fileInputRef.current?.click()}
+                leftIcon={<UploadCloud className="w-4 h-4" />}
+                className="bg-brand-600 hover:bg-brand-700 text-white font-bold shadow-xs px-5 py-2"
+              >
+                اختيار ملفات أخرى
+              </Button>
+            )}
           </div>
         </div>
       </div>

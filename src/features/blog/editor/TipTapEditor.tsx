@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useEditor, EditorContent, type Content } from '@tiptap/react'
 import { BubbleMenu } from '@tiptap/react/menus'
 import StarterKit from '@tiptap/starter-kit'
@@ -102,7 +102,6 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
   // Source HTML dialog state
   const [sourceHtml, setSourceHtml] = useState('')
 
-  const isInitialMount = useRef(true)
 
   const editor = useEditor({
     extensions: [
@@ -188,7 +187,7 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
     content: (contentJson as Content) || contentHtml,
     editorProps: {
       attributes: {
-        class: `prose max-w-none focus:outline-none min-h-[360px] p-6 text-sm text-content-body leading-relaxed ${
+        class: `prose-article tiptap focus:outline-none min-h-[480px] p-6 text-content-body leading-relaxed ${
           lang === 'en' ? 'text-left' : 'text-right'
         }`,
         dir: lang === 'en' ? 'ltr' : 'rtl',
@@ -204,11 +203,13 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
   // Synchronize incoming content if it changes externally
   useEffect(() => {
     if (!editor) return
-    if (isInitialMount.current) {
-      isInitialMount.current = false
-      return
+    const currentHtml = editor.getHTML()
+    if (contentHtml && contentHtml !== currentHtml && !editor.isFocused) {
+      editor.commands.setContent((contentJson as Content) || contentHtml, {
+        emitUpdate: false,
+      })
     }
-  }, [editor])
+  }, [contentHtml, contentJson, editor])
 
   // Clean full screen keyboard handler (Escape exits full screen)
   useEffect(() => {
@@ -826,7 +827,7 @@ export const TipTapEditor: React.FC<TipTapEditorProps> = ({
       </BubbleMenu>
 
       {/* Editor Content Area */}
-      <div className="flex-1 overflow-y-auto bg-white">
+      <div className="flex-1 overflow-y-auto bg-white prose-article">
         <EditorContent editor={editor} />
       </div>
 

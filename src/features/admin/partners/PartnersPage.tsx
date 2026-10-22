@@ -199,12 +199,11 @@ export const PartnersPage: React.FC = () => {
         actions={
           <Button
             variant="primary"
-            size="sm"
             onClick={openCreateModal}
-            className="gap-2"
+            className="bg-brand-600 hover:bg-brand-700 text-white font-bold shadow-xs whitespace-nowrap inline-flex items-center gap-2 px-4 py-2"
+            leftIcon={<Plus className="w-4 h-4" aria-hidden="true" />}
           >
-            <Plus className="w-4 h-4" />
-            <span>إضافة شريك جديد</span>
+            إضافة شريك جديد
           </Button>
         }
       />

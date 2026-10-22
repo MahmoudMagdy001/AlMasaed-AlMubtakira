@@ -35,21 +35,21 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
   const scoreColors =
     grade === 'good'
       ? {
-          badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800',
-          gaugeText: 'text-emerald-600 dark:text-emerald-400',
+          badge: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+          gaugeText: 'text-emerald-600',
           progress: 'bg-emerald-500',
           label: 'ممتاز',
         }
       : grade === 'average'
         ? {
-            badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800',
-            gaugeText: 'text-amber-600 dark:text-amber-400',
+            badge: 'bg-amber-50 text-amber-700 border-amber-200',
+            gaugeText: 'text-amber-600',
             progress: 'bg-amber-500',
             label: 'متوسط',
           }
         : {
-            badge: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-950/40 dark:text-red-300 dark:border-red-800',
-            gaugeText: 'text-red-600 dark:text-red-400',
+            badge: 'bg-red-50 text-red-700 border-red-200',
+            gaugeText: 'text-red-600',
             progress: 'bg-red-500',
             label: 'يحتاج لتحسين',
           }
@@ -73,15 +73,15 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
   }
 
   return (
-    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 space-y-4 shadow-sm">
+    <div className="bg-white border border-surface-border rounded-card p-5 space-y-4 shadow-xs">
       {/* Header with Circular Score Gauge and Grade Badge */}
-      <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+      <div className="flex items-center justify-between pb-4 border-b border-surface-border">
         <div className="flex items-center gap-3">
           <div className="relative w-14 h-14 flex items-center justify-center">
             {/* SVG circular progress */}
             <svg className="w-14 h-14 -rotate-90" viewBox="0 0 36 36">
               <path
-                className="text-slate-100 dark:text-slate-800"
+                className="text-surface-soft"
                 strokeWidth="3.5"
                 stroke="currentColor"
                 fill="none"
@@ -106,11 +106,11 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
 
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="font-bold text-sm text-slate-900 dark:text-white">
+              <h3 className="font-bold text-sm text-content-heading">
                 محلل السيو المباشر
               </h3>
               {isAnalyzing && (
-                <span className="text-[10px] text-slate-400 animate-pulse">
+                <span className="text-[10px] text-content-muted animate-pulse">
                   جاري الفحص...
                 </span>
               )}
@@ -122,7 +122,7 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
                 {scoreColors.label} ({score}/100)
               </span>
               {focusKeyword && (
-                <span className="text-[11px] text-slate-500 truncate max-w-[140px]">
+                <span className="text-[11px] text-content-muted truncate max-w-[140px]">
                   الكلمة: {focusKeyword}
                 </span>
               )}
@@ -132,27 +132,27 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
 
         {/* Quick summary counters */}
         <div className="text-end text-[11px] space-y-0.5">
-          <div className="text-emerald-600 dark:text-emerald-400 font-semibold">
+          <div className="text-emerald-600 font-semibold">
             {passCount} ناجح
           </div>
-          <div className="text-amber-500 font-semibold">
+          <div className="text-amber-600 font-semibold">
             {warnCount} تنبيه
           </div>
-          <div className="text-red-500 font-semibold">
+          <div className="text-feedback-error font-semibold">
             {failCount} بحاجة لتعديل
           </div>
         </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex border-b border-slate-200 dark:border-slate-800 text-xs">
+      <div className="flex border-b border-surface-border text-xs">
         <button
           type="button"
           onClick={() => setActiveTab('basic')}
           className={`pb-2 px-2.5 font-medium border-b-2 transition-colors ${
             activeTab === 'basic'
-              ? 'border-primary-500 text-primary-600 dark:text-primary-400 font-bold'
-              : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+              ? 'border-brand-600 text-brand-600 font-bold'
+              : 'border-transparent text-content-muted hover:text-content-heading'
           }`}
         >
           الأساسي (50)
@@ -162,8 +162,8 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
           onClick={() => setActiveTab('content')}
           className={`pb-2 px-2.5 font-medium border-b-2 transition-colors ${
             activeTab === 'content'
-              ? 'border-primary-500 text-primary-600 dark:text-primary-400 font-bold'
-              : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+              ? 'border-brand-600 text-brand-600 font-bold'
+              : 'border-transparent text-content-muted hover:text-content-heading'
           }`}
         >
           المحتوى (30)
@@ -173,8 +173,8 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
           onClick={() => setActiveTab('technical')}
           className={`pb-2 px-2.5 font-medium border-b-2 transition-colors ${
             activeTab === 'technical'
-              ? 'border-primary-500 text-primary-600 dark:text-primary-400 font-bold'
-              : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+              ? 'border-brand-600 text-brand-600 font-bold'
+              : 'border-transparent text-content-muted hover:text-content-heading'
           }`}
         >
           التقني (20)
@@ -184,8 +184,8 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
           onClick={() => setActiveTab('metrics')}
           className={`pb-2 px-2.5 font-medium border-b-2 transition-colors ${
             activeTab === 'metrics'
-              ? 'border-primary-500 text-primary-600 dark:text-primary-400 font-bold'
-              : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+              ? 'border-brand-600 text-brand-600 font-bold'
+              : 'border-transparent text-content-muted hover:text-content-heading'
           }`}
         >
           إحصائيات
@@ -195,15 +195,15 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
       {/* Filter by status when in check tabs */}
       {activeTab !== 'metrics' && (
         <div className="flex items-center justify-between text-[11px] pt-1">
-          <span className="text-slate-400">تصفية البنود:</span>
-          <div className="flex gap-1 bg-slate-100 dark:bg-slate-800 p-0.5 rounded">
+          <span className="text-content-muted">تصفية البنود:</span>
+          <div className="flex gap-1 bg-surface-soft p-0.5 rounded-control border border-surface-border">
             <button
               type="button"
               onClick={() => setStatusFilter('all')}
               className={`px-2 py-0.5 rounded ${
                 statusFilter === 'all'
-                  ? 'bg-white dark:bg-slate-700 font-bold shadow-xs'
-                  : 'text-slate-500'
+                  ? 'bg-white font-bold shadow-xs text-brand-600'
+                  : 'text-content-muted'
               }`}
             >
               الكل
@@ -213,8 +213,8 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
               onClick={() => setStatusFilter('issues')}
               className={`px-2 py-0.5 rounded ${
                 statusFilter === 'issues'
-                  ? 'bg-white dark:bg-slate-700 font-bold shadow-xs text-amber-600 dark:text-amber-400'
-                  : 'text-slate-500'
+                  ? 'bg-white font-bold shadow-xs text-amber-600'
+                  : 'text-content-muted'
               }`}
             >
               الملاحظات ({warnCount + failCount})
@@ -224,8 +224,8 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
               onClick={() => setStatusFilter('pass')}
               className={`px-2 py-0.5 rounded ${
                 statusFilter === 'pass'
-                  ? 'bg-white dark:bg-slate-700 font-bold shadow-xs text-emerald-600 dark:text-emerald-400'
-                  : 'text-slate-500'
+                  ? 'bg-white font-bold shadow-xs text-emerald-600'
+                  : 'text-content-muted'
               }`}
             >
               الناجح ({passCount})
@@ -238,7 +238,7 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
       {activeTab !== 'metrics' ? (
         <div className="space-y-2 max-h-[380px] overflow-y-auto pe-1">
           {currentTabChecks.length === 0 ? (
-            <div className="text-center py-6 text-xs text-slate-400">
+            <div className="text-center py-6 text-xs text-content-muted">
               لا توجد عناصر مطابقة للتصفية الحالية.
             </div>
           ) : (
@@ -247,12 +247,12 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
               return (
                 <div
                   key={check.id}
-                  className={`border rounded-lg p-2.5 text-xs transition-colors ${
+                  className={`border rounded-control p-2.5 text-xs transition-colors ${
                     check.status === 'pass'
-                      ? 'border-emerald-100 dark:border-emerald-950/60 bg-emerald-50/20 dark:bg-emerald-950/10'
+                      ? 'border-emerald-200 bg-emerald-50/40'
                       : check.status === 'warn'
-                        ? 'border-amber-200 dark:border-amber-900/60 bg-amber-50/20 dark:bg-amber-950/10'
-                        : 'border-red-200 dark:border-red-900/60 bg-red-50/20 dark:bg-red-950/10'
+                        ? 'border-amber-200 bg-amber-50/40'
+                        : 'border-red-200 bg-red-50/40'
                   }`}
                 >
                   <div
@@ -270,10 +270,10 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
                         )}
                       </div>
                       <div>
-                        <div className="font-semibold text-slate-900 dark:text-white">
+                        <div className="font-semibold text-content-heading">
                           {check.titleAr}
                         </div>
-                        <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
+                        <div className="text-[11px] text-content-body mt-0.5">
                           {check.messageAr}
                         </div>
                       </div>
@@ -283,16 +283,16 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
                       <span
                         className={`text-[10px] font-mono font-bold px-1.5 py-0.5 rounded ${
                           check.status === 'pass'
-                            ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                            ? 'bg-emerald-100 text-emerald-800'
                             : check.status === 'warn'
-                              ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
-                              : 'bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300'
+                              ? 'bg-amber-100 text-amber-800'
+                              : 'bg-red-100 text-red-800'
                         }`}
                       >
                         {check.score}/{check.maxScore}
                       </span>
                       {check.fixTipAr && (
-                        <div className="text-slate-400">
+                        <div className="text-content-muted">
                           {isExpanded ? (
                             <ChevronUp className="w-3.5 h-3.5" />
                           ) : (
@@ -305,8 +305,8 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
 
                   {/* Collapsible Fix Tip */}
                   {isExpanded && check.fixTipAr && (
-                    <div className="mt-2.5 pt-2 border-t border-slate-200/60 dark:border-slate-800 text-[11px] text-slate-600 dark:text-slate-300 bg-white/60 dark:bg-slate-800/40 p-2 rounded">
-                      <div className="font-semibold text-amber-700 dark:text-amber-400 flex items-center gap-1 mb-1">
+                    <div className="mt-2.5 pt-2 border-t border-surface-border text-[11px] text-content-body bg-white p-2 rounded-control">
+                      <div className="font-semibold text-amber-700 flex items-center gap-1 mb-1">
                         <Sparkles className="w-3 h-3" />
                         <span>كيفية التحسين:</span>
                       </div>
@@ -323,42 +323,42 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
         <div className="space-y-4 max-h-[380px] overflow-y-auto pe-1 text-xs">
           {/* Quick Metrics Grid */}
           <div className="grid grid-cols-2 gap-2">
-            <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 space-y-1">
-              <div className="flex items-center gap-1.5 text-slate-500 text-[11px]">
+            <div className="p-2.5 rounded-control bg-surface-soft border border-surface-border space-y-1">
+              <div className="flex items-center gap-1.5 text-content-muted text-[11px]">
                 <Clock className="w-3.5 h-3.5" />
                 <span>وقت القراءة المقدر</span>
               </div>
-              <div className="font-bold text-slate-900 dark:text-white text-sm">
+              <div className="font-bold text-content-heading text-sm">
                 {metrics.readingTimeMin} دقيقة
               </div>
             </div>
 
-            <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 space-y-1">
-              <div className="flex items-center gap-1.5 text-slate-500 text-[11px]">
+            <div className="p-2.5 rounded-control bg-surface-soft border border-surface-border space-y-1">
+              <div className="flex items-center gap-1.5 text-content-muted text-[11px]">
                 <Hash className="w-3.5 h-3.5" />
                 <span>عدد الكلمات الكلي</span>
               </div>
-              <div className="font-bold text-slate-900 dark:text-white text-sm">
+              <div className="font-bold text-content-heading text-sm">
                 {metrics.wordCount} كلمة
               </div>
             </div>
 
-            <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 space-y-1">
-              <div className="flex items-center gap-1.5 text-slate-500 text-[11px]">
+            <div className="p-2.5 rounded-control bg-surface-soft border border-surface-border space-y-1">
+              <div className="flex items-center gap-1.5 text-content-muted text-[11px]">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>تكرار الكلمة المفتاحية</span>
               </div>
-              <div className="font-bold text-slate-900 dark:text-white text-sm">
+              <div className="font-bold text-content-heading text-sm">
                 {metrics.keywordOccurrences} مرات ({metrics.keywordDensity}%)
               </div>
             </div>
 
-            <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 space-y-1">
-              <div className="flex items-center gap-1.5 text-slate-500 text-[11px]">
+            <div className="p-2.5 rounded-control bg-surface-soft border border-surface-border space-y-1">
+              <div className="flex items-center gap-1.5 text-content-muted text-[11px]">
                 <BookOpen className="w-3.5 h-3.5" />
                 <span>الفقرات والجمل</span>
               </div>
-              <div className="font-bold text-slate-900 dark:text-white text-xs">
+              <div className="font-bold text-content-heading text-xs">
                 {metrics.paragraphsCount} فقرة / {metrics.sentenceCount} جملة
               </div>
             </div>
@@ -366,21 +366,21 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
 
           {/* Headings Outline */}
           <div className="space-y-1.5">
-            <div className="font-bold text-slate-800 dark:text-slate-200 flex items-center justify-between text-xs">
+            <div className="font-bold text-content-heading flex items-center justify-between text-xs">
               <span className="flex items-center gap-1.5">
-                <ListTree className="w-3.5 h-3.5 text-primary-500" />
+                <ListTree className="w-3.5 h-3.5 text-brand-600" />
                 <span>هيكل العناوين ({metrics.headingsOutline.length})</span>
               </span>
-              <span className="text-[11px] font-mono text-slate-400">
+              <span className="text-[11px] font-mono text-content-muted">
                 H2: {metrics.headingsCount.h2} | H3: {metrics.headingsCount.h3} | H4: {metrics.headingsCount.h4}
               </span>
             </div>
             {metrics.headingsOutline.length === 0 ? (
-              <div className="text-slate-400 text-[11px] bg-slate-50 dark:bg-slate-800/40 p-2 rounded">
+              <div className="text-content-muted text-[11px] bg-surface-soft p-2 rounded-control border border-surface-border">
                 لا توجد ترويسات H2 أو H3 داخل المقال بعد.
               </div>
             ) : (
-              <div className="max-h-28 overflow-y-auto space-y-1 bg-slate-50 dark:bg-slate-800/50 p-2 rounded border border-slate-100 dark:border-slate-700 text-[11px]">
+              <div className="max-h-28 overflow-y-auto space-y-1 bg-surface-soft p-2 rounded-control border border-surface-border text-[11px]">
                 {metrics.headingsOutline.map((h, idx) => (
                   <div
                     key={idx}
@@ -388,10 +388,10 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
                       h.level === 3 ? 'ps-4' : h.level === 4 ? 'ps-8' : ''
                     }`}
                   >
-                    <span className="font-mono text-[9px] font-bold text-primary-600 dark:text-primary-400 px-1 py-0.2 rounded bg-primary-50 dark:bg-primary-950">
+                    <span className="font-mono text-[9px] font-bold text-brand-700 px-1 py-0.2 rounded bg-brand-50 border border-brand-200">
                       H{h.level}
                     </span>
-                    <span className="truncate text-slate-700 dark:text-slate-300">
+                    <span className="truncate text-content-heading">
                       {h.text}
                     </span>
                   </div>
@@ -402,27 +402,27 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
 
           {/* Links Breakdown */}
           <div className="space-y-1.5">
-            <div className="font-bold text-slate-800 dark:text-slate-200 flex items-center justify-between text-xs">
+            <div className="font-bold text-content-heading flex items-center justify-between text-xs">
               <span className="flex items-center gap-1.5">
-                <Link2 className="w-3.5 h-3.5 text-primary-500" />
+                <Link2 className="w-3.5 h-3.5 text-brand-600" />
                 <span>الروابط ({metrics.links.linksList.length})</span>
               </span>
-              <span className="text-[11px] text-slate-400">
+              <span className="text-[11px] text-content-muted">
                 داخلية: {metrics.links.internalCount} | خارجية: {metrics.links.externalCount}
               </span>
             </div>
             {metrics.links.linksList.length > 0 && (
-              <div className="max-h-24 overflow-y-auto space-y-1 bg-slate-50 dark:bg-slate-800/50 p-2 rounded border border-slate-100 dark:border-slate-700 text-[11px]">
+              <div className="max-h-24 overflow-y-auto space-y-1 bg-surface-soft p-2 rounded-control border border-surface-border text-[11px]">
                 {metrics.links.linksList.map((link, idx) => (
                   <div key={idx} className="flex items-center justify-between gap-2">
-                    <span className="truncate text-slate-700 dark:text-slate-300">
+                    <span className="truncate text-content-heading">
                       {link.text || link.href}
                     </span>
                     <span
-                      className={`text-[9px] px-1 rounded shrink-0 ${
+                      className={`text-[9px] px-1.5 py-0.5 rounded font-medium shrink-0 ${
                         link.isInternal
-                          ? 'bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300'
-                          : 'bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-300'
+                          ? 'bg-blue-50 text-blue-700 border border-blue-200'
+                          : 'bg-purple-50 text-purple-700 border border-purple-200'
                       }`}
                     >
                       {link.isInternal ? 'داخلي' : 'خارجي'}
@@ -435,12 +435,12 @@ export const SeoAnalyzerPanel: React.FC<SeoAnalyzerPanelProps> = ({
 
           {/* Images Breakdown */}
           <div className="space-y-1.5">
-            <div className="font-bold text-slate-800 dark:text-slate-200 flex items-center justify-between text-xs">
+            <div className="font-bold text-content-heading flex items-center justify-between text-xs">
               <span className="flex items-center gap-1.5">
-                <ImageIcon className="w-3.5 h-3.5 text-primary-500" />
+                <ImageIcon className="w-3.5 h-3.5 text-brand-600" />
                 <span>الصور داخل المحتوى ({metrics.images.total})</span>
               </span>
-              <span className="text-[11px] text-slate-400">
+              <span className="text-[11px] text-content-muted">
                 نص بديل مضاف: {metrics.images.withAlt} / مفقود: {metrics.images.missingAlt}
               </span>
             </div>
