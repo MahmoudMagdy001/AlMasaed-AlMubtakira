@@ -17,6 +17,7 @@ import { CtaBand } from '@/components/layout/CtaBand'
 import { NotFoundPage } from '@/features/home/NotFoundPage'
 import { useWorkDetail, useRelatedWorks } from '@/hooks/useWorks'
 import { WorkCard } from './components/WorkCard'
+import { fallbackWorks, fallbackMedia } from '@/data/seedData'
 
 export const WorkDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>()
@@ -28,14 +29,24 @@ export const WorkDetailPage: React.FC = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState(0)
 
-  const { data: work, isLoading } = useWorkDetail(slug || '')
+  const fallbackItem = fallbackWorks.find((w) => w.slug === slug)
+  const initialWork = fallbackItem
+    ? {
+        ...fallbackItem,
+        gallery_media: [fallbackMedia.gallery1, fallbackMedia.gallery2],
+      }
+    : undefined
+
+  const { data: workQuery, isLoading } = useWorkDetail(slug || '')
+  const work = workQuery || initialWork
+
   const { data: relatedWorks = [] } = useRelatedWorks({
     currentWorkId: work?.id || '',
     serviceType: work?.service_type || '',
     limit: 3,
   })
 
-  if (isLoading) {
+  if (isLoading && !work) {
     return (
       <div className="py-24 text-center">
         <Container>

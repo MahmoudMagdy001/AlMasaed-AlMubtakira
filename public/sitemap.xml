@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://almubtakirah.com</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com" />
@@ -12,7 +13,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/en</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com" />
@@ -21,7 +22,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/about</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/about" />
@@ -30,7 +31,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/en/about</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/about" />
@@ -39,7 +40,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/services</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/services" />
@@ -48,7 +49,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/en/services</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/services" />
@@ -57,7 +58,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/services/elevator-maintenance</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/services/elevator-maintenance" />
@@ -66,7 +67,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/en/services/elevator-maintenance</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/services/elevator-maintenance" />
@@ -75,7 +76,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/services/elevator-modernization</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/services/elevator-modernization" />
@@ -84,7 +85,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/en/services/elevator-modernization</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/services/elevator-modernization" />
@@ -93,7 +94,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/services/elevator-installation</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/services/elevator-installation" />
@@ -102,7 +103,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/en/services/elevator-installation</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/services/elevator-installation" />
@@ -111,7 +112,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/services/elevator-spare-parts</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/services/elevator-spare-parts" />
@@ -120,7 +121,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/en/services/elevator-spare-parts</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/services/elevator-spare-parts" />
@@ -129,7 +130,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/services/escalators-moving-walkways</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/services/escalators-moving-walkways" />
@@ -138,7 +139,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/en/services/escalators-moving-walkways</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/services/escalators-moving-walkways" />
@@ -147,7 +148,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/works</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/works" />
@@ -156,7 +157,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/en/works</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/works" />
@@ -165,7 +166,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/blog</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/blog" />
@@ -174,7 +175,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/en/blog</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/blog" />
@@ -183,7 +184,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/contact</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/contact" />
@@ -192,7 +193,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/en/contact</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/contact" />
@@ -201,7 +202,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/privacy</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/privacy" />
@@ -210,7 +211,7 @@
   </url>
   <url>
     <loc>https://almubtakirah.com/en/privacy</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-25</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/privacy" />
@@ -306,6 +307,114 @@
     <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/blog/category/company-news" />
     <xhtml:link rel="alternate" hreflang="en" href="https://almubtakirah.com/en/blog/category/company-news" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://almubtakirah.com/blog/category/company-news" />
+  </url>
+  <url>
+    <loc>https://almubtakirah.com/works/rawdah-residential-complex</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/works/rawdah-residential-complex" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://almubtakirah.com/en/works/rawdah-residential-complex" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://almubtakirah.com/works/rawdah-residential-complex" />
+  </url>
+  <url>
+    <loc>https://almubtakirah.com/en/works/rawdah-residential-complex</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/works/rawdah-residential-complex" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://almubtakirah.com/en/works/rawdah-residential-complex" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://almubtakirah.com/works/rawdah-residential-complex" />
+  </url>
+  <url>
+    <loc>https://almubtakirah.com/works/andalus-commercial-tower</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/works/andalus-commercial-tower" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://almubtakirah.com/en/works/andalus-commercial-tower" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://almubtakirah.com/works/andalus-commercial-tower" />
+  </url>
+  <url>
+    <loc>https://almubtakirah.com/en/works/andalus-commercial-tower</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/works/andalus-commercial-tower" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://almubtakirah.com/en/works/andalus-commercial-tower" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://almubtakirah.com/works/andalus-commercial-tower" />
+  </url>
+  <url>
+    <loc>https://almubtakirah.com/works/tahlia-shopping-center</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/works/tahlia-shopping-center" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://almubtakirah.com/en/works/tahlia-shopping-center" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://almubtakirah.com/works/tahlia-shopping-center" />
+  </url>
+  <url>
+    <loc>https://almubtakirah.com/en/works/tahlia-shopping-center</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/works/tahlia-shopping-center" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://almubtakirah.com/en/works/tahlia-shopping-center" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://almubtakirah.com/works/tahlia-shopping-center" />
+  </url>
+  <url>
+    <loc>https://almubtakirah.com/works/saraya-hotel-modernization</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/works/saraya-hotel-modernization" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://almubtakirah.com/en/works/saraya-hotel-modernization" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://almubtakirah.com/works/saraya-hotel-modernization" />
+  </url>
+  <url>
+    <loc>https://almubtakirah.com/en/works/saraya-hotel-modernization</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/works/saraya-hotel-modernization" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://almubtakirah.com/en/works/saraya-hotel-modernization" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://almubtakirah.com/works/saraya-hotel-modernization" />
+  </url>
+  <url>
+    <loc>https://almubtakirah.com/works/nokhba-medical-center</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/works/nokhba-medical-center" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://almubtakirah.com/en/works/nokhba-medical-center" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://almubtakirah.com/works/nokhba-medical-center" />
+  </url>
+  <url>
+    <loc>https://almubtakirah.com/en/works/nokhba-medical-center</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/works/nokhba-medical-center" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://almubtakirah.com/en/works/nokhba-medical-center" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://almubtakirah.com/works/nokhba-medical-center" />
+  </url>
+  <url>
+    <loc>https://almubtakirah.com/works/united-business-headquarters</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/works/united-business-headquarters" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://almubtakirah.com/en/works/united-business-headquarters" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://almubtakirah.com/works/united-business-headquarters" />
+  </url>
+  <url>
+    <loc>https://almubtakirah.com/en/works/united-business-headquarters</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ar-SA" href="https://almubtakirah.com/works/united-business-headquarters" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://almubtakirah.com/en/works/united-business-headquarters" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://almubtakirah.com/works/united-business-headquarters" />
   </url>
   <url>
     <loc>https://almubtakirah.com/blog/kayfa-takhtar-qetaa-gheyar-al-masaid-al-asliyah</loc>

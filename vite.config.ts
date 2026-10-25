@@ -68,8 +68,27 @@ function injectFontPreloads(distDir: string) {
   )
 }
 
+function autoSitemapPlugin(): Plugin {
+  return {
+    name: 'auto-sitemap-plugin',
+    configureServer(server) {
+      server.middlewares.use(async (req, _res, next) => {
+        if (req.url === '/sitemap.xml' || req.url === '/sitemap.xml/') {
+          try {
+            const { execSync } = await import('node:child_process')
+            execSync('node scripts/generate-sitemap.mjs', { stdio: 'pipe' })
+          } catch (err) {
+            console.warn('[auto-sitemap-plugin] Error updating sitemap in dev:', err)
+          }
+        }
+        next()
+      })
+    },
+  }
+}
+
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), autoSitemapPlugin()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
