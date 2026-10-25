@@ -93,11 +93,13 @@ async function runPhase06Verification() {
     )
 
     const hasAdminRewrite = vercelConfig.rewrites?.some(
-      (r) => r.source === '/admin/:path*' && r.destination === '/index.html',
+      (r) =>
+        r.source === '/admin/:path*' &&
+        (r.destination === '/admin' || r.destination === '/index.html'),
     )
     assert(
       hasAdminRewrite,
-      'vercel.json rewrites /admin/:path* to /index.html for deep-links and page refresh',
+      'vercel.json rewrites /admin/:path* to SPA shell for deep-links and page refresh',
     )
 
     const hasNoIndexHeader = vercelConfig.headers?.some(

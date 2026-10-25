@@ -68,6 +68,73 @@ function injectFontPreloads(distDir: string) {
   )
 }
 
+// Injects a clean client-side SPA shell for /admin routes into dist/admin.html and dist/admin/index.html.
+// The admin section is excluded from SSG prerendering to keep public bundles lean and auth/TipTap isolated.
+// Generating static admin shells ensures Vercel cleanUrls serves HTTP 200 OK without 404s.
+function injectAdminSpaShell(distDir: string) {
+  const indexHtmlPath = path.join(distDir, 'index.html')
+  if (!fs.existsSync(indexHtmlPath)) return
+
+  const originalHtml = fs.readFileSync(indexHtmlPath, 'utf8')
+
+  // Extract <head> portion
+  const headEndIndex = originalHtml.indexOf('</head>')
+  if (headEndIndex === -1) return
+
+  let headContent = originalHtml.substring(0, headEndIndex)
+
+  // 1. Title for admin dashboard
+  headContent = headContent.replace(
+    /<title[\s\S]*?<\/title>/gi,
+    '<title>لوحة التحكم | شركة المصاعد المبتكرة</title>',
+  )
+
+  // 2. Remove all prerendered react-helmet tags from the home page
+  headContent = headContent.replace(/<meta data-rh="true"[^>]*>/gi, '')
+  headContent = headContent.replace(/<link data-rh="true"[^>]*>/gi, '')
+  headContent = headContent.replace(
+    /<script data-rh="true"[\s\S]*?<\/script>/gi,
+    '',
+  )
+
+  // 3. Remove public structured data
+  headContent = headContent.replace(
+    /<script type="application\/ld\+json">[\s\S]*?<\/script>/gi,
+    '',
+  )
+
+  // 4. Strict robots noindex, nofollow for admin
+  if (headContent.includes('<meta name="robots"')) {
+    headContent = headContent.replace(
+      /<meta name="robots"[^>]*>/i,
+      '<meta name="robots" content="noindex, nofollow">',
+    )
+  } else {
+    headContent += '<meta name="robots" content="noindex, nofollow">'
+  }
+
+  // 5. Clean admin body with client-side loading shell (no server-rendered SSR tree)
+  const adminHtml = `${headContent}</head>
+  <body class="bg-slate-900 text-slate-100 antialiased font-sans">
+    <div id="root"><div style="min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;background-color:#0f172a;color:#f8fafc"><div style="display:flex;flex-direction:column;align-items:center;gap:16px"><div style="width:36px;height:36px;border:3px solid rgba(255,255,255,0.1);border-top-color:#d4af37;border-radius:50%;animation:spin 1s linear infinite"></div><p style="font-size:14px;color:#94a3b8">جاري تحميل لوحة التحكم...</p></div><style>@keyframes spin{to{transform:rotate(360deg)}}</style></div></div>
+  </body>
+</html>`
+
+  // Write to dist/admin.html
+  fs.writeFileSync(path.join(distDir, 'admin.html'), adminHtml, 'utf8')
+
+  // Also write to dist/admin/index.html
+  const adminDir = path.join(distDir, 'admin')
+  if (!fs.existsSync(adminDir)) {
+    fs.mkdirSync(adminDir, { recursive: true })
+  }
+  fs.writeFileSync(path.join(adminDir, 'index.html'), adminHtml, 'utf8')
+
+  console.log(
+    '[admin-shell] Injected clean SPA shell into dist/admin.html and dist/admin/index.html',
+  )
+}
+
 function autoSitemapPlugin(): Plugin {
   return {
     name: 'auto-sitemap-plugin',
@@ -153,11 +220,15 @@ export default defineConfig({
       return Array.from(new Set([...staticRoutes, ...dynamicRoutes]))
     },
     async onFinished() {
-      // 1. Inject Tajawal font preloading tags across all prerendered HTML files
       const distDir = path.resolve(__dirname, 'dist')
+
+      // 1. Generate standalone admin SPA shells (dist/admin.html and dist/admin/index.html)
+      injectAdminSpaShell(distDir)
+
+      // 2. Inject Tajawal font preloading tags across all prerendered HTML files
       injectFontPreloads(distDir)
 
-      // 2. Generate sitemap, robots, and merge redirects
+      // 3. Generate sitemap, robots, and merge redirects
       const { execSync } = await import('node:child_process')
       try {
         execSync('node scripts/generate-sitemap.mjs', { stdio: 'inherit' })

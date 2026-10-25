@@ -171,6 +171,8 @@ export const routes: RouteObject[] = [
       { path: 'en/contact', element: <ContactPage /> },
       { path: 'en/privacy', element: <PrivacyPage /> },
 
+      // 404 Page (Prerendered for Vercel/Static Hosting)
+      { path: '404', element: <NotFoundPage /> },
       // Catch-all 404
       { path: '*', element: <NotFoundPage /> },
     ],
