@@ -122,6 +122,7 @@ The agent ticks items here at the end of each phase and lists open issues.
 - Implemented scoped `useHeroAnimation` and `useScrollReveal` hooks using `@gsap/react` `useGSAP` with automatic cleanup, element scoping, and dynamic dependency re-synchronization.
 - Added subtle, high-performance page entrance transition in `PublicLayout.tsx` across route changes.
 - Configured standalone admin SPA shell generation (`dist/admin.html` and `dist/admin/index.html`) in `vite.config.ts` `onFinished()` and updated `vercel.json` rewrites (`/admin` and `/admin/:path*` -> `/admin`) to seamlessly resolve with Vercel's `cleanUrls: true`, fixing the 404 error when accessing `/admin` while preserving 100% SSG prerendering for all 54 public routes and strict `noindex, nofollow` protection.
+- Resolved TypeScript TS7016 module declaration error on dynamic routes import in `vite.config.ts` by adding typed declarations (`scripts/get-dynamic-routes.d.mts` & `scripts/get-dynamic-routes.d.ts`), configuring `noEmit: true` in `tsconfig.node.json`, decoupling unused composite references from `tsconfig.json`, and chaining Node config checking into `npm run typecheck`.
 
 ## Flagged copy for human/owner review
 
