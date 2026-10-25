@@ -121,6 +121,7 @@ The agent ticks items here at the end of each phase and lists open issues.
 - Scoped interactive card elevation styling (`.card-hover`) strictly to `@media (hover: hover) and (pointer: fine)` in `tailwind.css` to prevent persistent "sticky hover" elevation glitches on iOS and Android touch screens.
 - Implemented scoped `useHeroAnimation` and `useScrollReveal` hooks using `@gsap/react` `useGSAP` with automatic cleanup, element scoping, and dynamic dependency re-synchronization.
 - Added subtle, high-performance page entrance transition in `PublicLayout.tsx` across route changes.
+- Configured standalone admin SPA shell generation (`dist/admin.html` and `dist/admin/index.html`) in `vite.config.ts` `onFinished()` and updated `vercel.json` rewrites (`/admin` and `/admin/:path*` -> `/admin`) to seamlessly resolve with Vercel's `cleanUrls: true`, fixing the 404 error when accessing `/admin` while preserving 100% SSG prerendering for all 54 public routes and strict `noindex, nofollow` protection.
 
 ## Flagged copy for human/owner review
 
