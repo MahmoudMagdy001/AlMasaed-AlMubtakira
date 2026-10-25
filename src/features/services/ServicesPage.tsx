@@ -21,12 +21,21 @@ import type { ServiceKey } from './ServiceDetailPage'
 
 import { CtaBand } from '@/components/layout/CtaBand'
 import { Seo, getCollectionPageSchema } from '@/components/seo'
+import { useHeroAnimation } from '@/hooks/useHeroAnimation'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 
 export const ServicesPage: React.FC = () => {
   const { t } = useTranslation()
   const location = useLocation()
   const isEn = location.pathname.startsWith('/en')
   const isRtl = !isEn
+
+  const heroRef = useHeroAnimation()
+  const servicesRevealRef = useScrollReveal({
+    selector: '[data-service-card]',
+    distance: 20,
+    stagger: 0.08,
+  })
 
   const prefix = isEn ? '/en' : ''
 
@@ -120,18 +129,30 @@ export const ServicesPage: React.FC = () => {
       />
 
       {/* Header Banner */}
-      <section className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden">
+      <section
+        ref={heroRef}
+        className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden"
+      >
         <BrandPattern opacity={0.07} />
         <Container className="relative z-10">
           <Breadcrumbs items={breadcrumbsItems} className="mb-6 text-white/80" />
           <div className="max-w-3xl">
-            <span className="text-xs font-semibold text-brand-300 uppercase tracking-wider block mb-2">
+            <span
+              data-hero-element
+              className="text-xs font-semibold text-brand-300 uppercase tracking-wider block mb-2"
+            >
               {t('services.eyebrow')}
             </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-6">
+            <h1
+              data-hero-element
+              className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-6"
+            >
               {t('services.heading')}
             </h1>
-            <p className="text-base sm:text-lg text-brand-100 leading-relaxed font-normal">
+            <p
+              data-hero-element
+              className="text-base sm:text-lg text-brand-100 leading-relaxed font-normal"
+            >
               {t('services.intro')}
             </p>
           </div>
@@ -141,13 +162,14 @@ export const ServicesPage: React.FC = () => {
       {/* Services Grid */}
       <Section variant="white">
         <Container>
-          <div className="space-y-8">
+          <div ref={servicesRevealRef} className="space-y-8">
             {services.map((service, index) => {
               const detailUrl = `${prefix}/services/${service.slug}`
               return (
                 <article
                   key={service.key}
-                  className="group bg-white rounded-card border border-surface-border p-8 md:p-10 hover:border-brand-300 hover:shadow-card transition-all duration-300 flex flex-col lg:flex-row gap-8 items-start justify-between"
+                  data-service-card
+                  className="group card-hover bg-white rounded-card border border-surface-border p-8 md:p-10 hover:border-brand-300 flex flex-col lg:flex-row gap-8 items-start justify-between"
                 >
                   <div className="lg:max-w-2xl flex-1">
                     <div className="flex items-center gap-4 mb-5">

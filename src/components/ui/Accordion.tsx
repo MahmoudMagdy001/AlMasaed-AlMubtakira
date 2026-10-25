@@ -66,16 +66,22 @@ export const Accordion: React.FC<AccordionProps> = ({
                 />
               </button>
             </h3>
-            {isOpen && (
-              <div
-                id={panelId}
-                role="region"
-                aria-labelledby={headerId}
-                className="px-4 sm:px-5 pb-5 pt-1 text-content-body text-base leading-relaxed"
-              >
-                {item.content}
+            <div
+              id={panelId}
+              role="region"
+              aria-labelledby={headerId}
+              className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
+                isOpen
+                  ? 'grid-rows-[1fr] opacity-100'
+                  : 'grid-rows-[0fr] opacity-0'
+              }`}
+            >
+              <div className="overflow-hidden">
+                <div className="px-4 sm:px-5 pb-5 pt-1 text-content-body text-base leading-relaxed">
+                  {item.content}
+                </div>
               </div>
-            )}
+            </div>
           </div>
         )
       })}

@@ -25,6 +25,8 @@ import { Seo, getServiceSchema, getFaqSchema } from '@/components/seo'
 import { useSiteSettings } from '@/hooks/useSiteSettings'
 import { useWorks } from '@/hooks/useWorks'
 import { WorkCard } from '@/features/works/components/WorkCard'
+import { useHeroAnimation } from '@/hooks/useHeroAnimation'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 
 export type ServiceKey =
   | 'maintenance'
@@ -45,6 +47,31 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
   const settings = useSiteSettings()
   const isEn = location.pathname.startsWith('/en')
   const isRtl = !isEn
+
+  const heroRef = useHeroAnimation()
+  const includedRef = useScrollReveal({
+    selector: '[data-included-item]',
+    distance: 16,
+    stagger: 0.05,
+    dependencies: [serviceKey],
+  })
+  const processRef = useScrollReveal({
+    selector: '[data-process-step]',
+    distance: 20,
+    stagger: 0.08,
+    dependencies: [serviceKey],
+  })
+  const equipmentRef = useScrollReveal({
+    selector: '[data-equipment-card]',
+    distance: 16,
+    stagger: 0.06,
+    dependencies: [serviceKey],
+  })
+  const relatedWorksRef = useScrollReveal({
+    selector: '[data-related-work]',
+    distance: 20,
+    stagger: 0.08,
+  })
 
   const dbServiceTypeMap: Record<ServiceKey, string> = {
     maintenance: 'maintenance',
@@ -135,22 +162,34 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
       />
 
       {/* Header Banner */}
-      <section className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden">
+      <section
+        ref={heroRef}
+        className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden"
+      >
         <BrandPattern opacity={0.07} />
         <Container className="relative z-10">
           <Breadcrumbs items={breadcrumbsItems} className="mb-6 text-white/80" />
           <div className="max-w-3xl">
-            <span className="text-xs font-semibold text-brand-300 uppercase tracking-wider block mb-2">
+            <span
+              data-hero-element
+              className="text-xs font-semibold text-brand-300 uppercase tracking-wider block mb-2"
+            >
               {t('services.eyebrow')}
             </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-6 leading-tight">
+            <h1
+              data-hero-element
+              className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-6 leading-tight"
+            >
               {serviceData.h1}
             </h1>
-            <p className="text-base sm:text-lg text-brand-100 leading-relaxed font-normal mb-8">
+            <p
+              data-hero-element
+              className="text-base sm:text-lg text-brand-100 leading-relaxed font-normal mb-8"
+            >
               {serviceData.intro}
             </p>
 
-            <div className="flex flex-wrap items-center gap-4">
+            <div data-hero-element className="flex flex-wrap items-center gap-4">
               <Button
                 variant="hero"
                 size="lg"
@@ -187,13 +226,14 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               title={t('services.includedTitle')}
               className="mb-8"
             />
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div ref={includedRef} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {serviceData.included.map((item, idx) => {
                 const IconComponent = getServiceIncludedIcon(serviceKey, idx)
                 return (
                   <div
                     key={idx}
-                    className="group p-4 md:p-5 rounded-card border border-surface-border bg-white hover:border-brand-300 hover:shadow-card transition-all duration-200 flex items-start gap-3.5"
+                    data-included-item
+                    className="group card-hover p-4 md:p-5 rounded-card border border-surface-border bg-white hover:border-brand-300 flex items-start gap-3.5"
                   >
                     <div className="w-10 h-10 rounded-control bg-brand-50 border border-brand-100 flex items-center justify-center shrink-0 text-brand-600 group-hover:bg-brand-600 group-hover:text-white transition-colors duration-200 mt-0.5 shadow-xs">
                       <IconComponent className="w-5 h-5 transition-transform duration-200 group-hover:scale-105" />
@@ -219,13 +259,14 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             className="max-w-2xl mx-auto mb-12"
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div ref={processRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {serviceData.process.map((step, idx) => {
               const StepIcon = getServiceProcessIcon(serviceKey, idx)
               return (
                 <div
                   key={step.step}
-                  className="p-6 md:p-7 rounded-card bg-white border border-surface-border flex flex-col justify-between shadow-xs hover:border-brand-300 hover:shadow-card transition-all duration-300 group"
+                  data-process-step
+                  className="card-hover p-6 md:p-7 rounded-card bg-white border border-surface-border flex flex-col justify-between shadow-xs hover:border-brand-300 group"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-5">
@@ -267,7 +308,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               }
               className="mb-10"
             />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div ref={equipmentRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {serviceData.equipment.map((rawItem, idx) => {
                 const item =
                   typeof rawItem === 'string'
@@ -278,7 +319,8 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                 return (
                   <div
                     key={idx}
-                    className="p-5 md:p-6 rounded-card border border-surface-border bg-white hover:border-brand-300 hover:shadow-card transition-all duration-300 flex flex-col justify-between group"
+                    data-equipment-card
+                    className="card-hover p-5 md:p-6 rounded-card border border-surface-border bg-white hover:border-brand-300 flex flex-col justify-between group"
                   >
                     <div>
                       <div className="flex items-center justify-between mb-4">
@@ -337,9 +379,11 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div ref={relatedWorksRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {relatedWorksData.works.map((w) => (
-                <WorkCard key={w.id} work={w} />
+                <div key={w.id} data-related-work>
+                  <WorkCard work={w} />
+                </div>
               ))}
             </div>
           </Container>

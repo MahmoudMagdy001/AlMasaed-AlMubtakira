@@ -14,6 +14,8 @@ import { Seo, getCollectionPageSchema } from '@/components/seo'
 import { CtaBand } from '@/components/layout/CtaBand'
 import { useWorks } from '@/hooks/useWorks'
 import { WorkCard } from './components/WorkCard'
+import { useHeroAnimation } from '@/hooks/useHeroAnimation'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 
 const ITEMS_PER_PAGE = 12
 
@@ -23,6 +25,8 @@ export const WorksPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const isEn = location.pathname.startsWith('/en')
   const isRtl = !isEn
+
+  const heroRef = useHeroAnimation()
 
   const currentServiceFilter = searchParams.get('service') || 'all'
   const [currentPage, setCurrentPage] = useState(1)
@@ -36,6 +40,13 @@ export const WorksPage: React.FC = () => {
   const works = data?.works || []
   const total = data?.total || 0
   const totalPages = Math.ceil(total / ITEMS_PER_PAGE)
+
+  const worksGridRef = useScrollReveal({
+    selector: '[data-work-card]',
+    distance: 20,
+    stagger: 0.08,
+    dependencies: [works, currentServiceFilter],
+  })
 
   const breadcrumbsItems = [
     { label: t('common.breadcrumbHome'), to: isEn ? '/en' : '/' },
@@ -93,18 +104,30 @@ export const WorksPage: React.FC = () => {
       />
 
       {/* Hero Banner */}
-      <section className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden">
+      <section
+        ref={heroRef}
+        className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden"
+      >
         <BrandPattern opacity={0.07} />
         <Container className="relative z-10">
           <Breadcrumbs items={breadcrumbsItems} className="mb-6 text-white/80" />
           <div className="max-w-3xl">
-            <span className="text-xs font-semibold text-brand-300 uppercase tracking-wider block mb-2">
+            <span
+              data-hero-element
+              className="text-xs font-semibold text-brand-300 uppercase tracking-wider block mb-2"
+            >
               {t('works.eyebrow')}
             </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-4">
+            <h1
+              data-hero-element
+              className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-4"
+            >
               {t('works.heading')}
             </h1>
-            <p className="text-base sm:text-lg text-brand-100 leading-relaxed">
+            <p
+              data-hero-element
+              className="text-base sm:text-lg text-brand-100 leading-relaxed"
+            >
               {t('works.intro')}
             </p>
           </div>
@@ -181,9 +204,11 @@ export const WorksPage: React.FC = () => {
           {/* Works Grid */}
           {!isLoading && works.length > 0 && (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div ref={worksGridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {works.map((work, index) => (
-                  <WorkCard key={work.id} work={work} priority={index < 3} />
+                  <div key={work.id} data-work-card>
+                    <WorkCard work={work} priority={index < 3} />
+                  </div>
                 ))}
               </div>
 

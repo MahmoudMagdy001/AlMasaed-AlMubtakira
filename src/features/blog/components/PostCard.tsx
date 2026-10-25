@@ -40,7 +40,7 @@ export const PostCard: React.FC<PostCardProps> = ({
     : null
 
   return (
-    <article className="group bg-white rounded-card border border-surface-border overflow-hidden shadow-xs hover:shadow-card-hover transition-all duration-300 flex flex-col h-full">
+    <article className="group card-hover bg-white rounded-card border border-surface-border overflow-hidden shadow-xs flex flex-col h-full">
       {/* Featured Image or Gradient Fallback */}
       <Link
         to={postUrl}

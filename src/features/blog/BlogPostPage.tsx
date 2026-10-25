@@ -31,6 +31,8 @@ import {
 } from '@/hooks/useBlog'
 import { ShareButtons } from './components/ShareButtons'
 import { PostCard } from './components/PostCard'
+import { useHeroAnimation } from '@/hooks/useHeroAnimation'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 import logoDarkSquare from '@/assets/brand/logo-dark-square.webp'
 
 export const BlogPostPage: React.FC = () => {
@@ -62,6 +64,14 @@ export const BlogPostPage: React.FC = () => {
     currentPostId: post?.id || '',
     lang: currentLang,
     limit: 3,
+  })
+
+  const heroRef = useHeroAnimation({ dependencies: [post?.id] })
+  const relatedRevealRef = useScrollReveal({
+    selector: '[data-related-card]',
+    distance: 20,
+    stagger: 0.08,
+    dependencies: [relatedPosts],
   })
 
   // Sanitize content and generate anchors
@@ -221,13 +231,15 @@ export const BlogPostPage: React.FC = () => {
 
       <article>
         {/* Header Banner */}
-        <header className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden">
+        <header ref={heroRef} className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden">
           <BrandPattern opacity={0.07} />
           <Container className="relative z-10">
-            <Breadcrumbs items={breadcrumbs} className="mb-6 text-white/80" />
+            <div data-hero-element>
+              <Breadcrumbs items={breadcrumbs} className="mb-6 text-white/80" />
+            </div>
             <div className="max-w-4xl">
               {/* Category Badge & Reading Time */}
-              <div className="flex flex-wrap items-center gap-3 mb-4">
+              <div data-hero-element className="flex flex-wrap items-center gap-3 mb-4">
                 {categoryName && categoryUrl && (
                   <Link to={categoryUrl}>
                     <Badge
@@ -246,20 +258,20 @@ export const BlogPostPage: React.FC = () => {
               </div>
 
               {/* H1 Heading */}
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-4 leading-tight">
+              <h1 data-hero-element className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-4 leading-tight">
                 {post.title}
               </h1>
 
               {/* Excerpt if present */}
               {post.excerpt && (
-                <p className="text-base sm:text-lg text-brand-100 leading-relaxed font-normal max-w-3xl mb-4">
+                <p data-hero-element className="text-base sm:text-lg text-brand-100 leading-relaxed font-normal max-w-3xl mb-4">
                   {post.excerpt}
                 </p>
               )}
 
               {/* Bilingual Twin Alert (if translation twin exists) */}
               {translationTwin && (
-                <div className="mt-6 p-4 rounded-card bg-brand-800/80 border border-brand-700/80 flex items-center justify-between gap-4 text-xs sm:text-sm text-white">
+                <div data-hero-element className="mt-6 p-4 rounded-card bg-brand-800/80 border border-brand-700/80 flex items-center justify-between gap-4 text-xs sm:text-sm text-white">
                   <div className="flex items-center gap-2 font-medium text-brand-100">
                     <Languages className="w-4 h-4 text-brand-300 shrink-0" aria-hidden="true" />
                     <span>{t('blog.translationTwinNotice')}</span>
@@ -507,9 +519,11 @@ export const BlogPostPage: React.FC = () => {
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div ref={relatedRevealRef} className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {relatedPosts.map((relatedPost) => (
-                <PostCard key={relatedPost.id} post={relatedPost} />
+                <div key={relatedPost.id} data-related-card className="h-full">
+                  <PostCard post={relatedPost} />
+                </div>
               ))}
             </div>
           </Container>

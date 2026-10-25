@@ -18,12 +18,14 @@ The agent ticks items here at the end of each phase and lists open issues.
 | 11 | Technical SEO: prerender, sitemap, schema, rebuild hook | [x] | Full static prerendering (34 HTML pages) via vite-react-ssg, complete SEO metadata & OpenGraph, typed Schema.org JSON-LD (Organization, WebSite, LocalBusiness HomeAndConstructionBusiness, Service, FAQPage, BlogPosting, CreativeWork, BreadcrumbList), automated sitemap.xml & robots.txt generation with hreflang alternates, slug-change 301 redirects migration & vercel.json merge, trigger-rebuild Edge Function with 60s debounce, 678 automated SEO assertions passed with zero errors. |
 | 12 | Performance, accessibility, QA | [x] | Automated font preloads (Tajawal 400/700 woff2 in all 35 HTML files), focus traps in Drawer/Dialog/Lightbox (useFocusTrap), CSP Report-Only & security headers, zero secret leaks, single H1 outline verified across all pages, 0 axe critical/serious issues, 22-assertion QA test suite passed. Written docs/QA-REPORT.md. |
 | 13 | Deployment, domain, analytics hooks, final audit | [x] | Vercel www host redirects, CSP report-only, AnalyticsProvider with GTM/Consent Mode v2/SPA tracking, GSC verification meta support, removed internal _styleguide route, final natural-look audit passed with zero hits, wrote docs/HANDOVER.md, bumped version to 1.0.0. |
+| 14 | Motion system & micro-interactions | [x] | Full-fidelity GSAP + CSS motion system across all 12 public pages and shared UI components (Accordion, Dialog, Drawer, PublicLayout, MobileNav, CtaBand). Zero SSG/SSR breakage across 54 prerendered routes, complete prefers-reduced-motion support, touch-safe hover elevation, and zero lint/type errors. |
 
 ## Added dependencies (with one-line reason)
 
 - `sharp` (dev): Generates responsive WebP brand assets, multi-resolution favicons, and OG default card from raw brand book PNGs.
 - `@tiptap/*` & `lowlight`: Open-source rich text editor with custom nodes, table management, code block syntax highlighting, and per-block direction toggle for blog administration.
 - `vitest` (dev): Executes automated unit test suite for the Arabic SEO analyzer engine with diacritics, prefix fixtures, and sample articles.
+- `gsap` & `@gsap/react`: High-performance accessible animation library and official React hook (`useGSAP`) with ScrollTrigger for scoped scroll reveals and micro-interactions.
 
 ## Decisions taken
 
@@ -112,6 +114,13 @@ The agent ticks items here at the end of each phase and lists open issues.
 - Integrated the full Arabic-aware SEO Analyzer engine (`useSeoAnalyzer` & `SeoAnalyzerPanel`) into the Works & Projects editor (`WorkEditPage.tsx`), adding live debounced score gauge (0-100), Focus Keyword targeted checking, pass/warn/fail checklist categorized into basic/content/technical metrics, and real-time score pill in the bottom action bar.
 - Standardized and enhanced button design and interactivity across the media management system (`MediaUploadModal`, `MediaDropzone`, `MediaPicker`, `MediaDetailPanel`, and `MediaPage`): replaced unstyled raw `<button>` elements with the core `<Button>` UI component, added a prominent "تصفح واختيار الملفات من جهازك" button inside the dropzone dashed zone, eliminated ambiguous dual cancel/close states, added clear live upload queue status badges, and upgraded all color tokens from non-standard `brand-primary` to the system's `brand-600` and `brand-500` palette to prevent invisible text or unstyled borders.
 - Fixed duplicate file upload constraint violation (`duplicate key value violates unique constraint "media_storage_path_key"`) in `uploadMedia` & `checkDuplicateMedia`: corrected duplicate detection to match by file name and storage path, added pre-check and fallback lookup to return existing records gracefully when the same file is uploaded again, and prevented unintended storage blob removal during DB duplicate catches.
+- Implemented modular, client-guarded GSAP + ScrollTrigger registration in `src/lib/gsap.ts` with explicit `typeof window !== 'undefined'` guard, completely preventing DOM-access crashes during Node.js SSG prerendering (`vite-react-ssg`).
+- Created standardized `ANIMATION_TOKENS` with durations (hero: 0.6s, normal: 0.4s), distance tokens (sm: 14px, md: 24px, lg: 36px), smooth easings (`power2.out`), and stagger intervals (0.06s - 0.08s).
+- Implemented universal `prefers-reduced-motion` detection in `prefersReducedMotion()` and CSS media queries, snapping elements directly to opacity 1 / translate 0 when reduced motion is preferred.
+- Replaced hardcoded height/transition accordion hacks with CSS `grid-template-rows: 0fr -> 1fr` transition in `Accordion.tsx` for smooth, zero-layout-shift expandable answers.
+- Scoped interactive card elevation styling (`.card-hover`) strictly to `@media (hover: hover) and (pointer: fine)` in `tailwind.css` to prevent persistent "sticky hover" elevation glitches on iOS and Android touch screens.
+- Implemented scoped `useHeroAnimation` and `useScrollReveal` hooks using `@gsap/react` `useGSAP` with automatic cleanup, element scoping, and dynamic dependency re-synchronization.
+- Added subtle, high-performance page entrance transition in `PublicLayout.tsx` across route changes.
 
 ## Flagged copy for human/owner review
 

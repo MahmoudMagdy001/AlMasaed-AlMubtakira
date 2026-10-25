@@ -10,6 +10,8 @@ import {
 } from '@/components/ui'
 import { Seo } from '@/components/seo'
 import { useSiteSettings } from '@/hooks/useSiteSettings'
+import { useHeroAnimation } from '@/hooks/useHeroAnimation'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 
 export const PrivacyPage: React.FC = () => {
   const { t } = useTranslation()
@@ -17,6 +19,13 @@ export const PrivacyPage: React.FC = () => {
   const location = useLocation()
   const isEn = location.pathname.startsWith('/en')
   const isRtl = !isEn
+
+  const heroRef = useHeroAnimation()
+  const contentRevealRef = useScrollReveal({
+    selector: '[data-privacy-reveal]',
+    distance: 20,
+    stagger: 0.1,
+  })
 
   const breadcrumbsItems = [
     { label: t('common.breadcrumbHome'), to: isEn ? '/en' : '/' },
@@ -48,18 +57,20 @@ export const PrivacyPage: React.FC = () => {
       />
 
       {/* Header Banner */}
-      <section className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden">
+      <section ref={heroRef} className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden">
         <BrandPattern opacity={0.07} />
         <Container className="relative z-10">
-          <Breadcrumbs items={breadcrumbsItems} className="mb-6 text-white/80" />
+          <div data-hero-element>
+            <Breadcrumbs items={breadcrumbsItems} className="mb-6 text-white/80" />
+          </div>
           <div className="max-w-3xl">
-            <span className="text-xs font-semibold text-brand-300 uppercase tracking-wider block mb-2">
+            <span data-hero-element className="text-xs font-semibold text-brand-300 uppercase tracking-wider block mb-2">
               {t('privacy.eyebrow')}
             </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-4">
+            <h1 data-hero-element className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-4">
               {t('privacy.heading')}
             </h1>
-            <p className="text-sm text-brand-200">
+            <p data-hero-element className="text-sm text-brand-200">
               {t('privacy.lastUpdated')}
             </p>
           </div>
@@ -69,9 +80,10 @@ export const PrivacyPage: React.FC = () => {
       {/* Main Content */}
       <Section variant="white">
         <Container>
-          <div className="max-w-4xl mx-auto">
+          <div ref={contentRevealRef} className="max-w-4xl mx-auto">
             {/* Owner Review Notice (as specified in phase-03 and 02) */}
             <div
+              data-privacy-reveal
               className="p-5 rounded-control bg-brand-50 border border-brand-200 flex items-start gap-3.5 mb-10 text-xs sm:text-sm text-brand-900 leading-relaxed"
               role="note"
             >
@@ -79,7 +91,7 @@ export const PrivacyPage: React.FC = () => {
               <div>{t('privacy.reviewNotice')}</div>
             </div>
 
-            <div className="space-y-8 bg-white p-8 sm:p-12 rounded-card border border-surface-border">
+            <div data-privacy-reveal className="space-y-8 bg-white p-8 sm:p-12 rounded-card border border-surface-border">
               {sections.map((sec, idx) => (
                 <section key={idx} className="space-y-3">
                   <h2 className="text-lg sm:text-xl font-bold text-content-heading">

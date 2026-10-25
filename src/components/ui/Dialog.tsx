@@ -60,7 +60,7 @@ export const Dialog: React.FC<DialogProps> = ({
     >
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-brand-900/60 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-brand-900/60 backdrop-blur-sm animate-fade-in"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -68,7 +68,7 @@ export const Dialog: React.FC<DialogProps> = ({
       {/* Dialog content */}
       <div
         ref={dialogRef}
-        className={`relative w-full ${maxWidthClasses} bg-white rounded-card shadow-elevated p-6 z-10 my-8 text-start focus:outline-none`}
+        className={`relative w-full ${maxWidthClasses} bg-white rounded-card shadow-elevated p-6 z-10 my-8 text-start focus:outline-none animate-dialog-in`}
       >
         <div className="flex items-start justify-between gap-4 mb-4">
           <div>

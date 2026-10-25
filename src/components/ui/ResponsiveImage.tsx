@@ -62,7 +62,7 @@ export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
       height={imgHeight}
       loading={priority ? 'eager' : 'lazy'}
       decoding={priority ? 'sync' : 'async'}
-      fetchPriority={priority ? 'high' : 'auto'}
+      {...(priority ? { fetchpriority: 'high' } : {})}
       onError={(e) => {
         setHasError(true)
         onError?.(e)

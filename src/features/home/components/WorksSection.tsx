@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { Container, Section, SectionHeading } from '@/components/ui'
 import type { WorkWithCover } from '@/services/worksService'
 import { WorkCard } from '@/features/works/components/WorkCard'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 
 interface WorksSectionProps {
   works?: WorkWithCover[] | null
@@ -16,6 +17,13 @@ export const WorksSection: React.FC<WorksSectionProps> = ({ works }) => {
   const isEn = location.pathname.startsWith('/en')
   const isRtl = !isEn
 
+  const revealRef = useScrollReveal({
+    selector: '[data-work-card]',
+    stagger: 0.08,
+    distance: 20,
+    dependencies: [works],
+  })
+
   // If no published works, omit the section completely (as mandated in docs/02 and docs/10)
   if (!works || works.length === 0) {
     return null
@@ -26,25 +34,29 @@ export const WorksSection: React.FC<WorksSectionProps> = ({ works }) => {
   return (
     <Section variant="white">
       <Container>
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
-          <SectionHeading
-            kicker={t('home.worksEyebrow')}
-            title={t('home.worksHeading')}
-            intro={t('home.worksSubtitle')}
-          />
-          <Link
-            to={`${prefix}/works`}
-            className="inline-flex items-center gap-1.5 text-brand-600 hover:text-brand-500 font-semibold text-sm mt-4 md:mt-0 transition-colors"
-          >
-            <span>{t('actions.viewWorks')}</span>
-            {isRtl ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
-          </Link>
-        </div>
+        <div ref={revealRef}>
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
+            <SectionHeading
+              kicker={t('home.worksEyebrow')}
+              title={t('home.worksHeading')}
+              intro={t('home.worksSubtitle')}
+            />
+            <Link
+              to={`${prefix}/works`}
+              className="inline-flex items-center gap-1.5 text-brand-600 hover:text-brand-500 font-semibold text-sm mt-4 md:mt-0 transition-colors"
+            >
+              <span>{t('actions.viewWorks')}</span>
+              {isRtl ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
+            </Link>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {works.slice(0, 6).map((work) => (
-            <WorkCard key={work.id} work={work} />
-          ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {works.slice(0, 6).map((work) => (
+              <div key={work.id} data-work-card>
+                <WorkCard work={work} />
+              </div>
+            ))}
+          </div>
         </div>
       </Container>
     </Section>

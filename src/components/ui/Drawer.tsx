@@ -54,7 +54,7 @@ export const Drawer: React.FC<DrawerProps> = ({
     >
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-brand-900/60 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-brand-900/60 backdrop-blur-sm animate-fade-in"
         onClick={onClose}
         aria-hidden="true"
       />

@@ -24,6 +24,8 @@ import { CtaBand } from '@/components/layout/CtaBand'
 import { Seo, getLocalBusinessSchema } from '@/components/seo'
 import { usePartners } from '@/hooks/usePartners'
 import { PartnersSection } from '@/features/home/components/PartnersSection'
+import { useHeroAnimation } from '@/hooks/useHeroAnimation'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 
 export const AboutPage: React.FC = () => {
   const { t } = useTranslation()
@@ -31,6 +33,23 @@ export const AboutPage: React.FC = () => {
   const { data: partnersData } = usePartners()
   const isEn = location.pathname.startsWith('/en')
   const isRtl = !isEn
+
+  const heroRef = useHeroAnimation()
+  const pillarsRef = useScrollReveal({
+    selector: '[data-pillar-card]',
+    distance: 20,
+    stagger: 0.08,
+  })
+  const logoRef = useScrollReveal({
+    selector: '[data-logo-card]',
+    distance: 20,
+    stagger: 0.08,
+  })
+  const factsRef = useScrollReveal({
+    selector: '[data-fact-card]',
+    distance: 16,
+    stagger: 0.05,
+  })
 
   const breadcrumbsItems = [
     { label: t('common.breadcrumbHome'), to: isEn ? '/en' : '/' },
@@ -100,18 +119,30 @@ export const AboutPage: React.FC = () => {
       />
 
       {/* Header Banner */}
-      <section className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden">
+      <section
+        ref={heroRef}
+        className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden"
+      >
         <BrandPattern opacity={0.07} />
         <Container className="relative z-10">
           <Breadcrumbs items={breadcrumbsItems} className="mb-6 text-white/80" />
           <div className="max-w-3xl">
-            <span className="text-xs font-semibold text-brand-300 uppercase tracking-wider block mb-2">
+            <span
+              data-hero-element
+              className="text-xs font-semibold text-brand-300 uppercase tracking-wider block mb-2"
+            >
               {t('about.eyebrow')}
             </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-6">
+            <h1
+              data-hero-element
+              className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-6"
+            >
               {t('about.heading')}
             </h1>
-            <p className="text-base sm:text-lg text-brand-100 leading-relaxed font-normal">
+            <p
+              data-hero-element
+              className="text-base sm:text-lg text-brand-100 leading-relaxed font-normal"
+            >
               {t('about.lead')}
             </p>
           </div>
@@ -121,9 +152,12 @@ export const AboutPage: React.FC = () => {
       {/* Pillars Section: Vision, Approach, Safety */}
       <Section variant="white">
         <Container>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div ref={pillarsRef} className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Vision */}
-            <div className="p-8 rounded-card border border-surface-border bg-white flex flex-col justify-between shadow-xs hover:border-brand-300 hover:shadow-card transition-all duration-300">
+            <div
+              data-pillar-card
+              className="card-hover p-8 rounded-card border border-surface-border bg-white flex flex-col justify-between shadow-xs hover:border-brand-300"
+            >
               <div>
                 <span className="text-xs font-bold text-brand-600 uppercase tracking-wide mb-3 flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-brand-600 shrink-0" />
@@ -139,7 +173,10 @@ export const AboutPage: React.FC = () => {
             </div>
 
             {/* Approach */}
-            <div className="p-8 rounded-card border border-surface-border bg-white flex flex-col justify-between shadow-xs hover:border-brand-300 hover:shadow-card transition-all duration-300">
+            <div
+              data-pillar-card
+              className="card-hover p-8 rounded-card border border-surface-border bg-white flex flex-col justify-between shadow-xs hover:border-brand-300"
+            >
               <div>
                 <span className="text-xs font-bold text-brand-600 uppercase tracking-wide mb-3 flex items-center gap-2">
                   <Cpu className="w-4 h-4 text-brand-600 shrink-0" />
@@ -155,7 +192,10 @@ export const AboutPage: React.FC = () => {
             </div>
 
             {/* Safety Mission */}
-            <div className="p-8 rounded-card border border-surface-border bg-brand-50/50 flex flex-col justify-between shadow-xs hover:border-brand-300 hover:shadow-card transition-all duration-300">
+            <div
+              data-pillar-card
+              className="card-hover p-8 rounded-card border border-surface-border bg-brand-50/50 flex flex-col justify-between shadow-xs hover:border-brand-300"
+            >
               <div>
                 <span className="text-xs font-bold text-feedback-success uppercase tracking-wide mb-3 flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-feedback-success shrink-0" />
@@ -176,34 +216,37 @@ export const AboutPage: React.FC = () => {
       {/* Brand & Logo Meaning */}
       <Section variant="soft" className="border-t border-b border-surface-border">
         <Container>
-          <SectionHeading
-            kicker={isEn ? 'Visual Identity & Philosophy' : 'فلسفة الهوية الهندسية'}
-            title={t('about.logoMeaningTitle')}
-            intro={t('about.logoMeaningIntro')}
-            className="max-w-3xl mb-12"
-          />
+          <div ref={logoRef}>
+            <SectionHeading
+              kicker={isEn ? 'Visual Identity & Philosophy' : 'فلسفة الهوية الهندسية'}
+              title={t('about.logoMeaningTitle')}
+              intro={t('about.logoMeaningIntro')}
+              className="max-w-3xl mb-12"
+            />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {logoElements.map((elem, idx) => (
-              <div
-                key={idx}
-                className="group p-7 rounded-card bg-white border border-surface-border flex flex-col hover:border-brand-300 hover:shadow-card transition-all duration-300"
-              >
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {logoElements.map((elem, idx) => (
                 <div
-                  className={`w-14 h-14 rounded-2xl border flex items-center justify-center mb-6 shadow-xs group-hover:shadow-sm transition-all duration-300 ${
-                    logoBadgeStyles[idx % logoBadgeStyles.length]
-                  }`}
+                  key={idx}
+                  data-logo-card
+                  className="group card-hover p-7 rounded-card bg-white border border-surface-border flex flex-col hover:border-brand-300"
                 >
-                  {logoIcons[idx % logoIcons.length]}
+                  <div
+                    className={`w-14 h-14 rounded-2xl border flex items-center justify-center mb-6 shadow-xs group-hover:shadow-sm transition-all duration-300 ${
+                      logoBadgeStyles[idx % logoBadgeStyles.length]
+                    }`}
+                  >
+                    {logoIcons[idx % logoIcons.length]}
+                  </div>
+                  <h3 className="text-lg font-bold text-content-heading mb-3 group-hover:text-brand-600 transition-colors duration-200">
+                    {elem.title}
+                  </h3>
+                  <p className="text-sm text-content-body leading-relaxed">
+                    {elem.description}
+                  </p>
                 </div>
-                <h3 className="text-lg font-bold text-content-heading mb-3 group-hover:text-brand-600 transition-colors duration-200">
-                  {elem.title}
-                </h3>
-                <p className="text-sm text-content-body leading-relaxed">
-                  {elem.description}
-                </p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </Container>
       </Section>
@@ -219,11 +262,12 @@ export const AboutPage: React.FC = () => {
               className="mb-10 max-w-2xl mx-auto"
             />
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div ref={factsRef} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {facts.map((fact, idx) => (
                 <div
                   key={idx}
-                  className="p-5 rounded-control bg-surface-subtle/50 border border-surface-border flex items-start gap-4 hover:border-brand-300 hover:shadow-xs hover:bg-white transition-all duration-300"
+                  data-fact-card
+                  className="card-hover p-5 rounded-control bg-surface-subtle/50 border border-surface-border flex items-start gap-4 hover:border-brand-300 hover:bg-white"
                 >
                   <div
                     className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 shadow-xs ${

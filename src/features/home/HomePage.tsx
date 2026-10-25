@@ -44,12 +44,36 @@ import { useBlogPosts } from '@/hooks/useBlog'
 import { WorksSection } from './components/WorksSection'
 import { PartnersSection } from './components/PartnersSection'
 import { LatestPostsSection } from './components/LatestPostsSection'
+import { useHeroAnimation } from '@/hooks/useHeroAnimation'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 
 export const HomePage: React.FC = () => {
   const { t } = useTranslation()
   const location = useLocation()
   const isEn = location.pathname.startsWith('/en')
   const isRtl = !isEn
+
+  const heroRef = useHeroAnimation()
+  const aboutRef = useScrollReveal({
+    selector: '[data-about-reveal]',
+    distance: 16,
+    stagger: 0.08,
+  })
+  const servicesRef = useScrollReveal({
+    selector: '[data-service-card]',
+    distance: 20,
+    stagger: 0.08,
+  })
+  const whyUsRef = useScrollReveal({
+    selector: '[data-why-card]',
+    distance: 20,
+    stagger: 0.06,
+  })
+  const maintRef = useScrollReveal({
+    selector: '[data-maint-item]',
+    distance: 14,
+    stagger: 0.04,
+  })
 
   const settings = useSiteSettings()
   const { data: worksData } = useWorks({ limit: 6 })
@@ -161,20 +185,32 @@ export const HomePage: React.FC = () => {
       />
 
       {/* 1. Hero Section */}
-      <section className="relative overflow-hidden bg-brand-900 text-white py-20 sm:py-28 lg:py-36">
+      <section
+        ref={heroRef}
+        className="relative overflow-hidden bg-brand-900 text-white py-20 sm:py-28 lg:py-36"
+      >
         <BrandPattern opacity={0.08} />
 
         <Container className="relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white tracking-tight">
+            <h1
+              data-hero-element
+              className="text-3xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white tracking-tight"
+            >
               {t('home.heroTitle')}
             </h1>
 
-            <p className="text-lg sm:text-xl text-brand-100 font-normal leading-relaxed mb-8 max-w-2xl mx-auto">
+            <p
+              data-hero-element
+              className="text-lg sm:text-xl text-brand-100 font-normal leading-relaxed mb-8 max-w-2xl mx-auto"
+            >
               {t('home.heroSubtitle')}
             </p>
 
-            <div className="flex flex-wrap items-center justify-center gap-4">
+            <div
+              data-hero-element
+              className="flex flex-wrap items-center justify-center gap-4"
+            >
               <Button
                 variant="hero"
                 size="lg"
@@ -206,18 +242,30 @@ export const HomePage: React.FC = () => {
       {/* 2. About Snapshot Section */}
       <Section variant="white" className="border-b border-surface-border">
         <Container>
-          <div className="max-w-4xl">
-            <span className="text-xs md:text-sm font-semibold text-brand-600 tracking-wider uppercase mb-3 block">
+          <div ref={aboutRef} className="max-w-4xl">
+            <span
+              data-about-reveal
+              className="text-xs md:text-sm font-semibold text-brand-600 tracking-wider uppercase mb-3 block"
+            >
               {t('home.aboutEyebrow')}
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-content-heading mb-5 leading-snug">
+            <h2
+              data-about-reveal
+              className="text-2xl sm:text-3xl font-bold text-content-heading mb-5 leading-snug"
+            >
               {t('home.aboutHeading')}
             </h2>
-            <p className="text-content-body text-base sm:text-lg leading-relaxed mb-8">
+            <p
+              data-about-reveal
+              className="text-content-body text-base sm:text-lg leading-relaxed mb-8"
+            >
               {t('home.aboutText')}
             </p>
 
-            <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-surface-border">
+            <div
+              data-about-reveal
+              className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-surface-border"
+            >
               <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-xs sm:text-sm text-content-muted">
                 <span className="inline-flex items-center gap-1.5 font-medium text-content-body">
                   <CheckCircle2 className="w-4 h-4 text-feedback-success" />
@@ -249,90 +297,94 @@ export const HomePage: React.FC = () => {
       {/* 3. Services Section */}
       <Section variant="soft" className="border-b border-surface-border">
         <Container>
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
-            <SectionHeading
-              kicker={t('home.servicesEyebrow')}
-              title={t('home.servicesHeading')}
-              intro={t('home.servicesSubtitle')}
-              className="max-w-2xl"
-            />
-            <Link
-              to={`${prefix}/services`}
-              className="inline-flex items-center gap-1.5 text-brand-600 hover:text-brand-700 font-semibold text-sm mt-4 md:mt-0 transition-colors"
-            >
-              <span>{t('actions.viewAllServices')}</span>
-              {isRtl ? (
-                <ArrowLeft className="w-4 h-4" />
-              ) : (
-                <ArrowRight className="w-4 h-4" />
-              )}
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {servicesData.slice(0, 3).map((item) => (
-              <article
-                key={item.key}
-                className="bg-white p-7 rounded-card border border-surface-border hover:shadow-card-hover transition-all duration-200 flex flex-col justify-between group"
+          <div ref={servicesRef}>
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
+              <SectionHeading
+                kicker={t('home.servicesEyebrow')}
+                title={t('home.servicesHeading')}
+                intro={t('home.servicesSubtitle')}
+                className="max-w-2xl"
+              />
+              <Link
+                to={`${prefix}/services`}
+                className="inline-flex items-center gap-1.5 text-brand-600 hover:text-brand-700 font-semibold text-sm mt-4 md:mt-0 transition-colors"
               >
-                <div>
-                  <div className="w-12 h-12 rounded-control bg-brand-50 flex items-center justify-center mb-6 group-hover:bg-brand-100 transition-colors">
-                    {item.icon}
-                  </div>
-                  <h3 className="text-xl font-bold text-content-heading mb-3 group-hover:text-brand-600 transition-colors">
-                    <Link to={item.link}>{item.title}</Link>
-                  </h3>
-                  <p className="text-content-body text-sm leading-relaxed mb-6">
-                    {item.desc}
-                  </p>
-                </div>
+                <span>{t('actions.viewAllServices')}</span>
+                {isRtl ? (
+                  <ArrowLeft className="w-4 h-4" />
+                ) : (
+                  <ArrowRight className="w-4 h-4" />
+                )}
+              </Link>
+            </div>
 
-                <Link
-                  to={item.link}
-                  className="inline-flex items-center gap-1 text-sm font-semibold text-brand-600 group-hover:text-brand-700 pt-4 border-t border-surface-border"
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {servicesData.slice(0, 3).map((item) => (
+                <article
+                  key={item.key}
+                  data-service-card
+                  className="card-hover bg-white p-7 rounded-card border border-surface-border flex flex-col justify-between group"
                 >
-                  <span>{t('services.cardLearnMore')}</span>
-                  {isRtl ? (
-                    <ArrowLeft className="w-4 h-4" />
-                  ) : (
-                    <ArrowRight className="w-4 h-4" />
-                  )}
-                </Link>
-              </article>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-            {servicesData.slice(3).map((item) => (
-              <article
-                key={item.key}
-                className="bg-white p-7 rounded-card border border-surface-border hover:shadow-card-hover transition-all duration-200 flex flex-col justify-between group"
-              >
-                <div>
-                  <div className="w-12 h-12 rounded-control bg-brand-50 flex items-center justify-center mb-6 group-hover:bg-brand-100 transition-colors">
-                    {item.icon}
+                  <div>
+                    <div className="w-12 h-12 rounded-control bg-brand-50 flex items-center justify-center mb-6 group-hover:bg-brand-100 transition-colors">
+                      {item.icon}
+                    </div>
+                    <h3 className="text-xl font-bold text-content-heading mb-3 group-hover:text-brand-600 transition-colors">
+                      <Link to={item.link}>{item.title}</Link>
+                    </h3>
+                    <p className="text-content-body text-sm leading-relaxed mb-6">
+                      {item.desc}
+                    </p>
                   </div>
-                  <h3 className="text-xl font-bold text-content-heading mb-3 group-hover:text-brand-600 transition-colors">
-                    <Link to={item.link}>{item.title}</Link>
-                  </h3>
-                  <p className="text-content-body text-sm leading-relaxed mb-6">
-                    {item.desc}
-                  </p>
-                </div>
 
-                <Link
-                  to={item.link}
-                  className="inline-flex items-center gap-1 text-sm font-semibold text-brand-600 group-hover:text-brand-700 pt-4 border-t border-surface-border"
+                  <Link
+                    to={item.link}
+                    className="inline-flex items-center gap-1 text-sm font-semibold text-brand-600 group-hover:text-brand-700 pt-4 border-t border-surface-border"
+                  >
+                    <span>{t('services.cardLearnMore')}</span>
+                    {isRtl ? (
+                      <ArrowLeft className="w-4 h-4" />
+                    ) : (
+                      <ArrowRight className="w-4 h-4" />
+                    )}
+                  </Link>
+                </article>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+              {servicesData.slice(3).map((item) => (
+                <article
+                  key={item.key}
+                  data-service-card
+                  className="card-hover bg-white p-7 rounded-card border border-surface-border flex flex-col justify-between group"
                 >
-                  <span>{t('services.cardLearnMore')}</span>
-                  {isRtl ? (
-                    <ArrowLeft className="w-4 h-4" />
-                  ) : (
-                    <ArrowRight className="w-4 h-4" />
-                  )}
-                </Link>
-              </article>
-            ))}
+                  <div>
+                    <div className="w-12 h-12 rounded-control bg-brand-50 flex items-center justify-center mb-6 group-hover:bg-brand-100 transition-colors">
+                      {item.icon}
+                    </div>
+                    <h3 className="text-xl font-bold text-content-heading mb-3 group-hover:text-brand-600 transition-colors">
+                      <Link to={item.link}>{item.title}</Link>
+                    </h3>
+                    <p className="text-content-body text-sm leading-relaxed mb-6">
+                      {item.desc}
+                    </p>
+                  </div>
+
+                  <Link
+                    to={item.link}
+                    className="inline-flex items-center gap-1 text-sm font-semibold text-brand-600 group-hover:text-brand-700 pt-4 border-t border-surface-border"
+                  >
+                    <span>{t('services.cardLearnMore')}</span>
+                    {isRtl ? (
+                      <ArrowLeft className="w-4 h-4" />
+                    ) : (
+                      <ArrowRight className="w-4 h-4" />
+                    )}
+                  </Link>
+                </article>
+              ))}
+            </div>
           </div>
         </Container>
       </Section>
@@ -340,32 +392,34 @@ export const HomePage: React.FC = () => {
       {/* 4. Why Choose Us Section */}
       <Section variant="white" className="border-b border-surface-border">
         <Container>
-          <SectionHeading
-            kicker={t('home.whyUsEyebrow')}
-            title={t('home.whyUsHeading')}
-            intro={t('home.whyUsIntro')}
-            align="center"
-            className="max-w-2xl mx-auto mb-16"
-          />
+          <div ref={whyUsRef}>
+            <SectionHeading
+              kicker={t('home.whyUsEyebrow')}
+              title={t('home.whyUsHeading')}
+              intro={t('home.whyUsIntro')}
+              align="center"
+              className="max-w-2xl mx-auto mb-16"
+            />
 
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {whyUsPoints.map((point, index) => (
-              <div
-                key={index}
-                className="p-6 rounded-card border border-surface-border bg-surface-subtle/50 hover:bg-white hover:border-brand-200 hover:shadow-card transition-all duration-200 flex flex-col group"
-              >
-                <div className="w-10 h-10 rounded-control bg-white border border-surface-border flex items-center justify-center mb-4 shadow-sm group-hover:bg-brand-50 group-hover:border-brand-200 transition-colors">
-                  {whyUsIcons[index % whyUsIcons.length]}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {whyUsPoints.map((point, index) => (
+                <div
+                  key={index}
+                  data-why-card
+                  className="card-hover p-6 rounded-card border border-surface-border bg-surface-subtle/50 hover:bg-white hover:border-brand-200 flex flex-col group"
+                >
+                  <div className="w-10 h-10 rounded-control bg-white border border-surface-border flex items-center justify-center mb-4 shadow-sm group-hover:bg-brand-50 group-hover:border-brand-200 transition-colors">
+                    {whyUsIcons[index % whyUsIcons.length]}
+                  </div>
+                  <h3 className="text-base font-bold text-content-heading mb-2 group-hover:text-brand-600 transition-colors">
+                    {point.title}
+                  </h3>
+                  <p className="text-sm text-content-body leading-relaxed">
+                    {point.description}
+                  </p>
                 </div>
-                <h3 className="text-base font-bold text-content-heading mb-2 group-hover:text-brand-600 transition-colors">
-                  {point.title}
-                </h3>
-                <p className="text-sm text-content-body leading-relaxed">
-                  {point.description}
-                </p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </Container>
       </Section>
@@ -373,64 +427,70 @@ export const HomePage: React.FC = () => {
       {/* 5. Maintenance & Modernization Details */}
       <Section variant="soft" className="border-b border-surface-border">
         <Container>
-          <div className="max-w-3xl mb-8">
-            <span className="text-xs md:text-sm font-semibold text-brand-600 tracking-wider uppercase mb-2 block">
-              {t('home.maintenanceEyebrow')}
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-content-heading mb-4 leading-snug">
-              {t('home.maintenanceHeading')}
-            </h2>
-            <p className="text-content-body text-base leading-relaxed">
-              {t('home.maintenanceSubtitle')}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-            <div className="lg:col-span-7">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 h-full">
-                {maintenanceIncluded.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center gap-3 p-3.5 bg-white rounded-card border border-surface-border hover:border-brand-200 text-sm font-medium text-content-body shadow-xs transition-colors"
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-brand-50 border border-brand-100 flex items-center justify-center shrink-0">
-                      {maintenanceIcons[idx % maintenanceIcons.length]}
-                    </div>
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
+          <div ref={maintRef}>
+            <div className="max-w-3xl mb-8">
+              <span className="text-xs md:text-sm font-semibold text-brand-600 tracking-wider uppercase mb-2 block">
+                {t('home.maintenanceEyebrow')}
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-content-heading mb-4 leading-snug">
+                {t('home.maintenanceHeading')}
+              </h2>
+              <p className="text-content-body text-base leading-relaxed">
+                {t('home.maintenanceSubtitle')}
+              </p>
             </div>
 
-            <div className="lg:col-span-5 bg-brand-900 text-white p-6 sm:p-7 rounded-card relative overflow-hidden shadow-card flex flex-col justify-between h-full">
-              <BrandPattern opacity={0.08} />
-              <div className="relative z-10 flex flex-col h-full justify-between">
-                <div>
-                  <span className="text-xs font-semibold text-brand-400 uppercase tracking-wider block mb-2">
-                    {t('services.modernization.title')}
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-bold mb-3 text-white">
-                    {t('home.modernizationBoxTitle')}
-                  </h3>
-                  <p className="text-sm text-brand-100 leading-relaxed mb-6">
-                    {t('home.modernizationBoxText')}
-                  </p>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+              <div className="lg:col-span-7">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 h-full">
+                  {maintenanceIncluded.map((item, idx) => (
+                    <div
+                      key={idx}
+                      data-maint-item
+                      className="flex items-center gap-3 p-3.5 bg-white rounded-card border border-surface-border hover:border-brand-200 text-sm font-medium text-content-body shadow-xs transition-colors"
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-brand-50 border border-brand-100 flex items-center justify-center shrink-0">
+                        {maintenanceIcons[idx % maintenanceIcons.length]}
+                      </div>
+                      <span>{item}</span>
+                    </div>
+                  ))}
                 </div>
-                <div>
-                  <Button
-                    variant="primary"
-                    to={`${prefix}/services/elevator-modernization`}
-                    className="bg-brand-500 hover:bg-brand-400 text-white font-semibold inline-flex"
-                    rightIcon={
-                      isRtl ? (
-                        <ArrowLeft className="w-4 h-4" />
-                      ) : (
-                        <ArrowRight className="w-4 h-4" />
-                      )
-                    }
-                  >
-                    {t('home.modernizationBoxCta')}
-                  </Button>
+              </div>
+
+              <div
+                data-maint-item
+                className="lg:col-span-5 bg-brand-900 text-white p-6 sm:p-7 rounded-card relative overflow-hidden shadow-card flex flex-col justify-between h-full"
+              >
+                <BrandPattern opacity={0.08} />
+                <div className="relative z-10 flex flex-col h-full justify-between">
+                  <div>
+                    <span className="text-xs font-semibold text-brand-400 uppercase tracking-wider block mb-2">
+                      {t('services.modernization.title')}
+                    </span>
+                    <h3 className="text-xl sm:text-2xl font-bold mb-3 text-white">
+                      {t('home.modernizationBoxTitle')}
+                    </h3>
+                    <p className="text-sm text-brand-100 leading-relaxed mb-6">
+                      {t('home.modernizationBoxText')}
+                    </p>
+                  </div>
+                  <div>
+                    <Button
+                      variant="primary"
+                      to={`${prefix}/services/elevator-modernization`}
+                      className="bg-brand-500 hover:bg-brand-400 text-white font-semibold inline-flex"
+                      rightIcon={
+                        isRtl ? (
+                          <ArrowLeft className="w-4 h-4" />
+                        ) : (
+                          <ArrowRight className="w-4 h-4" />
+                        )
+                      }
+                    >
+                      {t('home.modernizationBoxCta')}
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>

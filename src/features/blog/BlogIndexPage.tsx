@@ -7,6 +7,8 @@ import { Seo, getCollectionPageSchema } from '@/components/seo'
 import { useBlogPosts, useBlogCategories } from '@/hooks/useBlog'
 import { PostCard } from './components/PostCard'
 import { BlogPagination } from './components/BlogPagination'
+import { useHeroAnimation } from '@/hooks/useHeroAnimation'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 
 const POSTS_PER_PAGE = 9
 
@@ -15,6 +17,8 @@ export const BlogIndexPage: React.FC = () => {
   const { page } = useParams<{ page?: string }>()
   const location = useLocation()
   const isEn = location.pathname.startsWith('/en')
+
+  const heroRef = useHeroAnimation()
 
   const currentPage = Math.max(1, parseInt(page || '1', 10) || 1)
   const offset = (currentPage - 1) * POSTS_PER_PAGE
@@ -32,6 +36,13 @@ export const BlogIndexPage: React.FC = () => {
   const posts = postsData?.posts || []
   const total = postsData?.total || 0
   const totalPages = Math.ceil(total / POSTS_PER_PAGE)
+
+  const postsRevealRef = useScrollReveal({
+    selector: '[data-post-card]',
+    distance: 20,
+    stagger: 0.08,
+    dependencies: [posts, currentPage],
+  })
 
   const breadcrumbs = [
     { label: t('nav.home'), href: isEn ? '/en' : '/' },
@@ -77,18 +88,20 @@ export const BlogIndexPage: React.FC = () => {
 
 
       {/* Header Banner */}
-      <section className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden">
+      <section ref={heroRef} className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden">
         <BrandPattern opacity={0.07} />
         <Container className="relative z-10">
-          <Breadcrumbs items={breadcrumbs} className="mb-6 text-white/80" />
+          <div data-hero-element>
+            <Breadcrumbs items={breadcrumbs} className="mb-6 text-white/80" />
+          </div>
           <div className="max-w-3xl">
-            <span className="text-xs font-semibold text-brand-300 uppercase tracking-wider block mb-2">
+            <span data-hero-element className="text-xs font-semibold text-brand-300 uppercase tracking-wider block mb-2">
               {t('blog.eyebrow')}
             </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-4">
+            <h1 data-hero-element className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-4">
               {t('blog.heading')}
             </h1>
-            <p className="text-base sm:text-lg text-brand-100 leading-relaxed font-normal max-w-2xl">
+            <p data-hero-element className="text-base sm:text-lg text-brand-100 leading-relaxed font-normal max-w-2xl">
               {t('blog.intro')}
             </p>
           </div>
@@ -147,13 +160,14 @@ export const BlogIndexPage: React.FC = () => {
             </div>
           ) : posts.length > 0 ? (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div ref={postsRevealRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {posts.map((post, index) => (
-                  <PostCard
-                    key={post.id}
-                    post={post}
-                    priority={index < 3 && currentPage === 1}
-                  />
+                  <div key={post.id} data-post-card className="h-full">
+                    <PostCard
+                      post={post}
+                      priority={index < 3 && currentPage === 1}
+                    />
+                  </div>
                 ))}
               </div>
 

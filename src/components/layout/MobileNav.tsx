@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Phone, Globe, Calendar } from 'lucide-react'
 import { Drawer } from '../ui/Drawer'
 import { Logo } from '../ui/Logo'
 import { useSiteSettings } from '@/hooks/useSiteSettings'
+import { gsap, useGSAP, prefersReducedMotion } from '@/lib/gsap'
 
 export interface MobileNavProps {
   isOpen: boolean
@@ -20,6 +21,27 @@ export const MobileNav: React.FC<MobileNavProps> = ({
   const { t } = useTranslation()
   const settings = useSiteSettings()
   const prefix = isEn ? '/en' : ''
+  const navContainerRef = useRef<HTMLDivElement>(null)
+
+  useGSAP(
+    () => {
+      if (!isOpen || typeof window === 'undefined') return
+      if (prefersReducedMotion()) return
+
+      const items = gsap.utils.toArray<HTMLElement>('.mobile-nav-item')
+      if (items.length > 0) {
+        gsap.from(items, {
+          opacity: 0,
+          x: isEn ? -14 : 14,
+          duration: 0.28,
+          stagger: 0.04,
+          ease: 'power2.out',
+          clearProps: 'transform,opacity',
+        })
+      }
+    },
+    { scope: navContainerRef, dependencies: [isOpen] },
+  )
 
   const navItems = [
     { label: t('nav.home'), to: prefix || '/' },
@@ -34,7 +56,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
 
   return (
     <Drawer isOpen={isOpen} onClose={onClose} placement="start">
-      <div className="flex flex-col h-full justify-between">
+      <div ref={navContainerRef} className="flex flex-col h-full justify-between">
         <div className="flex flex-col gap-6">
           <div className="bg-brand-900 p-4 rounded-control flex items-center justify-center">
             <Logo size="header" theme="dark" />
@@ -43,7 +65,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
           <nav aria-label="قائمة الجوال">
             <ul className="flex flex-col space-y-1">
               {navItems.map((item) => (
-                <li key={item.to}>
+                <li key={item.to} className="mobile-nav-item">
                   <NavLink
                     to={item.to}
                     onClick={onClose}

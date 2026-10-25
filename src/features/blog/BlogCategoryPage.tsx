@@ -7,6 +7,8 @@ import { Seo, getCollectionPageSchema } from '@/components/seo'
 import { useBlogPosts, useBlogCategories, useBlogCategory } from '@/hooks/useBlog'
 import { PostCard } from './components/PostCard'
 import { BlogPagination } from './components/BlogPagination'
+import { useHeroAnimation } from '@/hooks/useHeroAnimation'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 
 const POSTS_PER_PAGE = 9
 
@@ -15,6 +17,8 @@ export const BlogCategoryPage: React.FC = () => {
   const { slug, page } = useParams<{ slug: string; page?: string }>()
   const location = useLocation()
   const isEn = location.pathname.startsWith('/en')
+
+  const heroRef = useHeroAnimation()
 
   const currentPage = Math.max(1, parseInt(page || '1', 10) || 1)
   const offset = (currentPage - 1) * POSTS_PER_PAGE
@@ -33,13 +37,20 @@ export const BlogCategoryPage: React.FC = () => {
     offset,
   })
 
-  if (!slug) {
-    return <Navigate to={`${prefix}/blog`} replace />
-  }
-
   const posts = postsData?.posts || []
   const total = postsData?.total || 0
   const totalPages = Math.ceil(total / POSTS_PER_PAGE)
+
+  const postsRevealRef = useScrollReveal({
+    selector: '[data-post-card]',
+    distance: 20,
+    stagger: 0.08,
+    dependencies: [posts, currentPage],
+  })
+
+  if (!slug) {
+    return <Navigate to={`${prefix}/blog`} replace />
+  }
 
   const categoryName = category
     ? isEn && category.name_en
@@ -112,17 +123,20 @@ export const BlogCategoryPage: React.FC = () => {
 
       <Section variant="white" className="pt-6 pb-16">
         <Container>
-          <Breadcrumbs items={breadcrumbs} className="mb-8" />
+          <div ref={heroRef} className="max-w-3xl mb-10">
+            <div data-hero-element className="mb-8">
+              <Breadcrumbs items={breadcrumbs} />
+            </div>
 
-          <div className="max-w-3xl mb-10">
-            <SectionHeading
-              level="h1"
-              kicker={t('blog.eyebrow')}
-              title={categoryName}
-              intro={categoryDescription || undefined}
-            />
+            <div data-hero-element>
+              <SectionHeading
+                level="h1"
+                kicker={t('blog.eyebrow')}
+                title={categoryName}
+                intro={categoryDescription || undefined}
+              />
+            </div>
           </div>
-
 
           {/* Category Filter Chips */}
           {categories && categories.length > 0 && (
@@ -179,13 +193,14 @@ export const BlogCategoryPage: React.FC = () => {
             </div>
           ) : posts.length > 0 ? (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div ref={postsRevealRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {posts.map((post, index) => (
-                  <PostCard
-                    key={post.id}
-                    post={post}
-                    priority={index < 3 && currentPage === 1}
-                  />
+                  <div key={post.id} data-post-card className="h-full">
+                    <PostCard
+                      post={post}
+                      priority={index < 3 && currentPage === 1}
+                    />
+                  </div>
                 ))}
               </div>
 

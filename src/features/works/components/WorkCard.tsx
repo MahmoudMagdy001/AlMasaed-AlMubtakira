@@ -32,7 +32,7 @@ export const WorkCard: React.FC<WorkCardProps> = ({ work, priority = false }) =>
   const serviceLabel = serviceLabelMap[work.service_type] || work.service_type
 
   return (
-    <article className="group bg-white rounded-card border border-surface-border overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col h-full">
+    <article className="group card-hover bg-white rounded-card border border-surface-border overflow-hidden shadow-xs flex flex-col h-full">
       {/* Cover Image */}
       <Link to={detailUrl} className="block relative aspect-[16/10] overflow-hidden bg-brand-950">
         {work.cover_media ? (

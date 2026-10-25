@@ -28,6 +28,8 @@ import {
 import { Seo, getLocalBusinessSchema } from '@/components/seo'
 import { useSiteSettings } from '@/hooks/useSiteSettings'
 import { supabase } from '@/lib/supabase'
+import { useHeroAnimation } from '@/hooks/useHeroAnimation'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 
 const contactSchema = z.object({
   name: z.string().min(2, { message: 'nameTooShort' }).max(100),
@@ -51,6 +53,13 @@ export const ContactPage: React.FC = () => {
   const settings = useSiteSettings()
   const isEn = location.pathname.startsWith('/en')
   const isRtl = !isEn
+
+  const heroRef = useHeroAnimation()
+  const contentRevealRef = useScrollReveal({
+    selector: '[data-contact-reveal]',
+    distance: 24,
+    stagger: 0.1,
+  })
 
   // Time tracker for minimum fill time detection (anti-bot)
   const formMountTime = useRef(Date.now())
@@ -182,18 +191,20 @@ export const ContactPage: React.FC = () => {
       />
 
       {/* Header Banner */}
-      <section className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden">
+      <section ref={heroRef} className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden">
         <BrandPattern opacity={0.07} />
         <Container className="relative z-10">
-          <Breadcrumbs items={breadcrumbsItems} className="mb-6 text-white/80" />
+          <div data-hero-element>
+            <Breadcrumbs items={breadcrumbsItems} className="mb-6 text-white/80" />
+          </div>
           <div className="max-w-3xl">
-            <span className="text-xs font-semibold text-brand-300 uppercase tracking-wider block mb-2">
+            <span data-hero-element className="text-xs font-semibold text-brand-300 uppercase tracking-wider block mb-2">
               {t('contact.eyebrow')}
             </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-6">
+            <h1 data-hero-element className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-6">
               {t('contact.heading')}
             </h1>
-            <p className="text-base sm:text-lg text-brand-100 leading-relaxed font-normal">
+            <p data-hero-element className="text-base sm:text-lg text-brand-100 leading-relaxed font-normal">
               {t('contact.subtitle')}
             </p>
           </div>
@@ -203,9 +214,9 @@ export const ContactPage: React.FC = () => {
       {/* Main Content: Form & Details */}
       <Section variant="white">
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          <div ref={contentRevealRef} className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             {/* Form Column */}
-            <div className="lg:col-span-7 bg-white p-8 sm:p-10 rounded-card border border-surface-border shadow-xs">
+            <div data-contact-reveal className="lg:col-span-7 bg-white p-8 sm:p-10 rounded-card border border-surface-border shadow-xs">
               <h2 className="text-2xl font-bold text-content-heading mb-2">
                 {t('contact.formTitle')}
               </h2>
@@ -355,7 +366,7 @@ export const ContactPage: React.FC = () => {
             </div>
 
             {/* Side Information Column */}
-            <div className="lg:col-span-5 space-y-6">
+            <div data-contact-reveal className="lg:col-span-5 space-y-6">
               <div className="bg-surface-subtle p-8 rounded-card border border-surface-border">
                 <h3 className="text-xl font-bold text-content-heading mb-6">
                   {t('contact.infoTitle')}

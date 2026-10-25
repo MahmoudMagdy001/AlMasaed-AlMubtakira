@@ -18,6 +18,7 @@ import { NotFoundPage } from '@/features/home/NotFoundPage'
 import { useWorkDetail, useRelatedWorks } from '@/hooks/useWorks'
 import { WorkCard } from './components/WorkCard'
 import { fallbackWorks, fallbackMedia } from '@/data/seedData'
+import { useHeroAnimation } from '@/hooks/useHeroAnimation'
 
 export const WorkDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>()
@@ -25,6 +26,8 @@ export const WorkDetailPage: React.FC = () => {
   const location = useLocation()
   const isEn = location.pathname.startsWith('/en')
   const isRtl = !isEn
+
+  const heroRef = useHeroAnimation()
 
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState(0)
@@ -143,12 +146,15 @@ export const WorkDetailPage: React.FC = () => {
       />
 
       {/* Header Banner */}
-      <section className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden">
+      <section
+        ref={heroRef}
+        className="bg-brand-900 text-white py-14 md:py-20 relative overflow-hidden"
+      >
         <BrandPattern opacity={0.07} />
         <Container className="relative z-10">
           <Breadcrumbs items={breadcrumbsItems} className="mb-6 text-white/80" />
           <div className="max-w-4xl">
-            <div className="flex flex-wrap items-center gap-3 mb-4">
+            <div data-hero-element className="flex flex-wrap items-center gap-3 mb-4">
               <Badge variant="brand" size="md">
                 {serviceLabel}
               </Badge>
@@ -166,7 +172,10 @@ export const WorkDetailPage: React.FC = () => {
               )}
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-4">
+            <h1
+              data-hero-element
+              className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-4"
+            >
               {title}
             </h1>
           </div>
