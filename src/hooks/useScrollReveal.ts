@@ -14,12 +14,14 @@ export interface ScrollRevealOptions {
   start?: string
   /** Delay before reveal animation begins */
   delay?: number
+  /** Whether to bind to ScrollTrigger (default true). If false, plays on mount/update. */
+  scrollTrigger?: boolean
   /** Dependencies that re-synchronize the scroll trigger (e.g., when async items load) */
   dependencies?: unknown[]
 }
 
 /**
- * Hook to apply tasteful scroll-triggered fade and rise to headings, cards, and content blocks.
+ * Hook to apply tasteful fade and rise animations to headings, cards, and content blocks.
  * Scoped to the container; automatically cleaned up by useGSAP on unmount.
  */
 export const useScrollReveal = <T extends HTMLElement = HTMLDivElement>(
@@ -33,6 +35,7 @@ export const useScrollReveal = <T extends HTMLElement = HTMLDivElement>(
     duration = ANIMATION_TOKENS.duration.normal,
     start = 'top 88%',
     delay = 0,
+    scrollTrigger = true,
     dependencies = [],
   } = options
 
@@ -49,20 +52,25 @@ export const useScrollReveal = <T extends HTMLElement = HTMLDivElement>(
         return
       }
 
-      gsap.from(elements, {
+      const animProps: gsap.TweenVars = {
         opacity: 0,
         y: distance,
         duration,
         stagger,
         delay,
         ease: ANIMATION_TOKENS.ease.out,
-        scrollTrigger: {
+        clearProps: 'transform,opacity',
+      }
+
+      if (scrollTrigger) {
+        animProps.scrollTrigger = {
           trigger: containerRef.current,
           start,
           once: true,
-        },
-        clearProps: 'transform,opacity',
-      })
+        }
+      }
+
+      gsap.from(elements, animProps)
     },
     {
       scope: containerRef,

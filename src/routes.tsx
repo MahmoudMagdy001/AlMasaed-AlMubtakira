@@ -94,8 +94,6 @@ const TagsPage = React.lazy(() =>
   })),
 )
 
-import { AdminSuspense } from './components/admin'
-
 
 export const routes: RouteObject[] = [
   // 1. Public Website Layout (Static SSG Prerendered)
@@ -182,31 +180,25 @@ export const routes: RouteObject[] = [
   {
     path: 'admin/login',
     element: (
-      <AdminSuspense>
-        <AdminRoot>
-          <AdminLoginPage />
-        </AdminRoot>
-      </AdminSuspense>
+      <AdminRoot>
+        <AdminLoginPage />
+      </AdminRoot>
     ),
   },
   {
     path: 'admin/reset-password',
     element: (
-      <AdminSuspense>
-        <AdminRoot>
-          <AdminResetPasswordPage />
-        </AdminRoot>
-      </AdminSuspense>
+      <AdminRoot>
+        <AdminResetPasswordPage />
+      </AdminRoot>
     ),
   },
   {
     path: 'admin',
     element: (
-      <AdminSuspense>
-        <AdminRoot>
-          <AdminLayout />
-        </AdminRoot>
-      </AdminSuspense>
+      <AdminRoot>
+        <AdminLayout />
+      </AdminRoot>
     ),
     children: [
       { index: true, element: <DashboardPage /> },

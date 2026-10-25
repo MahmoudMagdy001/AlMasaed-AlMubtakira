@@ -172,8 +172,7 @@ export default defineConfig({
               id.includes('react-dom/') ||
               id.includes('react-router-dom/') ||
               id.includes('react-router/') ||
-              id.includes('@remix-run') ||
-              id.includes('react-helmet-async')
+              id.includes('@remix-run')
             ) {
               return 'vendor-react'
             }

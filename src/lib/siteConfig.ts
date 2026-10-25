@@ -23,6 +23,7 @@ export interface SiteConfig {
     cityEn: string
     addressAr: string | null
     addressEn: string | null
+    shortAddress?: string | null
     workingHoursAr: string | null
     workingHoursEn: string | null
     mapUrl: string | null
@@ -62,18 +63,19 @@ export const siteConfig: SiteConfig = {
     email: 'info@almubtakirah.com',
     cityAr: 'جدة',
     cityEn: 'Jeddah',
-    addressAr: null,
-    addressEn: null,
+    addressAr: 'جدة - حي السلامة - شارع نهضة الشرق (مبنى 2523)',
+    addressEn: 'Nahdah East St., As Salamah Dist., Bldg 2523, Jeddah',
+    shortAddress: 'JESA2523',
     workingHoursAr: null,
     workingHoursEn: null,
     mapUrl: null,
   },
   social: {
-    instagram: null,
-    tiktok: null,
+    instagram: 'https://www.instagram.com/almasaed_almubtakirah',
+    tiktok: 'https://www.tiktok.com/@almubtakirah',
     x: null,
     linkedin: null,
-    snapchat: null,
+    snapchat: 'https://www.snapchat.com/add/almubtakirah4',
   },
   tax: {
     vatNumber: null,

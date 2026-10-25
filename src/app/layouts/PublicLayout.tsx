@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
+import { Outlet, useLocation, ScrollRestoration } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { AppProviders } from '../providers'
 import {
@@ -7,7 +7,6 @@ import {
   Footer,
   FloatingContact,
   SkipToContent,
-  ScrollRestoration,
   ScrollToTop,
 } from '@/components/layout'
 import { ToastProvider } from '@/components/ui'

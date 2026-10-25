@@ -2,11 +2,10 @@ import React from 'react'
 import { useParams, useLocation, Link, Navigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { BookOpen } from 'lucide-react'
-import { Container, Section, SectionHeading, Breadcrumbs, Button } from '@/components/ui'
+import { Container, Section, SectionHeading, Breadcrumbs, Button, Pagination } from '@/components/ui'
 import { Seo, getCollectionPageSchema } from '@/components/seo'
 import { useBlogPosts, useBlogCategories, useBlogCategory } from '@/hooks/useBlog'
 import { PostCard } from './components/PostCard'
-import { BlogPagination } from './components/BlogPagination'
 import { useHeroAnimation } from '@/hooks/useHeroAnimation'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 
@@ -204,10 +203,11 @@ export const BlogCategoryPage: React.FC = () => {
                 ))}
               </div>
 
-              <BlogPagination
+              <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
-                basePath={basePath}
+                getPageUrl={(p) => (p === 1 ? basePath : `${basePath}/page/${p}`)}
+                className="mt-12 pt-8 border-t border-surface-border"
               />
             </>
           ) : (
