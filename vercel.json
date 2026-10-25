@@ -2,19 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
-  "redirects": [
-    {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.almubtakirah.com"
-        }
-      ],
-      "destination": "https://almubtakirah.com/:path*",
-      "permanent": true
-    }
-  ],
+
   "rewrites": [
     {
       "source": "/admin",
