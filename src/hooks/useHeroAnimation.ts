@@ -1,7 +1,7 @@
 import { useScrollReveal, type ScrollRevealOptions } from './useScrollReveal'
 import { ANIMATION_TOKENS } from '@/lib/gsap'
 
-export interface HeroAnimationOptions extends ScrollRevealOptions {}
+export type HeroAnimationOptions = ScrollRevealOptions
 
 /**
  * Hook to apply a refined entrance animation to hero headings, supporting text, and CTAs.
