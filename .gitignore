@@ -3,6 +3,7 @@ node_modules/
 
 # Production output
 dist/
+.vite-react-ssg-temp/
 
 # Environment files
 .env
