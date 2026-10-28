@@ -357,24 +357,7 @@ export const Footer: React.FC = () => {
 
           {/* Bottom Bar: Legal & Copyright */}
           <div className="mt-14 pt-8 border-t border-brand-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-brand-200">
-            <div className="flex flex-wrap items-center gap-3 text-center sm:text-start">
-              <span>
-                {settings.company.crNumber
-                  ? `السجل التجاري رقم ${settings.company.crNumber}`
-                  : ''}
-              </span>
-              <span>•</span>
-              <span>{isEn ? settings.company.accreditationEn : settings.company.accreditationAr}</span>
-              <span>•</span>
-              <a
-                href="/documents/national-address.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-white transition-colors underline-offset-4 hover:underline"
-              >
-                {t('footer.nationalAddress')}: {settings.contact.shortAddress || 'JESA2523'}
-              </a>
-              <span>•</span>
+            <div className="text-center sm:text-start">
               <Link
                 to={`${prefix}/privacy`}
                 className="hover:text-white transition-colors underline-offset-4 hover:underline"
